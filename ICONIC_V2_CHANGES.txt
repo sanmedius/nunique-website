@@ -1,0 +1,11 @@
+NUNIQUE Atelier Iconic V2
+
+Changes:
+- Reduced oversized homepage typography and tightened visual hierarchy.
+- Redesigned navigation: softer pill links, order button integrated to the right, all Home/logo links point to the new homepage.
+- Modernized order.html styling while preserving the existing form fields, calendar, upload field, validation and send_order.php.
+- Added FAQ section to the homepage.
+- Added customer review carousel with left/right arrows using existing reviews.
+- Converted Signature Looks into a horizontal image carousel with all torte1-torte12 images and arrows.
+- Applied the atelier CSS to all subpages for a more consistent design system.
+- Kept the softer brand palette: pink-light and teal-soft as main visual accents.

@@ -1,0 +1,53 @@
+# NUNIQUE Website — Upload-Anleitung
+
+## Dateien in diesem Paket
+
+| Datei           | Beschreibung                              |
+|-----------------|-------------------------------------------|
+| index.html      | Hauptseite (Home)                         |
+| flavours.html   | Geschmacksrichtungen                      |
+| pastryshop.html | Konditorei-Sortiment                      |
+| week-special.html | Wochen-Special / Öffnungszeiten         |
+| about.html      | Über uns                                  |
+| order.html      | Tortenanfrageformular (integriert)        |
+| agb.html        | Allgemeine Geschäftsbedingungen           |
+| impressum.html  | Impressum                                 |
+| style.css       | Gemeinsames Stylesheet (alle Seiten)      |
+| main.js         | Gemeinsames JavaScript (alle Seiten)      |
+| contact.php     | Kontaktformular Backend                   |
+| send_order.php  | Tortenanfrage-Formular Backend            |
+| Logo-lang-lang.jpg | Logo                                   |
+
+## Auf Strato hochladen
+
+1. Alle Dateien in denselben Ordner hochladen
+   (z.B. in den Hauptordner Ihres Webspace)
+2. Sicherstellen, dass Logo-lang-lang.jpg
+   im gleichen Ordner wie die HTML-Dateien liegt
+3. PHP muss auf Ihrem Strato-Paket aktiviert sein
+
+## Wichtig: Social Media Links anpassen
+
+Die folgenden Platzhalter-Links müssen auf Ihre
+echten Social-Media-Profile aktualisiert werden:
+
+- Instagram: https://www.instagram.com/nunique_cakes
+- Facebook:  https://www.facebook.com/nunique.cakes
+- TikTok:    https://www.tiktok.com/@nunique.cakes
+
+Diese Links erscheinen in: nav (Header), Footer,
+und auf allen Seiten. Suchen Sie einfach nach dem
+Platzhalter und ersetzen Sie ihn in allen Dateien.
+
+## Öffnungszeiten
+
+Die Öffnungszeiten sind in week-special.html zu
+pflegen. Der Link "Öffnungszeiten" in der Kontakt-
+sektion zeigt auf week-special.html.
+
+## Cookies
+
+Das Cookie-Banner erscheint automatisch beim ersten
+Besuch. Nach Klick auf "Alle akzeptieren" oder
+"Nur notwendige" wird die Auswahl gespeichert und
+das Banner erscheint nicht mehr.

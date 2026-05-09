@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="images/Logo_quadrat_solo.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konditorei München — NUNIQUE Cakes &amp; Coffee</title>
+    <meta name="description" content="Ihre Konditorei in München: Individuell. Handwerklich. Liebevoll. Seit über 10 Jahren handgefertigte Torten, Cupcakes und Konditorei-Kreationen.">
+    <meta name="keywords" content="torte, motivtorte, münchen, munich, handgemacht, cupcakes, cakepops, kuchen, cake, handmade, geburtstagstorte, hochzeitstorte">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="atelier-iconic.css">
+    <style>
+        .cakeshop-hero {
+            background: linear-gradient(135deg, var(--pink-soft) 0%, var(--teal-soft) 100%);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+        }
+        .cakeshop-hero .label { margin-bottom: .5rem; }
+        .cakeshop-hero h1 { margin-bottom: .75rem; }
+        .cakeshop-hero p { color: var(--mid); max-width: 560px; margin: 0 auto; font-size: 1.05rem; }
+
+        .cakeshop-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .cakeshop-image {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 12px 48px rgba(0,0,0,.12);
+            aspect-ratio: 1/1;
+        }
+        .cakeshop-image img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .cakeshop-text h2 { margin-bottom: 1.5rem; }
+        .cakeshop-text p { color: var(--mid); line-height: 1.9; margin-bottom: 1.25rem; font-size: 1rem; }
+        .cakeshop-text .label { margin-bottom: .5rem; }
+
+        @media (max-width: 768px) {
+            .cakeshop-layout { grid-template-columns: 1fr; gap: 2rem; }
+            .cakeshop-image { aspect-ratio: 4/3; }
+        }
+    </style>
+<script>
+/* Anti-flicker: apply language class before render */
+(function(){
+    var l=localStorage.getItem('nunique_lang');
+    if(l==='en') document.documentElement.setAttribute('data-lang','en');
+})();
+</script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+    <div class="header-top">
+        <div class="header-top-inner">
+            <div class="header-lang" id="headerLang">
+                <button class="lang-btn active" data-lang="de" aria-label="Deutsch">DE</button>
+                <button class="lang-btn" data-lang="en" aria-label="English">EN</button>
+            </div>
+            <div class="header-logo">
+                <a href="./"><img src="images/Logo-lang-lang.svg" alt="NUNIQUE Cakes &amp; Coffee"></a>
+            </div>
+            <div class="header-social">
+                <a href="https://www.instagram.com/nunique.cakes" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="https://www.facebook.com/NuniqueCakes/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                <a href="https://wa.me/491704742351" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                <a href="https://g.page/r/Cd65igMqELdyEBM" target="_blank" rel="noopener" aria-label="Google"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1H12.18V13.83H18.69C18.36 17.64 15.19 19.27 12.19 19.27C8.36 19.27 5 16.25 5 12C5 7.9 8.2 4.73 12.2 4.73C15.29 4.73 17.1 6.7 17.1 6.7L19 4.72C19 4.72 16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12C2.03 17.05 6.16 22 12.25 22C17.6 22 21.5 18.33 21.5 12.91C21.5 11.76 21.35 11.1 21.35 11.1Z"/></svg></a>
+            </div>
+        </div>
+    </div>
+    <div class="header-nav" id="headerNav">
+        <div class="header-nav-inner">
+            <ul class="nav-links">
+            <li><a href="./">Home</a></li>
+            <li><a href="flavours"><span data-de="Geschmacksrichtungen" data-en="Flavours">Geschmacksrichtungen</span></a></li>
+            <li><a href="pastryshop"><span data-de="Konditorei-Sortiment" data-en="Pastry Selection">Konditorei-Sortiment</span></a></li>
+            <li><a href="cakeshop" class="nav-active"><span data-de="Torten-Sortiment" data-en="Cake Selection">Torten-Sortiment</span></a></li>
+            <li><a href="week-special"><span data-de="Wochen-Special" data-en="Weekly Special">Wochen-Special</span></a></li>
+            <li><a href="about"><span data-de="Über uns" data-en="About us">Über uns</span></a></li>
+            <li><a href="./#faq">FAQ</a></li>
+            </ul>
+            <div class="nav-below">
+                <a href="order" class="nav-anfragen"><span data-de="Torte anfragen" data-en="Request a cake">Torte anfragen</span></a>
+            </div>
+        </div>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menü">
+        <span></span><span></span><span></span>
+    </button>
+</header>
+<div class="nav-drawer" id="navDrawer">
+    <a href="./">Home</a>
+    <a href="flavours"><span data-de="Geschmacksrichtungen" data-en="Flavours">Geschmacksrichtungen</span></a>
+    <a href="pastryshop"><span data-de="Konditorei-Sortiment" data-en="Pastry Selection">Konditorei-Sortiment</span></a>
+    <a href="cakeshop" class="active"><span data-de="Torten-Sortiment" data-en="Cake Selection">Torten-Sortiment</span></a>
+    <a href="week-special"><span data-de="Wochen-Special" data-en="Weekly Special">Wochen-Special</span></a>
+    <a href="about"><span data-de="Über uns" data-en="About us">Über uns</span></a>
+    <a href="./#faq">FAQ</a>
+    <a href="order" class="nav-cta"><span data-de="Torte anfragen" data-en="Request a cake">Torte anfragen</span></a>
+    <div class="drawer-social">
+        <a href="https://www.instagram.com/nunique.cakes" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        <a href="https://www.facebook.com/NuniqueCakes/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+        <a href="https://wa.me/491704742351" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        <a href="https://g.page/r/Cd65igMqELdyEBM" target="_blank" rel="noopener" aria-label="Google"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1H12.18V13.83H18.69C18.36 17.64 15.19 19.27 12.19 19.27C8.36 19.27 5 16.25 5 12C5 7.9 8.2 4.73 12.2 4.73C15.29 4.73 17.1 6.7 17.1 6.7L19 4.72C19 4.72 16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12C2.03 17.05 6.16 22 12.25 22C17.6 22 21.5 18.33 21.5 12.91C21.5 11.76 21.35 11.1 21.35 11.1Z"/></svg></a>
+    </div>
+</div>
+<div class="nav-spacer"></div>
+
+<!-- HERO -->
+<div class="page-hero">
+    <p class="label"><span data-de="Unsere Konditorei" data-en="Our Pâtisserie">Unsere Konditorei</span></p>
+    <h1><span data-de="Ihre Konditorei: Individuell. Handwerklich. Liebevoll." data-en="Your pâtisserie: Individual. Artisan. Loving.">Ihre Konditorei: Individuell. Handwerklich. Liebevoll.</span></h1>
+    <p><span data-de="Seit über zehn Jahren backen wir mit Herz und Seele für Sie." data-en="For over ten years we have been baking with heart and soul for you.">Seit über zehn Jahren backen wir mit Herz und Seele für Sie.</span></p>
+</div>
+
+<!-- MAIN SECTION: TEXT + IMAGE -->
+<section class="section">
+    <div class="container">
+        <div class="cakeshop-layout fade-up">
+            <div class="cakeshop-text">
+                <p class="label"><span data-de="Über unsere Konditorei" data-en="About our pâtisserie">Über unsere Konditorei</span></p>
+                <h2><span data-de="Seit über zehn Jahren backen wir mit Herz und Seele für Sie" data-en="For over ten years we have been baking with heart and soul for you">Seit über zehn Jahren backen wir mit Herz und Seele für Sie</span></h2>
+                <p><span data-de="In unserer Konditorei verbinden wir die zeitlose Eleganz individueller Kreationen mit der Präzision und Verlässlichkeit handwerklicher Perfektion. Jedes einzelne Stück, das unsere Backstube verlässt – sei es ein filigranes Törtchen, eine prächtige Torte oder ein knuspriger Keks – ist nicht nur ein Gebäck, sondern ein kleines Kunstwerk, gefertigt mit viel Liebe und Leidenschaft." data-en="In our pâtisserie, we combine the timeless elegance of bespoke creations with the precision and reliability of true craftsmanship. Every piece that leaves our bakery — whether a delicate tartlet, an impressive cake or a crisp biscuit — is not just a pastry, but a small work of art, made with love and passion.">In unserer Konditorei verbinden wir die zeitlose Eleganz individueller Kreationen mit der Präzision und Verlässlichkeit handwerklicher Perfektion. Jedes einzelne Stück, das unsere Backstube verlässt – sei es ein filigranes Törtchen, eine prächtige Torte oder ein knuspriger Keks – ist nicht nur ein Gebäck, sondern ein kleines Kunstwerk, gefertigt mit viel Liebe und Leidenschaft.</span></p>
+                <p><span data-de="Wir glauben daran, dass echtes Handwerk Zeit braucht und dass der Unterschied im Detail liegt. Deshalb verwenden wir ausschließlich frische, hochwertige Zutaten und verzichten bewusst auf industrielle Abkürzungen." data-en="We believe that true craftsmanship takes time and that the difference lies in the detail. That is why we use only fresh, high-quality ingredients and deliberately avoid industrial shortcuts.">Wir glauben daran, dass echtes Handwerk Zeit braucht und dass der Unterschied im Detail liegt. Deshalb verwenden wir ausschließlich frische, hochwertige Zutaten und verzichten bewusst auf industrielle Abkürzungen.</span></p>
+                <a href="order" class="btn btn-primary"><span data-de="Torte anfragen" data-en="Request a cake">Torte anfragen</span></a>
+            </div>
+            <div class="cakeshop-image">
+                <img src="images/torte.webp" alt="NUNIQUE Konditorin beim Verzieren einer Torte" loading="lazy">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CAKE GALLERY -->
+<section class="atelier-section" id="portfolio">
+    <div class="atelier-section-head fade-up">
+        <p class="atelier-kicker"><span data-de="Galerie" data-en="Gallery">Galerie</span></p>
+        <h2><span data-de="Unsere Tortenkreationen" data-en="Our Cake Creations">Unsere Tortenkreationen</span></h2>
+        <p><span data-de="Blättere durch unsere Looks — wie auf der Startseite, mit großem Bild-Carousel und Vollbildansicht." data-en="Browse our looks — just like on the homepage, with a large image carousel and full-screen view.">Blättere durch unsere Looks — wie auf der Startseite, mit großem Bild-Carousel und Vollbildansicht.</span></p>
+    </div>
+    <div class="portfolio-carousel fade-up" data-carousel>
+        <button class="carousel-arrow carousel-prev" type="button" aria-label="Vorherige Bilder">‹</button>
+        <div class="portfolio-track carousel-track">
+                <a href="images/torte1.jpg" class="portfolio-card lightbox" data-caption="Tortenkreation 1"><img src="images/torte1.jpg" loading="lazy" alt="Tortenkreation 1"></a>
+                <a href="images/torte2.jpg" class="portfolio-card lightbox" data-caption="Tortenkreation 2"><img src="images/torte2.jpg" loading="lazy" alt="Tortenkreation 2"></a>
+                <a href="images/torte3.jpg" class="portfolio-card lightbox" data-caption="Tortenkreation 3"><img src="images/torte3.jpg" loading="lazy" alt="Tortenkreation 3"></a>
+                <a href="images/torte4.jpg" class="portfolio-card lightbox" data-caption="Tortenkreation 4"><img src="images/torte4.jpg" loading="lazy" alt="Tortenkreation 4"></a>
+                <a href="images/torte5.jpg" class="portfolio-card lightbox" data-caption="Tortenkreation 5"><img src="images/torte5.jpg" loading="lazy" alt="Tortenkreation 5"></a>
+                <a href="images/torte6.jpg" class="portfolio-card lightbox" data-caption="Tortenkreation 6"><img src="images/torte6.jpg" loading="lazy" alt="Tortenkreation 6"></a>
+                <a href="images/torte7.jpg" class="portfolio-card lightbox" data-caption="Tortenkreation 7"><img src="images/torte7.jpg" loading="lazy" alt="Tortenkreation 7"></a>
+                <a href="images/torte8.jpg" class="portfolio-card lightbox" data-caption="Tortenkreation 8"><img src="images/torte8.jpg" loading="lazy" alt="Tortenkreation 8"></a>
+                <a href="images/torte9.jpg" class="portfolio-card lightbox" data-caption="Tortenkreation 9"><img src="images/torte9.jpg" loading="lazy" alt="Tortenkreation 9"></a>
+                <a href="images/torte10.jpg" class="portfolio-card lightbox" data-caption="Tortenkreation 10"><img src="images/torte10.jpg" loading="lazy" alt="Tortenkreation 10"></a>
+                <a href="images/torte11.jpg" class="portfolio-card lightbox" data-caption="Tortenkreation 11"><img src="images/torte11.jpg" loading="lazy" alt="Tortenkreation 11"></a>
+                <a href="images/torte12.jpg" class="portfolio-card lightbox" data-caption="Tortenkreation 12"><img src="images/torte12.jpg" loading="lazy" alt="Tortenkreation 12"></a>
+        </div>
+        <button class="carousel-arrow carousel-next" type="button" aria-label="Weitere Bilder">›</button>
+    </div>
+</section>
+
+<!-- VALUES STRIP -->
+<section class="section-sm" style="background:var(--bg)">
+    <div class="container">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem" class="fade-up">
+            <div style="text-align:center;padding:1.5rem;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.05)">
+                <div style="font-size:2rem;margin-bottom:.5rem"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;opacity:.65;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v2"/><path d="M12 8v2"/><path d="M17 8v2"/><path d="M7 4h.01"/><path d="M12 4h.01"/><path d="M17 4h.01"/></svg></span></div>
+                <h3 style="font-size:1rem;margin-bottom:.4rem">Individuelle Torten</h3>
+                <p style="font-size:.85rem;color:var(--mid)"><span data-de="Jede Torte nach Ihren Wünschen — einzigartig und unverwechselbar." data-en="Every cake to your wishes — unique and unmistakable.">Jede Torte nach Ihren Wünschen — einzigartig und unverwechselbar.</span></p>
+            </div>
+            <div style="text-align:center;padding:1.5rem;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.05)">
+                <div style="font-size:2rem;margin-bottom:.5rem"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;opacity:.65;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+                <h3 style="font-size:1rem;margin-bottom:.4rem">Frische Zutaten</h3>
+                <p style="font-size:.85rem;color:var(--mid)">Nur hochwertige, frische Zutaten — Butter statt Margarine.</p>
+            </div>
+            <div style="text-align:center;padding:1.5rem;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.05)">
+                <div style="font-size:2rem;margin-bottom:.5rem"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;opacity:.65;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span></div>
+                <h3 style="font-size:1rem;margin-bottom:.4rem"><span data-de="Mit Liebe gemacht" data-en="Made with love">Mit Liebe gemacht</span></h3>
+                <p style="font-size:.85rem;color:var(--mid)"><span data-de="Über zehn Jahre Erfahrung und Leidenschaft in jedem Stück." data-en="Over ten years of experience and passion in every piece.">Über zehn Jahre Erfahrung und Leidenschaft in jedem Stück.</span></p>
+            </div>
+            <div style="text-align:center;padding:1.5rem;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.05)">
+                <div style="font-size:2rem;margin-bottom:.5rem"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;opacity:.65;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+                <h3 style="font-size:1rem;margin-bottom:.4rem">Vegan &amp; Glutenfrei</h3>
+                <p style="font-size:.85rem;color:var(--mid)"><span data-de="Vegane und glutenfreie Optionen auf Anfrage erhältlich." data-en="Vegan and gluten-free options available on request.">Vegane und glutenfreie Optionen auf Anfrage erhältlich.</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+    <div class="container-sm" style="text-align:center">
+        <div class="fade-up">
+            <p class="label"><span data-de="Bereit für Ihre Traumtorte?" data-en="Ready for your dream cake?">Bereit für Ihre Traumtorte?</span></p>
+            <h2 style="margin-bottom:1rem">Torte anfragen</h2>
+            <p style="color:var(--mid);max-width:440px;margin:0 auto 2rem"><span data-de="Schildern Sie uns Ihre Ideen — wir erstellen Ihnen ein persönliches Angebot." data-en="Tell us your ideas — we will create a personalised quote for you.">Schildern Sie uns Ihre Ideen — wir erstellen Ihnen ein persönliches Angebot.</span></p>
+            <a href="order" class="btn btn-primary"><span data-de="Torte anfragen" data-en="Request a cake">Torte anfragen</span></a>
+        </div>
+    </div>
+</section>
+
+
+<script>
+(function() {
+    var track = document.getElementById('cakeGalleryTrack');
+    var dotsEl = document.getElementById('cakeGalleryDots');
+    var prevBtn = document.getElementById('cakeGalleryPrev');
+    var nextBtn = document.getElementById('cakeGalleryNext');
+    if (!track) return;
+
+    var imgs = track.querySelectorAll('img');
+    var perView = window.innerWidth < 600 ? 1 : 3;
+    var total = imgs.length;
+    var current = 0;
+    var autoTimer;
+
+    function totalSlides() { return Math.ceil(total / perView); }
+
+    function buildDots() {
+        dotsEl.innerHTML = '';
+        for (var i = 0; i < totalSlides(); i++) {
+            var d = document.createElement('button');
+            d.className = 'dot' + (i === 0 ? ' active' : '');
+            d.dataset.i = i;
+            d.addEventListener('click', function(){ goTo(+this.dataset.i); });
+            dotsEl.appendChild(d);
+        }
+    }
+
+    function goTo(idx) {
+        var max = totalSlides() - 1;
+        current = Math.max(0, Math.min(idx, max));
+        var imgW = track.querySelector('img').offsetWidth;
+        var gap = 16; // 1rem
+        var shift = current * perView * (imgW + gap);
+        track.style.transform = 'translateX(-' + shift + 'px)';
+        dotsEl.querySelectorAll('.dot').forEach(function(d, i){ d.classList.toggle('active', i === current); });
+    }
+
+    prevBtn.addEventListener('click', function(){ goTo(current - 1); resetAuto(); });
+    nextBtn.addEventListener('click', function(){ goTo(current + 1); resetAuto(); });
+
+    function autoAdvance() { goTo(current >= totalSlides() - 1 ? 0 : current + 1); }
+    function resetAuto() { clearInterval(autoTimer); autoTimer = setInterval(autoAdvance, 4000); }
+
+    buildDots();
+    resetAuto();
+
+    window.addEventListener('resize', function() {
+        perView = window.innerWidth < 600 ? 1 : 3;
+        buildDots(); goTo(0);
+    });
+})();
+</script>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="images/Logo-lang-lang.svg" alt="NUNIQUE">
+            <p><span data-de="Handgefertigte Konditorkreationen, individuelle Torten und herzhafte Spezialitäten in München." data-en="Handcrafted pastry creations, bespoke cakes and savoury specialities in Munich.">Handgefertigte Konditorkreationen, individuelle Torten und herzhafte Spezialitäten in München.</span></p>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/nunique.cakes" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="https://www.facebook.com/NuniqueCakes/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                <a href="https://wa.me/491704742351" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                <a href="https://g.page/r/Cd65igMqELdyEBM" target="_blank" rel="noopener" aria-label="Google"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1H12.18V13.83H18.69C18.36 17.64 15.19 19.27 12.19 19.27C8.36 19.27 5 16.25 5 12C5 7.9 8.2 4.73 12.2 4.73C15.29 4.73 17.1 6.7 17.1 6.7L19 4.72C19 4.72 16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12C2.03 17.05 6.16 22 12.25 22C17.6 22 21.5 18.33 21.5 12.91C21.5 11.76 21.35 11.1 21.35 11.1Z"/></svg></a>
+            </div>
+        </div>
+        <div>
+            <h4><span data-de="Navigation" data-en="Navigation">Navigation</span></h4>
+            <ul>
+                <li><a href="flavours"><span data-de="Geschmacksrichtungen" data-en="Flavours">Geschmacksrichtungen</span></a></li>
+                <li><a href="pastryshop"><span data-de="Konditorei-Sortiment" data-en="Pastry Selection">Konditorei-Sortiment</span></a></li>
+                <li><a href="cakeshop" class="nav-active"><span data-de="Torten-Sortiment" data-en="Cake Selection">Torten-Sortiment</span></a></li>
+                <li><a href="week-special"><span data-de="Wochen-Special" data-en="Weekly Special">Wochen-Special</span></a></li>
+                <li><a href="about"><span data-de="Über uns" data-en="About us">Über uns</span></a></li>
+                <li><a href="jobs">Jobs</a></li>
+                <li><a href="./#faq">FAQ</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Kontakt</h4>
+            <ul>
+                <li><a href="tel:+4989215464622">+49 89 21 54 64 62</a></li>
+                <li><a href="https://wa.me/491704742351">WhatsApp</a></li>
+                <li><a href="mailto:info@designcakes.de">info@designcakes.de</a></li>
+                <li><a href="https://g.page/r/Cd65igMqELdyEBM" target="_blank"><span data-de="Elsenheimerstr. 28, München" data-en="Elsenheimerstr. 28, Munich">Elsenheimerstr. 28, München</span></a></li>
+                <li><a href="order">Torte anfragen →</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 NUNIQUE — Cakes &amp; Coffee</span>
+        <span><a href="agb"><span data-de="AGB" data-en="T&amp;Cs">AGB</span></a> · <a href="impressum"><span data-de="Impressum" data-en="Imprint">Impressum</span></a> · <a href="datenschutz"><span data-de="Datenschutz" data-en="Privacy">Datenschutz</span></a></span>
+    </div>
+</footer>
+
+<!-- SCROLL TO TOP -->
+<button id="scrollTopBtn" aria-label="Zurück nach oben" title="Zurück nach oben">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5.75 4.75 13l1.42 1.42L11 9.58V20h2V9.58l4.83 4.84L19.25 13 12 5.75Z"/></svg>
+</button>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightboxOverlay">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Schließen">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" type="button" aria-label="Vorheriges Bild">‹</button>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" type="button" aria-label="Nächstes Bild">›</button>
+    <img id="lightboxImg" src="" alt="Vollbild">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+    <div class="lightbox-hint"><span data-de="ESC oder ✕ zum Schließen" data-en="ESC or ✕ to close">ESC oder ✕ zum Schließen</span></div>
+</div>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none">
+    <div class="cookie-inner">
+        <div class="cookie-text">
+            <strong><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;opacity:.65;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/><path d="M11 17v.01"/><path d="M7 14v.01"/></svg></span> Diese Website verwendet Cookies.</strong><br>
+            Wir setzen Cookies ein, um die Funktionalität unserer Website zu gewährleisten. Mit Klick auf „<span data-de="Alle akzeptieren" data-en="Accept all">Alle akzeptieren</span>" stimmen Sie der Verwendung aller Cookies gemäß unserer <a href="datenschutz"><span data-de="Datenschutzerklärung" data-en="Privacy Policy">Datenschutzerklärung</span></a> zu.
+        </div>
+        <div class="cookie-buttons">
+            <button class="cookie-btn-accept" id="cookie-accept"><span data-de="Alle akzeptieren" data-en="Accept all">Alle akzeptieren</span></button>
+            <button class="cookie-btn-decline" id="cookie-decline"><span data-de="Nur notwendige" data-en="Essential only">Nur notwendige</span></button>
+            <button class="cookie-btn-reject" id="cookie-reject"><span data-de="Alle ablehnen" data-en="Reject all">Alle ablehnen</span></button>
+        </div>
+    </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

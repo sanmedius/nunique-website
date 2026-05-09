@@ -1,0 +1,5 @@
+V7 changes
+- Replaced homepage index.html with the user-provided version.
+- Fixed mixed German/English text in cakeshop.html long paragraphs.
+- Added English data-en versions for homepage FAQ/cookie/final CTA text that had remained German-only.
+- Customer confirmation email in send_order.php now includes all relevant submitted order details, not only a short summary.

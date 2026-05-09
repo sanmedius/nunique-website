@@ -1,0 +1,7 @@
+Atelier Iconic redesign
+
+- Rebuilt index.html homepage around the existing logo and softer pink/teal palette.
+- Preserved existing order.html and send_order.php, including info@designcakes.de.
+- Added atelier-iconic.css for the new homepage, light footer, and softened order form styling.
+- Existing subpages remain intact so you can test safely online.
+- Upload the contents of this folder to your webspace.

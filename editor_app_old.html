@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NUNIQUE — Content Editor</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink:#E91E8C;--pink-dark:#C2185B;--pink-soft:#FDE4EF;
+  --teal:#00BCD4;--teal-dark:#0097A7;--teal-soft:#E0F7FA;
+  --dark:#1A1A1A;--mid:#4A4A4A;--light:#888;
+  --border:#E0E0E0;--bg:#F7F9FC;--white:#fff;
+  --sidebar-w:240px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Urbanist',sans-serif}
+body{background:var(--bg);color:var(--dark);display:flex;flex-direction:column}
+.topbar{height:50px;background:var(--dark);display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.topbar-brand{display:flex;align-items:center;gap:.6rem}
+.topbar-brand img{height:28px;filter:brightness(0)invert(1)opacity(.85);border-radius:4px}
+.topbar-title{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+.topbar-right{display:flex;gap:.6rem;align-items:center}
+.save-status{font-size:.72rem;color:rgba(255,255,255,.45);transition:color .3s}
+.save-status.dirty{color:#FF9800}
+.save-status.saved{color:#4CAF50}
+.btn-top{padding:.38rem .9rem;border-radius:50px;font-family:'Urbanist',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;border:none;letter-spacing:.05em;transition:all .2s}
+.btn-save{background:var(--pink);color:#fff}
+.btn-save:hover{background:var(--pink-dark)}
+.btn-dl{background:rgba(0,188,212,.2);color:var(--teal);border:1px solid rgba(0,188,212,.4)}
+.btn-dl:hover{background:rgba(0,188,212,.35)}
+
+.workspace{display:flex;flex:1;overflow:hidden}
+
+/* Sidebar */
+.sidebar{width:var(--sidebar-w);flex-shrink:0;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.sidebar-hd{padding:.75rem 1rem .6rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.sidebar-hd h3{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--light)}
+.page-list{flex:1;overflow-y:auto;padding:.35rem 0}
+.page-item{display:flex;align-items:center;gap:.55rem;padding:.6rem 1rem;cursor:pointer;transition:all .15s;border-left:3px solid transparent;font-size:.85rem;font-weight:500;color:var(--mid)}
+.page-item:hover{background:var(--bg);color:var(--dark)}
+.page-item.active{background:var(--pink-soft);color:var(--pink);border-left-color:var(--pink);font-weight:600}
+.page-item .pi{font-size:.95rem;width:18px;text-align:center;flex-shrink:0}
+
+/* Editor main */
+.editor-main{flex:1;overflow-y:auto;padding:1.5rem 1.75rem}
+.editor-main::-webkit-scrollbar{width:5px}
+.editor-main::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.pg-hd{margin-bottom:1.5rem}
+.pg-hd h2{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--dark)}
+.pg-hd .pg-url{display:inline-flex;align-items:center;gap:.35rem;font-size:.73rem;color:var(--teal-dark);background:var(--teal-soft);padding:.18rem .55rem;border-radius:4px;margin-top:.3rem;font-weight:600}
+
+.fsec{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:1rem;overflow:hidden}
+.fsec-hd{padding:.75rem 1.1rem;background:linear-gradient(90deg,var(--bg),#fff);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem}
+.fsec-hd h4{font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--mid)}
+.fsec-body{padding:1.1rem}
+.fg{margin-bottom:1rem}
+.fg:last-child{margin-bottom:0}
+.fl{display:flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--light);margin-bottom:.35rem}
+.ft{font-size:.63rem;background:var(--pink-soft);color:var(--pink);padding:.1rem .38rem;border-radius:4px}
+.ft.img{background:var(--teal-soft);color:var(--teal-dark)}
+.fi{width:100%;border:1.5px solid var(--border);border-radius:7px;padding:.55rem .75rem;font-family:'Urbanist',sans-serif;font-size:.88rem;color:var(--dark);background:#fff;transition:border-color .2s,box-shadow .2s;resize:vertical}
+.fi:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,188,212,.1)}
+textarea.fi{min-height:72px;line-height:1.55}
+
+/* Image field */
+.img-field{display:flex;align-items:center;gap:.85rem;padding:.65rem;background:var(--bg);border-radius:8px;border:1.5px dashed var(--border);cursor:pointer;transition:border-color .2s}
+.img-field:hover{border-color:var(--teal)}
+.img-thumb{width:60px;height:60px;border-radius:7px;object-fit:cover;flex-shrink:0;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.1);background:var(--border)}
+.img-info{flex:1;min-width:0}
+.img-name{font-size:.78rem;font-weight:600;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.img-hint{font-size:.68rem;color:var(--light);margin-top:.15rem}
+.img-btn{background:#fff;border:1.5px solid var(--border);padding:.35rem .75rem;border-radius:6px;font-family:'Urbanist',sans-serif;font-size:.73rem;font-weight:600;cursor:pointer;color:var(--mid);transition:all .2s;flex-shrink:0}
+.img-btn:hover{border-color:var(--teal);color:var(--teal-dark)}
+input[type=file]{display:none}
+
+/* Empty state */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:.85rem;text-align:center;padding:2rem}
+.empty .ei{font-size:2.5rem}
+.empty h3{font-size:1rem;font-weight:600;color:var(--dark)}
+.empty p{font-size:.8rem;color:var(--light);line-height:1.6;max-width:260px}
+
+.toast{position:fixed;bottom:1.25rem;right:1.25rem;background:var(--dark);color:#fff;padding:.6rem 1.1rem;border-radius:50px;font-size:.78rem;font-weight:600;opacity:0;transform:translateY(6px);transition:all .3s;pointer-events:none;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.toast.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<div class="lock-screen" id="editorLock"><div class="lock-card"><img src="images/Logo-lang-lang.svg" alt="NUNIQUE"><h1>Content Editor</h1><p>Geschützt vor Suchmaschinen und mit Passwortabfrage. Standard-Passwort bitte nach dem Upload ändern.</p><input type="password" id="editorPassword" placeholder="Passwort"><button type="button" id="editorUnlock">Editor öffnen</button><div class="lock-error" id="editorLockError">Falsches Passwort.</div></div></div>
+
+<div class="topbar">
+  <div class="topbar-brand">
+    <img src="images/Logo-lang-lang.svg" alt="NUNIQUE" onerror="this.style.display='none'">
+    <span class="topbar-title">Content Editor</span>
+  </div>
+  <div class="topbar-right">
+    <span class="save-status" id="saveStatus">Bereit</span>
+    <button class="btn-top btn-dl" onclick="downloadCurrent()">⬇ Datei laden</button>
+    <button class="btn-top btn-save" onclick="applyAndDownload()">💾 Speichern &amp; Herunterladen</button>
+  </div>
+</div>
+
+<div class="workspace">
+  <div class="sidebar">
+    <div class="sidebar-hd"><h3>Seiten</h3></div>
+    <div class="page-list" id="pageList"></div>
+  </div>
+  <div class="editor-main" id="editorMain">
+    <div class="empty"><div class="ei">✏️</div><h3>Seite auswählen</h3><p>Klicken Sie links auf eine Seite um Texte und Bilder zu bearbeiten.</p></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const EDITOR_PASSWORD="designcakes2026"; // Bitte nach dem Upload ändern.
+(function(){const lock=document.getElementById("editorLock"),input=document.getElementById("editorPassword"),btn=document.getElementById("editorUnlock"),err=document.getElementById("editorLockError");function unlock(){if(input.value===EDITOR_PASSWORD){sessionStorage.setItem("nunique_editor_ok","1");lock.style.display="none"}else{err.style.display="block";input.focus()}}if(sessionStorage.getItem("nunique_editor_ok")==="1")lock.style.display="none";btn.addEventListener("click",unlock);input.addEventListener("keydown",e=>{if(e.key==="Enter")unlock()});})();
+// ── PAGE + FIELD DEFINITIONS ──────────────────────────────────────────────────
+const PAGES = [
+{id:'index',file:'index.html',icon:'🏠',label:'Startseite',sections:[
+  {title:'🦸 Hero-Bereich',fields:[
+    {id:'hero_h1',  label:'Haupttitel',      sel:'.hero-content h1',  type:'text'},
+    {id:'hero_sub', label:'Untertitel',       sel:'.hero-content > p', type:'textarea'},
+    {id:'hero_img', label:'Hero-Hintergrundbild', sel:'.hero-bg',      type:'bgimage'},
+  ]},
+  {title:'🎂 Dienst 1 — Individuelle Torten',fields:[
+    {id:'svc1_h3', label:'Titel',      sel:'.service-row:nth-of-type(1) h3',           type:'text'},
+    {id:'svc1_p',  label:'Text',       sel:'.service-row:nth-of-type(1) .service-text > p', type:'textarea'},
+    {id:'svc1_img',label:'Bild',       sel:'.service-row:nth-of-type(1) .service-img', type:'image'},
+  ]},
+  {title:'🧁 Dienst 2 — Konditorwaren',fields:[
+    {id:'svc2_h3', label:'Titel',  sel:'.service-row:nth-of-type(2) h3',               type:'text'},
+    {id:'svc2_p',  label:'Text',   sel:'.service-row:nth-of-type(2) .service-text > p',type:'textarea'},
+    {id:'svc2_img',label:'Bild',   sel:'.service-row:nth-of-type(2) .service-img',     type:'image'},
+  ]},
+  {title:'🍽 Dienst 3 — Herzhafte Genüsse',fields:[
+    {id:'svc3_h3', label:'Titel',  sel:'.service-row:nth-of-type(3) h3',               type:'text'},
+    {id:'svc3_p',  label:'Text',   sel:'.service-row:nth-of-type(3) .service-text > p',type:'textarea'},
+    {id:'svc3_img',label:'Bild',   sel:'.service-row:nth-of-type(3) .service-img',     type:'image'},
+  ]},
+  {title:'🖼 Impressionen',fields:[
+    {id:'gal_img1',label:'Galeriebild 1',sel:'#mainGallery img:nth-child(1)',type:'image'},
+    {id:'gal_img2',label:'Galeriebild 2',sel:'#mainGallery img:nth-child(2)',type:'image'},
+    {id:'gal_img3',label:'Galeriebild 3',sel:'#mainGallery img:nth-child(3)',type:'image'},
+    {id:'gal_img4',label:'Galeriebild 4',sel:'#mainGallery img:nth-child(4)',type:'image'},
+  ]},
+  {title:'❓ FAQ — Fragen & Antworten',fields:[
+    {id:'faq1_q',label:'FAQ 1 — Frage',sel:'.faq-item:nth-child(1) .faq-q',type:'text'},
+    {id:'faq1_a',label:'FAQ 1 — Antwort',sel:'.faq-item:nth-child(1) .faq-a-inner',type:'textarea'},
+    {id:'faq2_q',label:'FAQ 2 — Frage',sel:'.faq-item:nth-child(2) .faq-q',type:'text'},
+    {id:'faq2_a',label:'FAQ 2 — Antwort',sel:'.faq-item:nth-child(2) .faq-a-inner',type:'textarea'},
+    {id:'faq3_q',label:'FAQ 3 — Frage',sel:'.faq-item:nth-child(3) .faq-q',type:'text'},
+    {id:'faq3_a',label:'FAQ 3 — Antwort',sel:'.faq-item:nth-child(3) .faq-a-inner',type:'textarea'},
+    {id:'faq4_q',label:'FAQ 4 — Frage',sel:'.faq-item:nth-child(4) .faq-q',type:'text'},
+    {id:'faq4_a',label:'FAQ 4 — Antwort',sel:'.faq-item:nth-child(4) .faq-a-inner',type:'textarea'},
+    {id:'faq5_q',label:'FAQ 5 — Frage',sel:'.faq-item:nth-child(5) .faq-q',type:'text'},
+    {id:'faq5_a',label:'FAQ 5 — Antwort',sel:'.faq-item:nth-child(5) .faq-a-inner',type:'textarea'},
+    {id:'faq6_q',label:'FAQ 6 — Frage',sel:'.faq-item:nth-child(6) .faq-q',type:'text'},
+    {id:'faq6_a',label:'FAQ 6 — Antwort',sel:'.faq-item:nth-child(6) .faq-a-inner',type:'textarea'},
+  ]},
+  {title:'⭐ Rezensionen',fields:[
+    {id:'rev1_text',label:'Rezension 1 — Text',  sel:'.review-card:nth-child(1) .review-text',   type:'textarea'},
+    {id:'rev1_auth',label:'Rezension 1 — Name',  sel:'.review-card:nth-child(1) .review-author', type:'text'},
+    {id:'rev2_text',label:'Rezension 2 — Text',  sel:'.review-card:nth-child(2) .review-text',   type:'textarea'},
+    {id:'rev2_auth',label:'Rezension 2 — Name',  sel:'.review-card:nth-child(2) .review-author', type:'text'},
+    {id:'rev3_text',label:'Rezension 3 — Text',  sel:'.review-card:nth-child(3) .review-text',   type:'textarea'},
+    {id:'rev3_auth',label:'Rezension 3 — Name',  sel:'.review-card:nth-child(3) .review-author', type:'text'},
+    {id:'rev4_text',label:'Rezension 4 — Text',  sel:'.review-card:nth-child(4) .review-text',   type:'textarea'},
+    {id:'rev4_auth',label:'Rezension 4 — Name',  sel:'.review-card:nth-child(4) .review-author', type:'text'},
+    {id:'rev5_text',label:'Rezension 5 — Text',  sel:'.review-card:nth-child(5) .review-text',   type:'textarea'},
+    {id:'rev5_auth',label:'Rezension 5 — Name',  sel:'.review-card:nth-child(5) .review-author', type:'text'},
+    {id:'rev6_text',label:'Rezension 6 — Text',  sel:'.review-card:nth-child(6) .review-text',   type:'textarea'},
+    {id:'rev6_auth',label:'Rezension 6 — Name',  sel:'.review-card:nth-child(6) .review-author', type:'text'},
+  ]},
+  {title:'👥 Team',fields:[
+    {id:'tm1_name',label:'Person 1 — Name',    sel:'.team-card:nth-child(1) h3',    type:'text'},
+    {id:'tm1_role',label:'Person 1 — Funktion',sel:'.team-card:nth-child(1) .role', type:'text'},
+    {id:'tm1_bio', label:'Person 1 — Text',    sel:'.team-card:nth-child(1) p:last-child',type:'textarea'},
+    {id:'tm1_img', label:'Person 1 — Foto',    sel:'.team-card:nth-child(1) img',   type:'image'},
+    {id:'tm2_name',label:'Person 2 — Name',    sel:'.team-card:nth-child(2) h3',    type:'text'},
+    {id:'tm2_role',label:'Person 2 — Funktion',sel:'.team-card:nth-child(2) .role', type:'text'},
+    {id:'tm2_bio', label:'Person 2 — Text',    sel:'.team-card:nth-child(2) p:last-child',type:'textarea'},
+    {id:'tm2_img', label:'Person 2 — Foto',    sel:'.team-card:nth-child(2) img',   type:'image'},
+    {id:'tm3_name',label:'Person 3 — Name',    sel:'.team-card:nth-child(3) h3',    type:'text'},
+    {id:'tm3_role',label:'Person 3 — Funktion',sel:'.team-card:nth-child(3) .role', type:'text'},
+    {id:'tm3_bio', label:'Person 3 — Text',    sel:'.team-card:nth-child(3) p:last-child',type:'textarea'},
+    {id:'tm3_img', label:'Person 3 — Foto',    sel:'.team-card:nth-child(3) img',   type:'image'},
+    {id:'tm4_name',label:'Person 4 — Name',    sel:'.team-card:nth-child(4) h3',    type:'text'},
+    {id:'tm4_role',label:'Person 4 — Funktion',sel:'.team-card:nth-child(4) .role', type:'text'},
+    {id:'tm4_bio', label:'Person 4 — Text',    sel:'.team-card:nth-child(4) p:last-child',type:'textarea'},
+    {id:'tm4_img', label:'Person 4 — Foto',    sel:'.team-card:nth-child(4) img',   type:'image'},
+  ]},
+  {title:'📍 Kontakt',fields:[
+    {id:'con_h3',  label:'Kontakt-Überschrift', sel:'.contact-info h3', type:'text'},
+    {id:'con_intro',label:'Einleitung',          sel:'.contact-info > p', type:'textarea'},
+  ]},
+]},
+{id:'about',file:'about.html',icon:'👩‍🍳',label:'Über uns',sections:[
+  {title:'🏷 Seitenbanner',fields:[
+    {id:'ab_lbl',label:'Label',sel:'.page-hero .label',type:'text'},
+    {id:'ab_h1', label:'Titel',sel:'.page-hero h1',    type:'text'},
+  ]},
+  {title:'📖 Geschichte — Texte',fields:[
+    {id:'ab_intro', label:'Erster Satz (fett)',sel:'.about-text p:first-of-type',type:'text'},
+    {id:'ab_p2',    label:'Absatz 2',          sel:'.about-text p:nth-of-type(2)',type:'textarea'},
+    {id:'ab_p3',    label:'Absatz 3',          sel:'.about-text p:nth-of-type(3)',type:'textarea'},
+    {id:'ab_p4',    label:'Absatz 4',          sel:'.about-text p:nth-of-type(4)',type:'textarea'},
+    {id:'ab_h3_1',  label:'Zwischentitel 1',   sel:'.about-text h3:nth-of-type(1)',type:'text'},
+    {id:'ab_h3_2',  label:'Zwischentitel 2',   sel:'.about-text h3:nth-of-type(2)',type:'text'},
+    {id:'ab_h3_3',  label:'Zwischentitel 3',   sel:'.about-text h3:nth-of-type(3)',type:'text'},
+  ]},
+  {title:'🖼 Bild',fields:[
+    {id:'ab_img',label:'Über-uns Bild',sel:'.about-image img',type:'image'},
+  ]},
+]},
+{id:'flavours',file:'flavours.html',icon:'🎂',label:'Geschmacksrichtungen',sections:[
+  {title:'🏷 Seitenbanner',fields:[
+    {id:'fl_lbl',label:'Label', sel:'.page-hero .label',type:'text'},
+    {id:'fl_h1', label:'Titel', sel:'.page-hero h1',   type:'text'},
+    {id:'fl_sub',label:'Untertitel',sel:'.page-hero p',type:'text'},
+  ]},
+  {title:'🍰 Geschmack V1–V5',fields:[
+    {id:'fl1_name',label:'V1 Name',sel:'.flavour-card:nth-child(1) h3',type:'text'},
+    {id:'fl1_desc',label:'V1 Beschreibung',sel:'.flavour-card:nth-child(1) p',type:'textarea'},
+    {id:'fl1_img', label:'V1 Bild',sel:'.flavour-card:nth-child(1) img',type:'image'},
+    {id:'fl2_name',label:'V2 Name',sel:'.flavour-card:nth-child(2) h3',type:'text'},
+    {id:'fl2_desc',label:'V2 Beschreibung',sel:'.flavour-card:nth-child(2) p',type:'textarea'},
+    {id:'fl2_img', label:'V2 Bild',sel:'.flavour-card:nth-child(2) img',type:'image'},
+    {id:'fl3_name',label:'V3 Name',sel:'.flavour-card:nth-child(3) h3',type:'text'},
+    {id:'fl3_desc',label:'V3 Beschreibung',sel:'.flavour-card:nth-child(3) p',type:'textarea'},
+    {id:'fl3_img', label:'V3 Bild',sel:'.flavour-card:nth-child(3) img',type:'image'},
+    {id:'fl4_name',label:'V4 Name',sel:'.flavour-card:nth-child(4) h3',type:'text'},
+    {id:'fl4_desc',label:'V4 Beschreibung',sel:'.flavour-card:nth-child(4) p',type:'textarea'},
+    {id:'fl5_name',label:'V5 Name',sel:'.flavour-card:nth-child(5) h3',type:'text'},
+    {id:'fl5_desc',label:'V5 Beschreibung',sel:'.flavour-card:nth-child(5) p',type:'textarea'},
+  ]},
+]},
+{id:'pastryshop',file:'pastryshop.html',icon:'🧁',label:'Konditorei-Sortiment',sections:[
+  {title:'🏷 Seitenbanner',fields:[
+    {id:'ps_lbl',label:'Label',sel:'.page-hero .label',type:'text'},
+    {id:'ps_h1', label:'Titel',sel:'.page-hero h1',   type:'text'},
+  ]},
+]},
+{id:'cakeshop',file:'cakeshop.html',icon:'🍰',label:'Torten-Sortiment',sections:[
+  {title:'🏷 Seitenbanner',fields:[
+    {id:'cs_lbl',label:'Label',    sel:'.page-hero .label',type:'text'},
+    {id:'cs_h1', label:'Titel',    sel:'.page-hero h1',   type:'text'},
+    {id:'cs_sub',label:'Untertitel',sel:'.page-hero p',   type:'text'},
+  ]},
+  {title:'📝 Seiten-Text',fields:[
+    {id:'cs_th2',label:'Text-Titel',  sel:'.cakeshop-text h2',              type:'text'},
+    {id:'cs_tp1',label:'Absatz 1',    sel:'.cakeshop-text p:first-of-type', type:'textarea'},
+    {id:'cs_tp2',label:'Absatz 2',    sel:'.cakeshop-text p:nth-of-type(2)',type:'textarea'},
+  ]},
+  {title:'🖼 Bild & Galerie',fields:[
+    {id:'cs_img',label:'Hauptbild',sel:'.cakeshop-image img, .about-image img',type:'image'},
+    {id:'cg1',label:'Galerie 1',sel:'#cakeGalleryTrack img:nth-child(1)',type:'image'},
+    {id:'cg2',label:'Galerie 2',sel:'#cakeGalleryTrack img:nth-child(2)',type:'image'},
+    {id:'cg3',label:'Galerie 3',sel:'#cakeGalleryTrack img:nth-child(3)',type:'image'},
+    {id:'cg4',label:'Galerie 4',sel:'#cakeGalleryTrack img:nth-child(4)',type:'image'},
+    {id:'cg5',label:'Galerie 5',sel:'#cakeGalleryTrack img:nth-child(5)',type:'image'},
+    {id:'cg6',label:'Galerie 6',sel:'#cakeGalleryTrack img:nth-child(6)',type:'image'},
+    {id:'cg7',label:'Galerie 7',sel:'#cakeGalleryTrack img:nth-child(7)',type:'image'},
+    {id:'cg8',label:'Galerie 8',sel:'#cakeGalleryTrack img:nth-child(8)',type:'image'},
+    {id:'cg9',label:'Galerie 9',sel:'#cakeGalleryTrack img:nth-child(9)',type:'image'},
+  ]},
+]},
+{id:'week',file:'week-special.html',icon:'🍽',label:'Wochen-Special',sections:[
+  {title:'🏷 Seitenbanner',fields:[
+    {id:'ws_lbl',label:'Label',    sel:'.page-hero .label',type:'text'},
+    {id:'ws_h1', label:'Titel',    sel:'.page-hero h1',   type:'text'},
+    {id:'ws_sub',label:'Untertitel',sel:'.page-hero p',   type:'text'},
+  ]},
+]},
+{id:'jobs',file:'jobs.html',icon:'💼',label:'Jobs',sections:[
+  {title:'🏷 Seitenbanner',fields:[
+    {id:'jb_lbl',label:'Label',    sel:'.page-hero .label',type:'text'},
+    {id:'jb_h1', label:'Titel',    sel:'.page-hero h1',   type:'text'},
+    {id:'jb_sub',label:'Untertitel',sel:'.page-hero p',   type:'text'},
+  ]},
+  {title:'✏️ Stellenausschreibung',fields:[
+    {id:'jb_intro',label:'Einleitung',sel:'.section-head.fade-up p',type:'textarea'},
+    {id:'job1_h3',label:'Position 1 — Titel',sel:'.job-card:nth-child(1) h3',type:'text'},
+    {id:'job1_p', label:'Position 1 — Text', sel:'.job-card:nth-child(1) > p:first-of-type',type:'textarea'},
+    {id:'job2_h3',label:'Position 2 — Titel',sel:'.job-card:nth-child(2) h3',type:'text'},
+    {id:'job2_p', label:'Position 2 — Text', sel:'.job-card:nth-child(2) > p:first-of-type',type:'textarea'},
+  ]},
+]},
+{id:'order',file:'order.html',icon:'📋',label:'Torte anfragen',sections:[
+  {title:'🏷 Seitenbanner',fields:[
+    {id:'or_h1', label:'Titel',    sel:'.order-hero h1',type:'text'},
+    {id:'or_sub',label:'Untertitel',sel:'.order-hero p',type:'text'},
+  ]},
+]},
+{id:'impressum',file:'impressum.html',icon:'⚖️',label:'Impressum',sections:[
+  {title:'📋 Impressum-Daten',fields:[
+    {id:'imp_name',label:'Name / Inhaberin',sel:'.container-sm h3',type:'text'},
+  ]},
+]},
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let curPage=null, changes={}, docs={};
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+PAGES.forEach(p=>{
+  const el=document.createElement('div');
+  el.className='page-item';el.dataset.id=p.id;
+  el.innerHTML=`<span class="pi">${p.icon}</span><span>${p.label}</span>`;
+  el.addEventListener('click',()=>selectPage(p.id));
+  document.getElementById('pageList').appendChild(el);
+});
+
+async function selectPage(id){
+  document.querySelectorAll('.page-item').forEach(e=>e.classList.remove('active'));
+  document.querySelector('[data-id="'+id+'"]').classList.add('active');
+  curPage=PAGES.find(p=>p.id===id);
+  await loadPage(curPage);
+  renderEditor(curPage);
+}
+
+async function loadPage(page){
+  if(docs[page.id]) return;
+  try{
+    const r=await fetch(page.file+'?v='+Date.now());
+    const t=await r.text();
+    const p=new DOMParser();
+    docs[page.id]={raw:t,doc:p.parseFromString(t,'text/html')};
+  }catch(e){ docs[page.id]={raw:'',doc:document.implementation.createHTMLDocument()}; }
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function renderEditor(page){
+  const main=document.getElementById('editorMain');
+  const d=docs[page.id]?.doc;
+  let h=`<div class="pg-hd"><h2>${page.icon} ${page.label}</h2><div class="pg-url">📄 ${page.file}</div></div>`;
+
+  page.sections.forEach(sec=>{
+    h+=`<div class="fsec"><div class="fsec-hd"><h4>${sec.title}</h4></div><div class="fsec-body">`;
+    sec.fields.forEach(f=>{
+      const el=d?d.querySelector(f.sel):null;
+      let val=changes[page.id]?.[f.id];
+      if(val===undefined){
+        if(f.type==='image'){val=el?el.getAttribute('src'):'';
+        }else if(f.type==='bgimage'){
+          const style=el?el.getAttribute('style'):'';
+          const m=style&&style.match(/url\(['"]?([^'")\s]+)/);
+          val=m?m[1]:'';
+        }else{ val=el?(el.textContent||'').trim():'';}
+      }
+      if(f.type==='image'||f.type==='bgimage'){
+        h+=`<div class="fg">
+          <div class="fl"><span>${f.label}</span><span class="ft img">BILD</span></div>
+          <div class="img-field" onclick="document.getElementById('file_${f.id}').click()">
+            <img class="img-thumb" id="thumb_${f.id}" src="${esc(val)}" alt=""
+              onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><rect fill=%22%23eee%22 width=%2260%22 height=%2260%22/></svg>'">
+            <div class="img-info">
+              <div class="img-name" id="iname_${f.id}">${fname(val)}</div>
+              <div class="img-hint">Klicken zum Auswählen · JPG PNG WebP</div>
+            </div>
+            <button class="img-btn" type="button">Ändern</button>
+          </div>
+          <input type="file" id="file_${f.id}" accept="image/*"
+            onchange="handleImg('${page.id}','${f.id}','${esc(f.sel)}','${f.type}',this)">
+        </div>`;
+      } else {
+        const tag=f.type==='textarea'?'textarea':'input';
+        const attrs=f.type==='textarea'?'rows="3"':'type="text"';
+        h+=`<div class="fg">
+          <div class="fl"><span>${f.label}</span></div>
+          <${tag} class="fi" id="fi_${f.id}" ${attrs}
+            data-pg="${page.id}" data-fid="${f.id}"
+            oninput="handleTxt(this)"
+          >${f.type==='textarea'?esc(val):''}</${tag}>
+        </div>`;
+      }
+    });
+    h+=`</div></div>`;
+  });
+  main.innerHTML=h;
+
+  // Set input values
+  page.sections.forEach(sec=>sec.fields.forEach(f=>{
+    if(f.type!=='image'&&f.type!=='bgimage'){
+      const el=d?d.querySelector(f.sel):null;
+      let val=changes[page.id]?.[f.id];
+      if(val===undefined) val=el?(el.textContent||'').trim():'';
+      const inp=document.getElementById('fi_'+f.id);
+      if(inp&&inp.tagName==='INPUT') inp.value=val;
+    }
+  }));
+}
+
+function handleTxt(el){
+  const pid=el.dataset.pg,fid=el.dataset.fid;
+  if(!changes[pid]) changes[pid]={};
+  changes[pid][fid]=el.value||el.textContent;
+  setDirty();
+}
+
+function handleImg(pid,fid,sel,ftype,input){
+  const file=input.files[0]; if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const durl=e.target.result;
+    const th=document.getElementById('thumb_'+fid);
+    const nm=document.getElementById('iname_'+fid);
+    if(th) th.src=durl;
+    if(nm) nm.textContent=file.name;
+    if(!changes[pid]) changes[pid]={};
+    changes[pid][fid]={isImg:true,file,durl,sel,ftype,name:file.name};
+    setDirty();
+    toast('📷 '+file.name+' ausgewählt');
+  };
+  r.readAsDataURL(file);
+}
+
+// ── SAVE & DOWNLOAD ───────────────────────────────────────────────────────────
+function applyAndDownload(){
+  if(!curPage){toast('⚠️ Keine Seite ausgewählt');return;}
+  const pid=curPage.id;
+  const ch=changes[pid];
+  if(!ch||!Object.keys(ch).length){toast('ℹ️ Keine Änderungen');return;}
+  const data=docs[pid]; if(!data?.raw)return;
+
+  const parser=new DOMParser();
+  const d=parser.parseFromString(data.raw,'text/html');
+
+  // Apply all changes
+  curPage.sections.forEach(sec=>sec.fields.forEach(f=>{
+    const chg=ch[f.id]; if(chg===undefined)return;
+    const el=d.querySelector(f.sel); if(!el)return;
+    if(typeof chg==='object'&&chg.isImg){
+      if(chg.ftype==='bgimage'){
+        const old=el.getAttribute('style')||'';
+        el.setAttribute('style',old.replace(/background-image:[^;]+;?/,'')+'background-image:url(\'images/'+chg.name+'\');');
+      } else {
+        el.setAttribute('src','images/'+chg.name);
+        el.setAttribute('alt',chg.name.replace(/\.[^.]+$/,''));
+      }
+    } else {
+      // Preserve inner elements like <strong> or <span class="faq-icon">
+      const hasChildren=Array.from(el.childNodes).some(n=>n.nodeType===1);
+      if(hasChildren&&f.type!=='textarea'){
+        // Only update text nodes
+        Array.from(el.childNodes).forEach(n=>{if(n.nodeType===3&&n.textContent.trim()) n.textContent=chg;});
+      } else {
+        el.textContent=chg;
+      }
+    }
+  }));
+
+  const newHTML='<!DOCTYPE html>\n'+d.documentElement.outerHTML;
+  docs[pid]={raw:newHTML,doc:d};
+  dlBlob(newHTML,curPage.file);
+  setSaved();
+  toast('✅ '+curPage.label+' heruntergeladen — auf Server hochladen!');
+}
+
+function downloadCurrent(){
+  if(!curPage){toast('⚠️ Keine Seite');return;}
+  const d=docs[curPage.id]; if(!d?.raw){toast('⚠️ Noch nicht geladen');return;}
+  dlBlob(d.raw,curPage.file);
+  toast('⬇ '+curPage.file);
+}
+
+function dlBlob(content,filename){
+  const b=new Blob([content],{type:'text/html;charset=utf-8'});
+  const u=URL.createObjectURL(b);
+  const a=document.createElement('a'); a.href=u; a.download=filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(u);
+}
+
+// ── UI HELPERS ────────────────────────────────────────────────────────────────
+function setDirty(){const s=document.getElementById('saveStatus');s.textContent='● Ungespeichert';s.className='save-status dirty';}
+function setSaved(){const s=document.getElementById('saveStatus');s.textContent='✓ Gespeichert';s.className='save-status saved';setTimeout(()=>{s.textContent='Bereit';s.className='save-status';},3000);}
+let tTimer;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tTimer);tTimer=setTimeout(()=>t.classList.remove('show'),2800);}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fname(s){if(!s)return'Kein Bild';return s.split('/').pop().split('?')[0]||s;}
+</script>
+</body>
+</html>

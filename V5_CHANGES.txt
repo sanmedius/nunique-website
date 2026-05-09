@@ -1,0 +1,8 @@
+V5 fixes:
+- Fixed PHP 500 error in send_order.php and contact.php (broken bot-check variables repaired).
+- Torte anfragen button aligned in the same menu row.
+- Editor now uses server-side login via editor.php first; editor.html no longer exposes fields.
+- Rebuilt editor_app.html to automatically extract/edit all data-de/data-en texts, SEO title/description, and images across pages.
+- cakeshop.html gallery rebuilt with same portfolio carousel structure as index.html.
+- Ablauf typography reduced further.
+- Submit inquiry button remains non-floating/static.

@@ -1,0 +1,12 @@
+NUNIQUE Atelier Iconic v4
+
+- Anfrage-Button im Formular nicht mehr floating.
+- Ablauf-Typografie verkleinert.
+- cakeshop.html Galerie wie Portfolio/Signature Looks gestaltet, inklusive Scroll-Pfeilen und Lightbox.
+- Datumsauswahl im order.html bleibt lesbar.
+- Navigation: Torte anfragen sitzt rechts im Hauptmenü.
+- Mobile Hamburger-Menü repariert: Home wird nicht mehr vom Header verdeckt.
+- Honeypot + Sicherheitsfrage für order/contact integriert, inkl. PHP-Prüfung.
+- editor.html noindex + Passwort-Overlay; editor.php als serverseitig geschützte Alternative.
+
+Editor-Passwort aktuell: designcakes2026 — bitte nach Upload ändern.

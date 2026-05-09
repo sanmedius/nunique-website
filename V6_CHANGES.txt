@@ -1,0 +1,1 @@
+V6 fixes: aligned nav CTA; rotating inline security question; PHP fallback redirect; smaller Ablauf typography.

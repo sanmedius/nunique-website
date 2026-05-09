@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="images/Logo_quadrat_solo.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torte anfragen — NUNIQUE Cakes & Coffee</title>
+    <meta name="description" content="Individuelle Tortenanfrage bei NUNIQUE Cakes & Coffee München. Wählen Sie Geschmack, Design und Termin für Ihre Traumtorte.">
+    <meta name="keywords" content="torte, motivtorte, münchen, munich, handgemacht, cupcakes, cakepops, kuchen, cake, handmade, geburtstagstorte, hochzeitstorte">
+    <link rel="stylesheet" href="style.css">
+    <style>
+    /* Order form page — light background */
+    body { background: #F5F5F5; }
+    
+        :root {
+            --magenta: #E91E8C;
+            --magenta-dark: #C2185B;
+            --magenta-soft: #FDE4EF;
+            --turquoise: #00BCD4;
+            --turquoise-dark: #0097A7;
+            --turquoise-soft: #E0F7FA;
+            --bg: #F5F5F5;
+            --white: #FFFFFF;
+            --text-dark: #1A1A1A;
+            --text-mid: #4A4A4A;
+            --text-light: #999999;
+            --border: #DCDCDC;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Urbanist', sans-serif;
+            font-weight: 400;
+            background: var(--bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            font-size: 16px;
+        }
+
+        /* ── HEADER ── */
+        .form-header {
+            background: #FFFFFF;
+            padding: 1.5rem 2rem 1.25rem;
+            text-align: center;
+            border-bottom: 3px solid var(--magenta);
+        }
+        .form-header img {
+            max-width: 380px;
+            width: 75%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .form-header .subtitle {
+            color: var(--text-mid);
+            font-size: 1rem;
+            margin-top: .6rem;
+            font-weight: 400;
+            letter-spacing: .03em;
+        }
+        .form-header .form-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--magenta);
+            margin-top: .3rem;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+        }
+        .required-note {
+            font-size: .75rem; color: var(--text-light);
+            margin-top: .35rem;
+        }
+        .required-note span { color: var(--magenta); font-weight: 600; }
+
+        /* Language — inline below logo, not absolute */
+        .lang-toggle {
+            display: flex; gap: 6px; justify-content: center;
+            margin-top: .75rem;
+        }
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            padding: .3rem .75rem;
+            font-size: .8rem; font-family: 'Urbanist', sans-serif; font-weight: 600;
+            cursor: pointer; border-radius: 4px; transition: all .2s;
+        }
+        .lang-btn.active {
+            background: var(--magenta); color: #fff; border-color: var(--magenta);
+        }
+
+        /* Container — wider */
+        .form-container { max-width: 1080px; margin: 2rem auto; padding: 0 1.5rem 3rem; }
+
+        /* Sections */
+        .form-section {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 2rem;
+            margin-top: 1.5rem;
+            animation: fadeUp .35s ease-out both;
+        }
+        .form-section:nth-child(1){animation-delay:.04s}
+        .form-section:nth-child(2){animation-delay:.08s}
+        .form-section:nth-child(3){animation-delay:.12s}
+        .form-section:nth-child(4){animation-delay:.16s}
+        .form-section:nth-child(5){animation-delay:.2s}
+        .form-section:nth-child(6){animation-delay:.24s}
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.1rem; font-weight: 700;
+            color: var(--magenta);
+            margin-bottom: 1.5rem; padding-bottom: .75rem;
+            border-bottom: 2px solid var(--magenta-soft);
+            display: flex; align-items: center; gap: .5rem;
+            letter-spacing: .02em;
+        }
+
+        /* Fields — larger */
+        .field-group { margin-bottom: 1.35rem; }
+        .field-group:last-child { margin-bottom: 0; }
+        label {
+            display: block; font-size: .95rem; font-weight: 500;
+            color: var(--text-mid); margin-bottom: .45rem;
+        }
+        label .req { color: var(--magenta); margin-left: 2px; }
+
+        input[type=text], input[type=email], input[type=tel],
+        input[type=date], input[type=time], input[type=number],
+        select, textarea {
+            width: 100%; padding: .8rem 1rem;
+            border: 1px solid var(--border); border-radius: 10px;
+            font-family: 'Urbanist', sans-serif; font-weight: 400;
+            font-size: 1rem; color: var(--text-dark);
+            background: var(--white);
+            transition: border-color .2s, box-shadow .2s;
+            height: 52px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--turquoise);
+            box-shadow: 0 0 0 3px rgba(0,188,212,.12);
+        }
+        textarea {
+            resize: vertical; min-height: 100px; height: auto;
+        }
+        input[type=file] {
+            font-family: 'Urbanist', sans-serif;
+            font-size: .95rem; color: var(--text-mid);
+            height: auto; padding: .7rem 1rem;
+        }
+        select { cursor: pointer; }
+        .field-hint { font-size: .82rem; color: var(--text-light); margin-top: .3rem; }
+
+        /* Flavor tooltip image on hover — desktop */
+        .flavor-grid label { position: relative; }
+        .flavor-img {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%; transform: translateX(-50%);
+            width: 240px; height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,.18);
+            z-index: 100;
+            pointer-events: none;
+            border: 2px solid var(--turquoise);
+        }
+        .flavor-grid label:hover .flavor-img { display: block; }
+
+        /* Mobile: show as inline thumbnail, no hover needed */
+        @media (max-width: 560px) {
+            .flavor-img {
+                display: block !important;
+                position: static !important;
+                transform: none !important;
+                width: 52px !important; height: 52px !important;
+                border-radius: 8px !important;
+                flex-shrink: 0;
+                box-shadow: none !important;
+                border: 1px solid var(--turquoise) !important;
+            }
+            .flavor-grid label { align-items: center; gap: .6rem; }
+            .flavor-grid { grid-template-columns: 1fr; }
+        }
+        .flavor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: .4rem;
+        }
+        .flavor-grid label {
+            display: flex; align-items: flex-start; gap: .4rem;
+            font-weight: 400; font-size: .88rem; cursor: pointer;
+            background: var(--turquoise-soft); padding: .45rem .7rem;
+            border-radius: 10px; border: 1px solid transparent; transition: all .2s;
+            color: var(--text-dark); line-height: 1.25;
+        }
+        .flavor-grid label:hover { border-color: var(--turquoise); background: #c9f0f7; }
+        .flavor-grid label input[type=checkbox] { accent-color: var(--turquoise); width: 15px; height: 15px; margin-top: 3px; flex-shrink: 0; }
+        .flavor-grid label span strong {
+            display: block; font-size: .88rem;
+            padding-bottom: .2rem;
+            margin-bottom: 0;
+            border-bottom: 1px solid var(--magenta);
+        }
+        .flavor-grid label span small { font-size: .72rem; color: var(--text-mid); font-weight: 300; line-height: 1.25; display: block; margin-top: 0; }
+
+        /* Checkbox group */
+        .check-group { display: flex; flex-wrap: wrap; gap: .55rem; }
+        .check-group label {
+            display: flex; align-items: center; gap: .4rem;
+            font-weight: 400; font-size: .95rem; cursor: pointer;
+            background: var(--magenta-soft); padding: .6rem .85rem;
+            border-radius: 10px; border: 1px solid transparent; transition: all .2s;
+            color: var(--text-dark);
+        }
+        .check-group label:hover { border-color: var(--magenta); }
+        .check-group input { accent-color: var(--magenta); width: 17px; height: 17px; }
+
+        /* Layout */
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+        /* Conditional */
+        .conditional { display: none; }
+        .conditional.visible { display: block; margin-top: 1rem; }
+
+        /* Pickup label */
+        .pickup-label {
+            font-size: 1rem; font-weight: 700;
+            color: var(--turquoise-dark);
+            margin-bottom: .75rem;
+            display: flex; align-items: center; gap: .4rem;
+        }
+
+        /* Submit */
+        .submit-section { margin-top: 2rem; text-align: center; }
+        .submit-btn {
+            background: var(--magenta);
+            color: #fff; border: none;
+            padding: 1rem 3.5rem;
+            font-family: 'Urbanist', sans-serif;
+            font-size: 1.05rem; font-weight: 700;
+            border-radius: 50px; cursor: pointer;
+            transition: all .3s;
+            box-shadow: 0 4px 18px rgba(233,30,140,.2);
+            letter-spacing: .06em;
+            text-transform: uppercase;
+        }
+        .submit-btn:hover {
+            background: var(--magenta-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(233,30,140,.3);
+        }
+        .submit-btn:active { transform: translateY(0); }
+        .submit-btn.loading { pointer-events: none; opacity: .7; }
+
+        .privacy-note {
+            text-align: center; font-size: .82rem;
+            color: var(--text-light); margin-top: 1rem; line-height: 1.6;
+        }
+        .privacy-note a { color: var(--turquoise-dark); text-decoration: none; }
+        .privacy-note a:hover { text-decoration: underline; }
+
+        .form-footer {
+            text-align: center; padding: 1.5rem;
+            font-size: .78rem; color: var(--text-light);
+        }
+        .form-footer a { color: var(--turquoise-dark); text-decoration: none; }
+        .footer-home {
+            display: inline-block;
+            font-size: .88rem; font-weight: 600;
+            color: var(--magenta) !important;
+            margin-bottom: .5rem;
+        }
+        .footer-home:hover { text-decoration: underline !important; }
+        .footer-sep { margin: 0 .4rem; }
+
+        /* ── CONFIRMATION MODAL ── */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,.45); z-index: 1000;
+            align-items: center; justify-content: center; padding: 1.5rem;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: #fff; border-radius: 16px;
+            padding: 2rem 2rem 1.5rem;
+            max-width: 400px; width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 40px rgba(0,0,0,.18);
+            animation: modalIn .25s ease-out;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(.94); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+        .modal-icon { font-size: 2.2rem; margin-bottom: .5rem; }
+        .modal h3 {
+            font-family: 'Urbanist', sans-serif; font-weight: 700;
+            font-size: 1.2rem; color: var(--text-dark); margin-bottom: .5rem;
+        }
+        .modal p {
+            font-size: .92rem; color: var(--text-mid);
+            margin-bottom: 1.5rem; line-height: 1.6;
+        }
+        .modal-buttons { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+        .modal-confirm {
+            background: var(--magenta); color: #fff; border: none;
+            padding: .75rem 2rem; border-radius: 50px;
+            font-family: 'Urbanist', sans-serif; font-weight: 700;
+            font-size: .95rem; cursor: pointer; transition: background .2s;
+        }
+        .modal-confirm:hover { background: var(--magenta-dark); }
+        .modal-cancel {
+            background: transparent; color: var(--text-mid);
+            border: 1px solid var(--border);
+            padding: .75rem 2rem; border-radius: 50px;
+            font-family: 'Urbanist', sans-serif; font-weight: 500;
+            font-size: .95rem; cursor: pointer; transition: all .2s;
+        }
+        .modal-cancel:hover { border-color: var(--turquoise); color: var(--turquoise-dark); }
+
+        /* Divider line below header — solid turquoise, no gradient */
+        .header-accent {
+            height: 4px;
+            background: var(--turquoise);
+        }
+    
+    /* Override: form-header is replaced by site nav */
+    .form-header { display: none !important; }
+    .header-accent { display: none !important; }
+    /* Page hero bar */
+    .order-hero {
+        background: linear-gradient(135deg, var(--pink-soft) 0%, var(--teal-soft) 100%);
+        text-align: center; padding: 4.5rem 1.5rem 4.5rem;
+    }
+    .order-hero h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        font-weight: 600; color: var(--dark);
+        margin-bottom: .5rem;
+    }
+    .order-hero p {
+        font-size: 1rem; color: var(--mid); max-width: 500px; margin: 0 auto;
+    }
+    /* Wider form: two-col for more fields */
+    .form-container { max-width: 1080px; margin: 2rem auto; padding: 0 1.5rem 3rem; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    @media (max-width: 680px) {
+        .two-col, .three-col { grid-template-columns: 1fr; }
+    }
+
+    
+
+    /* ── TILE BUTTONS (anlass, shape) ── */
+    .tile-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
+    .tile {
+        padding: .55rem 1rem; border-radius: 50px;
+        border: 1.5px solid var(--border); background: #fff;
+        font-family: inherit; font-size: .85rem; color: var(--text-mid);
+        cursor: pointer; transition: all .15s; line-height: 1;
+    }
+    .tile:hover { border-color: var(--magenta); color: var(--magenta); }
+    .tile.sel { background: #fde4ef; border-color: var(--magenta); color: #c2185b; font-weight: 600; }
+    .shape-tile {
+        display: flex; flex-direction: column; align-items: center;
+        padding: .75rem .6rem; border-radius: 12px; min-width: 72px;
+        border: 1.5px solid var(--border); background: #fff;
+        font-family: inherit; font-size: .72rem; color: var(--text-mid);
+        cursor: pointer; transition: all .15s; gap: 4px;
+    }
+    .shape-tile span { display: block; text-align: center; }
+    .shape-tile:hover { border-color: var(--magenta); color: var(--magenta); }
+    .shape-tile.sel { background: #fde4ef; border-color: var(--magenta); color: #c2185b; font-weight: 600; }
+
+    /* ── SIZE TILES ── */
+    .size-tiles {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 10px; margin-bottom: .5rem;
+    }
+    .size-tile {
+        border: 1.5px solid var(--border); border-radius: 12px;
+        padding: 1rem .75rem; cursor: pointer; text-align: center;
+        background: #fff; font-family: inherit; transition: all .15s;
+        display: flex; flex-direction: column; align-items: center; gap: 2px;
+    }
+    .size-tile:hover { border-color: var(--magenta); }
+    .size-tile.sel { border-color: var(--magenta); background: #fde4ef; }
+    .size-tile.size-custom { border-style: dashed; }
+    .st-cm { font-size: 1.2rem; font-weight: 700; color: var(--dark); display: block; }
+    .st-lbl { font-size: .78rem; font-weight: 600; color: var(--text-mid); display: block; }
+    .st-srv { font-size: .68rem; color: var(--text-light); display: block; }
+    .size-tile.sel .st-cm, .size-tile.sel .st-lbl { color: #c2185b; }
+    @media (max-width: 540px) { .size-tiles { grid-template-columns: repeat(2, 1fr); } }
+
+    /* ── CALENDAR ── */
+    .cal-time-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 640px) { .cal-time-row { grid-template-columns: 1fr; } }
+    .field-lbl { display: block; font-size: .85rem; color: var(--text-mid); margin-bottom: .5rem; font-weight: 500; }
+    .cal-nav-row {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: .6rem;
+    }
+    .cal-arrow {
+        border: none; background: none; cursor: pointer; font-size: 1.4rem;
+        color: var(--text-mid); padding: 2px 8px; border-radius: 6px;
+        transition: background .2s;
+    }
+    .cal-arrow:hover { background: #f0f0f0; }
+    .cal-month-lbl { font-size: .88rem; font-weight: 600; color: var(--dark); }
+    .cal-grid {
+        display: grid; grid-template-columns: repeat(7, 1fr);
+        gap: 2px; font-size: .75rem;
+    }
+    .cal-head { text-align: center; padding: 4px 0; font-weight: 600; color: var(--text-mid); font-size: .68rem; }
+    .cal-head-red { color: var(--magenta); }
+    .cal-head-gray { color: var(--text-light); }
+    .cal-day {
+        text-align: center; padding: 6px 2px; border-radius: 6px;
+        cursor: pointer; color: var(--text-mid); font-size: .78rem;
+        transition: all .15s; border: 1px solid transparent;
+    }
+    .cal-day:hover { background: #f5f5f5; }
+    .cal-day.today { border-color: var(--magenta); color: var(--magenta); }
+    .cal-day.sel { background: var(--magenta); color: #fff; font-weight: 600; border-color: var(--magenta); }
+    .cal-day.past { color: #ccc; cursor: default; pointer-events: none; }
+    .cal-day.empty { pointer-events: none; }
+
+    /* ── TIME CHIPS ── */
+    .time-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .time-chip {
+        font-size: .78rem; padding: .45rem .85rem; border-radius: 50px;
+        border: 1.5px solid var(--border); cursor: pointer;
+        background: #fff; color: var(--text-mid); font-family: inherit;
+        transition: all .15s;
+    }
+    .time-chip:hover { border-color: var(--turquoise); color: var(--turquoise); }
+    .time-chip.sel { background: #e0f7fa; border-color: var(--turquoise); color: #0097a7; font-weight: 600; }
+
+    .hint-text { font-size: .75rem; color: var(--text-light); margin-top: .3rem; }
+    .sec-icon { display: inline-flex; align-items: center; vertical-align: middle; margin-right: 6px; opacity: .7; }
+    .sec-icon svg { stroke: currentColor; }
+    .st-num { font-size: 1.25rem; font-weight: 700; color: var(--dark); display: block; }
+    .size-tile.sel .st-num { color: #c2185b; }
+    .form-section-wrapper > .form-section:first-child { }
+    .submit-section { text-align: center; padding: 1.5rem 0; }
+    .agb-hint { font-size: .75rem; color: var(--text-light); margin-top: .75rem; }
+    .agb-hint a { color: var(--magenta); }
+
+    
+        /* ── FORM WIDTH ── */
+        .form-container { max-width: 1080px !important; }
+
+        /* ── OPT-TILES (anlass, allergie — single/multi select) ── */
+        .opt-tiles { display: flex; flex-wrap: wrap; gap: 8px; margin-top: .25rem; }
+        .opt-tile {
+            padding: .55rem 1.1rem; border-radius: 50px;
+            border: 1.5px solid var(--border); background: #fff;
+            font-family: 'Urbanist', sans-serif; font-size: .88rem;
+            color: var(--text-mid); cursor: pointer; transition: color .15s, background .15s;
+            line-height: 1; white-space: nowrap; box-sizing: border-box;
+        }
+        .opt-tile:hover { border-color: var(--magenta); color: var(--magenta); }
+        .opt-tile.sel {
+            background: #fde4ef; border-color: var(--magenta);
+            color: var(--magenta); font-weight: 600;
+        }
+
+        /* ── SHAPE TILES ── */
+        .shape-tiles { display: flex; flex-wrap: wrap; gap: 10px; margin-top: .25rem; }
+        .shape-tile {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 5px; padding: .75rem .9rem; min-width: 76px;
+            border: 1.5px solid var(--border); border-radius: 12px;
+            background: #fff; font-family: 'Urbanist', sans-serif;
+            font-size: .78rem; color: var(--text-mid); cursor: pointer;
+            transition: all .15s;
+        }
+        .shape-tile:hover { border-color: var(--magenta); color: var(--magenta); }
+        .shape-tile.sel {
+            background: #fde4ef; border-color: var(--magenta);
+            color: var(--magenta); font-weight: 600;
+        }
+        .shape-tile svg { flex-shrink: 0; }
+
+        /* ── CALENDAR ── */
+        .cal-time-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: .5rem; }
+        @media(max-width:640px){ .cal-time-row { grid-template-columns: 1fr; } }
+        .cal-nav-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem; }
+        .cal-arrow { border:none; background:none; cursor:pointer; font-size:1.5rem; color:var(--text-mid); padding:2px 8px; border-radius:6px; transition:background .2s; }
+        .cal-arrow:hover { background:#f0f0f0; }
+        .cal-month-lbl { font-size:.9rem; font-weight:600; color:var(--dark); }
+        .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+        .cal-head { text-align:center; padding:4px 0; font-weight:600; font-size:.7rem; color:var(--text-mid); }
+        .cal-day {
+            text-align:center; padding:7px 2px; border-radius:6px;
+            cursor:pointer; color:var(--text-mid); font-size:.8rem;
+            transition:all .15s; border:1px solid transparent;
+        }
+        .cal-day:hover { background:#f5f5f5; }
+        .cal-day.today { border-color:var(--magenta); color:var(--magenta); }
+        .cal-day.sel { background:var(--magenta); color:#fff; font-weight:600; }
+        .cal-day.disabled { color:#ccc; cursor:default; pointer-events:none; }
+        .cal-day.empty { pointer-events:none; }
+
+        /* ── TIME CHIPS ── */
+        .time-chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:.25rem; }
+        .time-chip {
+            padding:.45rem .9rem; border-radius:50px;
+            border:1.5px solid var(--border); background:#fff;
+            font-family:'Urbanist',sans-serif; font-size:.82rem;
+            color:var(--text-mid); cursor:pointer; transition:all .15s;
+        }
+        .time-chip:hover { border-color:var(--turquoise); color:var(--turquoise); }
+        .time-chip.sel { background:#e0f7fa; border-color:var(--turquoise); color:#0097a7; font-weight:600; }
+
+        /* ── FLAVOR TILES ── */
+        .flavor-tiles {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 10px; margin-top: .25rem;
+        }
+        .flavor-tile {
+            border: 1.5px solid var(--border); border-radius: 12px;
+            overflow: hidden; cursor: pointer; background: #fff;
+            font-family: 'Urbanist', sans-serif; transition: all .15s;
+            display: flex; flex-direction: column; text-align: left;
+        }
+        .flavor-tile img {
+            width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;
+        }
+        .flavor-tile span { padding: .5rem .65rem; display: block; }
+        .flavor-tile strong { font-size: .82rem; color: var(--dark); display: block; }
+        .flavor-tile small { font-size: .72rem; color: var(--text-mid); display: block; margin-top: 2px; line-height: 1.4; }
+        .flavor-tile:hover { border-color: var(--magenta); }
+        .flavor-tile.sel {
+            border: 2px solid var(--magenta); background: #fff9fb;
+        }
+        .flavor-tile.sel strong { color: var(--magenta); }
+        .flavor-counter { font-size:.78rem; color:var(--text-light); margin-top:.5rem; }
+        .flavor-counter span { font-weight:700; color:var(--magenta); }
+
+        /* ── ICONS ON ALL PAGES 20×20 MAGENTA ── */
+        .sec-icon svg, .icon svg { width:20px !important; height:20px !important; stroke:var(--magenta) !important; }
+        .contact-detail .icon svg { width:20px !important; height:20px !important; }
+
+        /* ── FORM WIDTH ── */
+        .form-container { max-width: 1080px !important; margin: 2rem auto !important; padding: 0 1.5rem 3rem !important; }
+
+        /* ── OPT-TILES ── */
+        .opt-tiles { display: flex; flex-wrap: wrap; gap: 8px; margin-top: .25rem; }
+        .opt-tile {
+            padding: .55rem 1.1rem; border-radius: 50px;
+            border: 1.5px solid var(--border); background: #fff;
+            font-family: 'Urbanist', sans-serif; font-size: .88rem;
+            color: var(--text-mid); cursor: pointer;
+            transition: color .15s, background .15s;
+            line-height: 1; white-space: nowrap;
+        }
+        .opt-tile:hover { border-color: var(--magenta); color: var(--magenta); }
+        .opt-tile.sel { background: #fde4ef; border-color: var(--magenta); color: var(--magenta); font-weight: 600; }
+
+        /* ── SHAPE TILES ── */
+        .shape-tiles { display: flex; flex-wrap: wrap; gap: 8px; margin-top: .25rem; }
+        .shape-tile {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 4px; padding: .65rem .75rem; min-width: 70px;
+            border: 1.5px solid var(--border); border-radius: 12px;
+            background: #fff; font-family: 'Urbanist', sans-serif;
+            font-size: .72rem; color: var(--text-mid); cursor: pointer;
+            transition: color .15s, background .15s;
+        }
+        .shape-tile:hover { border-color: var(--magenta); color: var(--magenta); }
+        .shape-tile.sel { background: #fde4ef; border-color: var(--magenta); color: var(--magenta); font-weight: 600; }
+
+        /* ── SIZE TILES ── */
+        .size-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: .25rem; }
+        .size-tile { border: 1.5px solid var(--border); border-radius: 10px; padding:.75rem .5rem; cursor:pointer; text-align:center; background:#fff; font-family:inherit; transition:color .15s, background .15s; }
+        .size-tile:hover { border-color: var(--magenta); }
+        .size-tile.sel { border-color: var(--magenta); background: #fde4ef; }
+        .size-tile.size-custom { border-style: dashed; }
+        .st-num { font-size:1.1rem; font-weight:700; color:var(--dark); display:block; }
+        .st-lbl { font-size:.72rem; color:var(--text-mid); display:block; }
+        .size-tile.sel .st-num, .size-tile.sel .st-lbl { color: var(--magenta); }
+        @media(max-width:560px){ .size-tiles { grid-template-columns: repeat(2,1fr); } }
+
+        /* ── CALENDAR ── */
+        .cal-time-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top:.5rem; }
+        @media(max-width:640px){ .cal-time-row { grid-template-columns: 1fr; } }
+        .cal-nav-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem; }
+        .cal-arrow { border:none; background:none; cursor:pointer; font-size:1.5rem; color:var(--text-mid); padding:2px 8px; border-radius:6px; }
+        .cal-arrow:hover { background:#f0f0f0; }
+        .cal-month-lbl { font-size:.9rem; font-weight:600; color:var(--dark); }
+        .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+        .cal-head { text-align:center; padding:4px 0; font-weight:600; font-size:.7rem; color:var(--text-mid); }
+        .cal-day { text-align:center; padding:7px 2px; border-radius:6px; cursor:pointer; color:var(--text-mid); font-size:.8rem; transition:all .15s; border:1px solid transparent; }
+        .cal-day:hover { background:#f5f5f5; }
+        .cal-day.sel { background:var(--magenta); color:#fff; font-weight:600; }
+        .cal-day.disabled { color:#ccc; cursor:default; pointer-events:none; }
+        .cal-day.empty { pointer-events:none; }
+
+        /* ── TIME CHIPS ── */
+        .time-chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:.25rem; }
+        .time-chip { padding:.45rem .9rem; border-radius:50px; border:1.5px solid var(--border); background:#fff; font-family:'Urbanist',sans-serif; font-size:.82rem; color:var(--text-mid); cursor:pointer; transition:all .15s; }
+        .time-chip:hover { border-color:var(--turquoise); color:var(--turquoise); }
+        .time-chip.sel { background:#e0f7fa; border-color:var(--turquoise); color:#0097a7; font-weight:600; }
+
+        /* ── FLAVOR TILES ── */
+        .flavor-tiles { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; margin-top:.25rem; }
+        .flavor-tile { border:1.5px solid var(--border); border-radius:12px; overflow:hidden; cursor:pointer; background:#fff; font-family:'Urbanist',sans-serif; transition:border-color .15s; display:flex; flex-direction:column; }
+        .flavor-tile img { width:100%; aspect-ratio:1/1; object-fit:cover; display:block; }
+        .flavor-tile span { padding:.5rem .65rem; display:block; }
+        .flavor-tile strong { font-size:.82rem; color:var(--dark); display:block; }
+        .flavor-tile small { font-size:.7rem; color:var(--text-mid); display:block; margin-top:2px; line-height:1.4; }
+        .flavor-tile:hover { border-color:var(--magenta); }
+        .flavor-tile.sel { border:2px solid var(--magenta); background:#fff9fb; }
+        .flavor-tile.sel strong { color:var(--magenta); }
+
+        /* ── AGB CHECKBOX ── */
+        .agb-checkbox { display:flex; align-items:flex-start; gap:.75rem; padding:1rem 1.25rem; margin-bottom:1rem; background:var(--teal-soft); border:1px solid var(--teal); border-radius:12px; cursor:pointer; font-size:.88rem; }
+        .agb-checkbox input[type="checkbox"] { width:18px; height:18px; flex-shrink:0; margin-top:2px; accent-color:var(--teal); cursor:pointer; }
+        .agb-checkbox span { color:var(--mid); line-height:1.6; }
+        .agb-checkbox a { color:var(--teal-dark); text-decoration:underline; }
+        .req { color:var(--magenta); margin-left:2px; }
+        .field-lbl { display:block; font-size:.85rem; color:var(--text-mid); margin-bottom:.5rem; font-weight:500; }
+        .pickup-label { font-size:.95rem; font-weight:600; color:var(--dark); margin:1rem 0 .75rem; }
+    
+        /* ── FLAVOR TILE HOVER ZOOM ── */
+        .flavor-tile { position: relative; }
+        .flavor-tile img { transition: transform .3s cubic-bezier(.2,0,.2,1); transform-origin: center bottom; }
+        .flavor-tile:hover img { transform: scale(1.08); }
+        .flavor-tile:hover { box-shadow: 0 6px 24px rgba(233,30,140,.15); }
+    </style>
+    <link rel="stylesheet" href="atelier-iconic.css">
+<script>
+/* Anti-flicker: apply language class before render */
+(function(){
+    var l=localStorage.getItem('nunique_lang');
+    if(l==='en') document.documentElement.setAttribute('data-lang','en');
+})();
+</script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+    <div class="header-top">
+        <div class="header-top-inner">
+            <div class="header-lang" id="headerLang">
+                <button class="lang-btn active" data-lang="de" aria-label="Deutsch">DE</button>
+                <button class="lang-btn" data-lang="en" aria-label="English">EN</button>
+            </div>
+            <div class="header-logo">
+                <a href="./"><img src="images/Logo-lang-lang.svg" alt="NUNIQUE Cakes &amp; Coffee"></a>
+            </div>
+            <div class="header-social">
+                <a href="https://www.instagram.com/nunique.cakes" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="https://www.facebook.com/NuniqueCakes/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                <a href="https://wa.me/491704742351" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                <a href="https://g.page/r/Cd65igMqELdyEBM" target="_blank" rel="noopener" aria-label="Google"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1H12.18V13.83H18.69C18.36 17.64 15.19 19.27 12.19 19.27C8.36 19.27 5 16.25 5 12C5 7.9 8.2 4.73 12.2 4.73C15.29 4.73 17.1 6.7 17.1 6.7L19 4.72C19 4.72 16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12C2.03 17.05 6.16 22 12.25 22C17.6 22 21.5 18.33 21.5 12.91C21.5 11.76 21.35 11.1 21.35 11.1Z"/></svg></a>
+            </div>
+        </div>
+    </div>
+    <div class="header-nav" id="headerNav">
+        <div class="header-nav-inner">
+            <ul class="nav-links">
+            <li><a href="./">Home</a></li>
+            <li><a href="flavours"><span data-de="Geschmacksrichtungen" data-en="Flavours">Geschmacksrichtungen</span></a></li>
+            <li><a href="pastryshop"><span data-de="Konditorei-Sortiment" data-en="Pastry Selection">Konditorei-Sortiment</span></a></li>
+            <li><a href="cakeshop"><span data-de="Torten-Sortiment" data-en="Cake Selection">Torten-Sortiment</span></a></li>
+            <li><a href="week-special"><span data-de="Wochen-Special" data-en="Weekly Special">Wochen-Special</span></a></li>
+            <li><a href="about"><span data-de="Über uns" data-en="About us">Über uns</span></a></li>
+            <li><a href="./#faq">FAQ</a></li>
+            </ul>
+            <div class="nav-below">
+                <a href="order" class="nav-anfragen"><span data-de="Torte anfragen" data-en="Request a cake">Torte anfragen</span></a>
+            </div>
+        </div>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menü">
+        <span></span><span></span><span></span>
+    </button>
+</header>
+<div class="nav-drawer" id="navDrawer">
+    <a href="./">Home</a>
+    <a href="flavours"><span data-de="Geschmacksrichtungen" data-en="Flavours">Geschmacksrichtungen</span></a>
+    <a href="pastryshop"><span data-de="Konditorei-Sortiment" data-en="Pastry Selection">Konditorei-Sortiment</span></a>
+    <a href="cakeshop"><span data-de="Torten-Sortiment" data-en="Cake Selection">Torten-Sortiment</span></a>
+    <a href="week-special"><span data-de="Wochen-Special" data-en="Weekly Special">Wochen-Special</span></a>
+    <a href="about"><span data-de="Über uns" data-en="About us">Über uns</span></a>
+    <a href="./#faq">FAQ</a>
+    <a href="order" class="nav-cta"><span data-de="Torte anfragen" data-en="Request a cake">Torte anfragen</span></a>
+    <div class="drawer-social">
+        <a href="https://www.instagram.com/nunique.cakes" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        <a href="https://www.facebook.com/NuniqueCakes/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+        <a href="https://wa.me/491704742351" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        <a href="https://g.page/r/Cd65igMqELdyEBM" target="_blank" rel="noopener" aria-label="Google"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1H12.18V13.83H18.69C18.36 17.64 15.19 19.27 12.19 19.27C8.36 19.27 5 16.25 5 12C5 7.9 8.2 4.73 12.2 4.73C15.29 4.73 17.1 6.7 17.1 6.7L19 4.72C19 4.72 16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12C2.03 17.05 6.16 22 12.25 22C17.6 22 21.5 18.33 21.5 12.91C21.5 11.76 21.35 11.1 21.35 11.1Z"/></svg></a>
+    </div>
+</div>
+<div class="nav-spacer"></div>
+
+<!-- PAGE HERO -->
+<div class="order-hero">
+    <h1><span data-de="Torte anfragen" data-en="Request a Cake">Torte anfragen</span></h1>
+    <p><span data-de="Füllen Sie das Formular aus — wir melden uns schnellstmöglich mit einem Angebot." data-en="Fill in the form — we will get back to you with a quote as soon as possible.">Füllen Sie das Formular aus — wir melden uns schnellstmöglich mit einem Angebot.</span></p>
+</div>
+
+<div class="form-container">
+
+<form id="cakeForm" action="send_order.php" method="POST" enctype="multipart/form-data" data-robot-check>
+    <div class="robot-field" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+    <!-- 1: KONTAKT -->
+    <div class="form-section">
+        <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><span data-de="Ihre Daten" data-en="Your Details">Ihre Daten</span></div>
+        <div class="two-col">
+            <div class="field-group"><label><span data-de="Vorname" data-en="First Name">Vorname</span><span class="req">*</span></label><input type="text" name="vorname" required></div>
+            <div class="field-group"><label><span data-de="Nachname" data-en="Last Name">Nachname</span><span class="req">*</span></label><input type="text" name="nachname" required></div>
+        </div>
+        <div class="field-group"><label><span data-de="Adresse" data-en="Address">Adresse</span></label><input type="text" name="adresse" placeholder="Straße, Hausnr., PLZ, Ort" data-de-ph="Straße, Hausnr., PLZ, Ort" data-en-ph="Street, no., postcode, city"></div>
+        <div class="two-col">
+            <div class="field-group"><label><span data-de="E-Mail" data-en="Email">E-Mail</span><span class="req">*</span></label><input type="email" name="customer_email" required></div>
+            <div class="field-group"><label><span data-de="Telefon" data-en="Phone">Telefon</span><span class="req">*</span></label><input type="tel" name="phone" required placeholder="+49 ..." data-de-ph="+49 ..." data-en-ph="+49 ..."></div>
+        </div>
+    </div>
+
+    <!-- 2: ANLASS & ABHOLUNG -->
+    <div class="form-section">
+        <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-de="Anlass &amp; Termin" data-en="Occasion &amp; Date">Anlass &amp; Termin</span></div>
+        <div class="field-group">
+            <label><span data-de="Anlass" data-en="Occasion">Anlass</span><span class="req">*</span></label>
+            <div class="opt-tiles" id="anlassTiles">
+                <button type="button" class="opt-tile sel" data-group="anlass" data-val="Geburtstag"><span data-de="Geburtstag" data-en="Birthday">Geburtstag</span></button>
+                <button type="button" class="opt-tile" data-group="anlass" data-val="Hochzeit"><span data-de="Hochzeit" data-en="Wedding">Hochzeit</span></button>
+                <button type="button" class="opt-tile" data-group="anlass" data-val="Taufe"><span data-de="Taufe" data-en="Baptism">Taufe</span></button>
+                <button type="button" class="opt-tile" data-group="anlass" data-val="Kommunion"><span data-de="Kommunion" data-en="Communion">Kommunion</span></button>
+                <button type="button" class="opt-tile" data-group="anlass" data-val="Firmung"><span data-de="Firmung" data-en="Confirmation">Firmung</span></button>
+                <button type="button" class="opt-tile" data-group="anlass" data-val="Jubiläum"><span data-de="Jubiläum" data-en="Anniversary">Jubiläum</span></button>
+                <button type="button" class="opt-tile" data-group="anlass" data-val="Firmenfeier"><span data-de="Firmenfeier" data-en="Corporate event">Firmenfeier</span></button>
+                <button type="button" class="opt-tile" data-group="anlass" data-val="Babyparty"><span data-de="Babyparty" data-en="Baby shower">Babyparty</span></button>
+                <button type="button" class="opt-tile" data-group="anlass" data-val="Sonstiges" id="anlass-other-btn"><span data-de="Sonstiges" data-en="Other">Sonstiges</span></button>
+            </div>
+            <input type="hidden" name="anlass" id="anlass-hidden" value="Geburtstag" required>
+        </div>
+        <div id="anlass-other-field" style="display:none;margin-top:.75rem">
+            <div class="field-group"><label><span data-de="Anlass beschreiben" data-en="Describe occasion">Anlass beschreiben</span><span class="req">*</span></label>
+            <input type="text" name="anlass_sonstig" id="anlass-sonstig-input" placeholder="z.B. Schulabschluss, Pensionierung..." data-de-ph="z.B. Schulabschluss, Pensionierung..." data-en-ph="e.g. graduation, retirement..."></div>
+        </div>
+        <div class="pickup-label" style="margin-top:1.5rem">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span data-de="Abholtermin" data-en="Pickup Time">Abholtermin</span>
+        </div>
+        <div class="cal-time-row">
+            <div class="cal-wrap">
+                <label><span data-de="Datum" data-en="Date">Datum</span><span class="req">*</span></label>
+                <div class="cal-nav-row">
+                    <button type="button" class="cal-arrow" id="calPrevBtn">&#8249;</button>
+                    <span class="cal-month-lbl" id="calMonthLbl"></span>
+                    <button type="button" class="cal-arrow" id="calNextBtn">&#8250;</button>
+                </div>
+                <div class="cal-grid" id="calGrid">
+                    <div class="cal-head">Mo</div><div class="cal-head">Di</div><div class="cal-head">Mi</div>
+                    <div class="cal-head">Do</div><div class="cal-head">Fr</div>
+                    <div class="cal-head" style="color:var(--pink)">Sa</div>
+                    <div class="cal-head" style="color:#aaa">So</div>
+                </div>
+                <input type="hidden" name="datum" id="datum-input" required>
+            </div>
+            <div class="time-wrap">
+                <label><span data-de="Uhrzeit" data-en="Time">Uhrzeit</span><span class="req">*</span></label>
+                <div class="time-chips" id="timeChips"></div>
+                <input type="hidden" name="uhrzeit" id="uhrzeit-input" required>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3: GESCHMACK -->
+    <div class="form-section">
+        <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span><span data-de="Geschmacksrichtung" data-en="Flavour">Geschmacksrichtung</span></div>
+        <label class="field-lbl"><span data-de="Variante wählen" data-en="Choose variant">Variante wählen</span><span class="req">*</span> <small><span data-de="(bis zu 2 Geschmacksrichtungen)" data-en="(up to 2 flavours)">(bis zu 2 Geschmacksrichtungen)</span></small></label>
+        <div class="flavor-tiles" id="geschmackTiles">
+                <button type="button" class="flavor-tile" data-val="V1 – Ferea" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/9da9e4ac-458f-4346-b661-c0d00c40abcb_1040x1040.webp" alt="V1 – Ferea" loading="lazy"><span><strong>V1 – Ferea</strong><small><span data-de="Vanille · Erdbeere · Frischkäse" data-en="Vanilla · Strawberry · Cream Cheese">Vanille · Erdbeere · Frischkäse</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V2 – White Magic" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/1a523421-2462-46ce-8545-fd10c34003e0_1040x1040.webp" alt="V2 – White Magic" loading="lazy"><span><strong>V2 – White Magic</strong><small><span data-de="Weiße Schokolade · Himbeer" data-en="White Chocolate · Raspberry">Weiße Schokolade · Himbeer</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V3 – Schokomania" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/cb6ae390-9b92-43ad-a938-bfe0e4dd8909_1040x1040.webp" alt="V3 – Schokomania" loading="lazy"><span><strong>V3 – Schokomania</strong><small><span data-de="Zartbitter · Ganache · Haselnuss" data-en="Dark Chocolate · Ganache · Hazelnut">Zartbitter · Ganache · Haselnuss</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V4 – Kokos" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/22c5466d-15b8-4f52-a719-81ac54ab30a0_1040x1040.webp" alt="V4 – Kokos" loading="lazy"><span><strong>V4 – Kokos</strong><small><span data-de="Kokos · Mango · Passionsfrucht" data-en="Coconut · Mango · Passionfruit">Kokos · Mango · Passionsfrucht</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V5 – Nunique" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/179cc162-5e10-480f-9d35-cf57f599d9be_1040x1040.webp" alt="V5 – Nunique" loading="lazy"><span><strong>V5 – Nunique</strong><small><span data-de="Unser Signature-Flavour" data-en="Our signature flavour">Unser Signature-Flavour</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V6 – Noisette" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/7c32a8cc-fc2d-4769-bfd2-b396c1ba8407_1040x1040.webp" alt="V6 – Noisette" loading="lazy"><span><strong>V6 – Noisette</strong><small><span data-de="Haselnuss · Karamell · Milchschokolade" data-en="Hazelnut · Caramel · Milk Chocolate">Haselnuss · Karamell · Milchschokolade</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V7 – Oreo" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/86241594-cf4e-41d8-9cff-62c27132af44_1040x1040.webp" alt="V7 – Oreo" loading="lazy"><span><strong>V7 – Oreo</strong><small><span data-de="Oreo · Vanille · Frischkäse" data-en="Oreo · Vanilla · Cream Cheese">Oreo · Vanille · Frischkäse</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V8 – Koko-Schoko" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/be8011a2-b286-4284-bb04-25ead5f24857_1040x1040.webp" alt="V8 – Koko-Schoko" loading="lazy"><span><strong>V8 – Koko-Schoko</strong><small><span data-de="Kokos · Zartbitter" data-en="Coconut · Dark Chocolate">Kokos · Zartbitter</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V9 – Latella" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/dcd1154e-6384-4595-b359-05b7e991399e_1040x1040.webp" alt="V9 – Latella" loading="lazy"><span><strong>V9 – Latella</strong><small><span data-de="Latte Macchiato · Weiße Schoko" data-en="Latte Macchiato · White Chocolate">Latte Macchiato · Weiße Schoko</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V11 – Lena" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/d0b7a1c5-1a08-407d-9668-3ac937ab83f8_1040x1040.webp" alt="V11 – Lena" loading="lazy"><span><strong>V11 – Lena</strong><small><span data-de="Zitrone · Joghurt · Heidelbeere" data-en="Lemon · Yoghurt · Blueberry">Zitrone · Joghurt · Heidelbeere</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V12 – Niya" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/ddb3cb65-526e-403e-ae93-584739daef85_1040x1040.webp" alt="V12 – Niya" loading="lazy"><span><strong>V12 – Niya</strong><small><span data-de="Pistazie · Rosenwasser" data-en="Pistachio · Rose Water">Pistazie · Rosenwasser</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V13 – Exotic" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/f2565816-83b8-4e1b-83db-25b32a638edd_1040x1040.webp" alt="V13 – Exotic" loading="lazy"><span><strong>V13 – Exotic</strong><small><span data-de="Mango · Maracuja · Kokos" data-en="Mango · Passionfruit · Coconut">Mango · Maracuja · Kokos</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V14 – Mark" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/05afc576-fb17-42c4-9852-7051d10bcb4a_1040x1040.webp" alt="V14 – Mark" loading="lazy"><span><strong>V14 – Mark</strong><small><span data-de="Mohnblume · Zitrone" data-en="Poppy · Lemon">Mohnblume · Zitrone</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V15 – Wintermärchen" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/bea12d4c-cdc4-4210-b165-17eb607dc4c5_1040x1040.webp" alt="V15 – Wintermärchen" loading="lazy"><span><strong>V15 – Wintermärchen</strong><small><span data-de="Zimt · Apfel · Karamell" data-en="Cinnamon · Apple · Caramel">Zimt · Apfel · Karamell</span></small></span></button>
+                <button type="button" class="flavor-tile" data-val="V16 – Lebkuchentraum" data-group="geschmack"><img src="https://cdn.soloist.ai/11a0259f-ad9d-4f9d-bf8d-dec590a97410/4640976c-91ca-4c6a-9a81-1ab82755a800_1040x1040.webp" alt="V16 – Lebkuchentraum" loading="lazy"><span><strong>V16 – Lebkuchentraum</strong><small><span data-de="Lebkuchen · Walnuss · Rum" data-en="Gingerbread · Walnut · Rum">Lebkuchen · Walnuss · Rum</span></small></span></button>
+        </div>
+        <input type="hidden" name="geschmack_1" id="geschmack-1" value="">
+        <input type="hidden" name="geschmack_2" id="geschmack-2" value="">
+        <p class="field-hint" style="margin-top:.5rem"><span data-de="Details zu unseren Varianten:" data-en="Details about our variants:">Details zu unseren Varianten:</span> <a href="flavours"><span data-de="Geschmacksrichtungen" data-en="Flavours">Geschmacksrichtungen</span></a></p>
+    </div>
+
+    <!-- 4: DESIGN -->
+    <div class="form-section">
+        <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span><span data-de="Design &amp; Größe" data-en="Design &amp; Size">Design &amp; Größe</span></div>
+        <div class="two-col" style="align-items:start">
+            <div class="field-group">
+                <label><span data-de="Form der Torte" data-en="Cake Shape">Form der Torte</span></label>
+                <div class="shape-tiles" id="shapeTiles">
+                    <button type="button" class="shape-tile sel" data-group="form" data-val="Rund"><svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="11" stroke="currentColor" stroke-width="2"/></svg><span><span data-de="Rund" data-en="Round">Rund</span></span></button>
+                    <button type="button" class="shape-tile" data-group="form" data-val="Eckig"><svg width="26" height="26" viewBox="0 0 26 26" fill="none"><rect x="3" y="3" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/></svg><span><span data-de="Eckig" data-en="Square">Eckig</span></span></button>
+                    <button type="button" class="shape-tile" data-group="form" data-val="Herz"><svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M13 22C13 22 3 16 3 9.5C3 6.5 5.8 4 13 9C20.2 4 23 6.5 23 9.5C23 16 13 22 13 22Z" stroke="currentColor" stroke-width="2"/></svg><span><span data-de="Herz" data-en="Heart">Herz</span></span></button>
+                    <button type="button" class="shape-tile" data-group="form" data-val="Oval"><svg width="26" height="26" viewBox="0 0 26 26" fill="none"><ellipse cx="13" cy="13" rx="11" ry="7" stroke="currentColor" stroke-width="2"/></svg><span><span data-de="Oval" data-en="Oval">Oval</span></span></button>
+                    <button type="button" class="shape-tile" data-group="form" data-val="Mehrstöckig"><svg width="26" height="26" viewBox="0 0 26 26" fill="none"><ellipse cx="13" cy="21" rx="9" ry="3" stroke="currentColor" stroke-width="2"/><ellipse cx="13" cy="13" rx="6.5" ry="2.5" stroke="currentColor" stroke-width="2"/><ellipse cx="13" cy="6" rx="4" ry="2" stroke="currentColor" stroke-width="2"/></svg><span><span data-de="Mehrstöckig" data-en="Tiered">Mehrstöckig</span></span></button>
+                    <button type="button" class="shape-tile" data-group="form" data-val="Buchstabe/Zahl"><svg width="26" height="26" viewBox="0 0 26 26"><text x="4" y="21" font-family="Georgia,serif" font-size="20" fill="currentColor" font-weight="bold">N</text></svg><span><span data-de="Buchst./Zahl" data-en="Letter/Number">Buchst./Zahl</span></span></button>
+                    <button type="button" class="shape-tile" data-group="form" data-val="Sonstige"><svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="11" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/></svg><span><span data-de="Sonstige" data-en="Other">Sonstige</span></span></button>
+                </div>
+                <input type="hidden" name="form" id="form-hidden" value="Rund">
+            </div>
+            <div class="field-group">
+                <label><span data-de="Personenanzahl" data-en="Number of guests">Personenanzahl</span><span class="req">*</span></label>
+                <div class="size-tiles" id="sizeTiles">
+                    <button type="button" class="size-tile" onclick="selectSize(this)" data-val="8–10 Personen"><span class="st-num">8–10</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
+                    <button type="button" class="size-tile" onclick="selectSize(this)" data-val="12–14 Personen"><span class="st-num">12–14</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
+                    <button type="button" class="size-tile sel" onclick="selectSize(this)" data-val="16–18 Personen"><span class="st-num">16–18</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
+                    <button type="button" class="size-tile" onclick="selectSize(this)" data-val="20–22 Personen"><span class="st-num">20–22</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
+                    <button type="button" class="size-tile" onclick="selectSize(this)" data-val="24–26 Personen"><span class="st-num">24–26</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
+                    <button type="button" class="size-tile" onclick="selectSize(this)" data-val="28–30 Personen"><span class="st-num">28–30</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
+                    <button type="button" class="size-tile size-custom" onclick="selectSize(this)" data-val="custom"><span class="st-num">✎</span><span class="st-lbl"><span data-de="Individuell" data-en="Custom">Individuell</span></span></button>
+                </div>
+                <div id="groesse-custom-wrap" style="display:none;margin-top:.75rem">
+                    <label><span data-de="Individuelle Angabe" data-en="Custom description">Individuelle Angabe</span><span class="req">*</span></label>
+                    <input type="text" name="groesse_custom" id="groesse-custom-input" placeholder="z.B. 50 Personen, 3 Etagen..." data-de-ph="z.B. 50 Personen, 3 Etagen..." data-en-ph="e.g. 50 guests, 3 tiers...">
+                </div>
+                <input type="hidden" name="groesse" id="groesse-hidden" value="16–18 Personen" required>
+            </div>
+        </div>
+        <div class="two-col" style="margin-top:1.25rem">
+            <div class="field-group"><label><span data-de="Farbe(n)" data-en="Colour(s)">Farbe(n)</span></label><input type="text" name="farbe" placeholder="z.B. Rosa, Gold, Weiß..." data-de-ph="z.B. Rosa, Gold, Weiß..." data-en-ph="e.g. pink, gold, white..."></div>
+            <div class="field-group"><label><span data-de="Schriftzug auf der Torte" data-en="Text on the cake">Schriftzug auf der Torte</span></label><input type="text" name="schriftzug" placeholder='z.B. "Happy Birthday Lisa"'></div>
+        </div>
+        <div class="field-group"><label><span data-de="Verzierung / Dekorationswünsche" data-en="Decoration wishes">Verzierung / Dekorationswünsche</span></label><textarea name="verzierung" placeholder="Beschreiben Sie Ihre Vorstellungen..." data-de-ph="Beschreiben Sie Ihre Vorstellungen..." data-en-ph="Describe your vision..."></textarea></div>
+        <div class="field-group">
+            <label><span data-de="Inspirationsbilder hochladen" data-en="Upload inspiration images">Inspirationsbilder hochladen</span></label>
+            <input type="file" name="inspiration[]" multiple accept="image/*">
+            <p class="field-hint"><span data-de="Max. 5 Bilder (JPG, PNG) · Max. 5 MB pro Bild" data-en="Max. 5 images (JPG, PNG) · Max. 5 MB per image">Max. 5 Bilder (JPG, PNG) · Max. 5 MB pro Bild</span></p>
+        </div>
+    </div>
+
+    <!-- 5: ALLERGIEN -->
+    <div class="form-section">
+        <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span data-de="Allergien &amp; Unverträglichkeiten" data-en="Allergies &amp; Intolerances">Allergien &amp; Unverträglichkeiten</span></div>
+        <div class="opt-tiles multi" id="allergieTiles">
+            <button type="button" class="opt-tile" data-group="allergie" data-val="Keine"><span data-de="Keine" data-en="None">Keine</span></button>
+            <button type="button" class="opt-tile" data-group="allergie" data-val="Glutenfrei"><span data-de="Glutenfrei" data-en="Gluten-free">Glutenfrei</span></button>
+            <button type="button" class="opt-tile" data-group="allergie" data-val="Laktosefrei"><span data-de="Laktosefrei" data-en="Lactose-free">Laktosefrei</span></button>
+            <button type="button" class="opt-tile" data-group="allergie" data-val="Nussfrei"><span data-de="Nussfrei" data-en="Nut-free">Nussfrei</span></button>
+            <button type="button" class="opt-tile" data-group="allergie" data-val="Eifrei"><span data-de="Eifrei" data-en="Egg-free">Eifrei</span></button>
+            <button type="button" class="opt-tile" data-group="allergie" data-val="Vegan"><span data-de="Vegan" data-en="Vegan">Vegan</span></button>
+            <button type="button" class="opt-tile" data-group="allergie" data-val="Sonstiges"><span data-de="Sonstiges" data-en="Other">Sonstiges</span></button>
+        </div>
+        <input type="hidden" name="allergien_hidden" id="allergien-hidden" value="">
+        <div id="allergy-other-wrap" style="display:none;margin-top:.75rem">
+            <label><span data-de="Bitte beschreiben" data-en="Please describe">Bitte beschreiben</span></label>
+            <input type="text" name="allergie_sonstig">
+        </div>
+    </div>
+
+    <!-- 6: ANMERKUNGEN -->
+    <div class="form-section">
+        <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span data-de="Sonstiges" data-en="Other">Sonstiges</span></div>
+        <div class="field-group">
+            <label><span data-de="Zusätzliche Anmerkungen" data-en="Additional notes">Zusätzliche Anmerkungen</span></label>
+            <textarea name="anmerkungen"></textarea>
+        </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="captcha-box" id="captchaBox">
+        <label for="orderCaptcha">
+            <span data-de="Sicherheitsfrage" data-en="Security question">Sicherheitsfrage</span>:
+            <span id="captchaQuestion" data-de="" data-en=""></span>
+        </label>
+        <input type="text" id="orderCaptcha" name="captcha" inputmode="numeric" autocomplete="off" required data-captcha-answer="">
+        <input type="hidden" id="captchaExpected" name="captcha_expected" value="">
+        <p class="captcha-error" id="captchaError" aria-live="polite"></p>
+    </div>
+
+    <div class="submit-section">
+        <label class="agb-checkbox">
+            <input type="checkbox" name="agb_accepted" id="agbCheck" required>
+            <span>Ich bestätige den Auftrag i.V.m. den aktuell gültigen <a href="agb"><span data-de="AGB" data-en="T&amp;Cs">AGB</span></a> und habe die <a href="datenschutz">Datenschutzhinweise</a> gelesen.<span class="req">*</span></span>
+        </label>
+        <button type="button" class="submit-btn" id="submitBtn">
+            <span data-de="Anfrage absenden" data-en="Submit enquiry">Anfrage absenden</span>
+        </button>
+    </div>
+
+    <input type="hidden" name="lang" id="langField" value="de">
+</form>
+</div>
+
+<!-- CONFIRMATION MODAL -->
+<div class="modal-overlay" id="confirmModal">
+    <div class="modal">
+        <div class="modal-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--magenta)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v2"/><path d="M12 8v2"/><path d="M17 8v2"/><path d="M7 4h.01"/><path d="M12 4h.01"/><path d="M17 4h.01"/></svg>
+        </div>
+        <h3 id="modal-title"><span data-de="Alle Angaben gemacht?" data-en="All details filled in?">Alle Angaben gemacht?</span></h3>
+        <p id="modal-text"><span data-de="Bitte prüfen Sie Ihre Angaben noch einmal, bevor Sie die Anfrage absenden." data-en="Please review your details once more before submitting the enquiry.">Bitte prüfen Sie Ihre Angaben noch einmal, bevor Sie die Anfrage absenden.</span></p>
+        <div class="modal-buttons">
+            <button class="modal-confirm" id="modal-yes">
+                <span id="modal-yes-text"><span data-de="Ja, absenden" data-en="Yes, submit">Ja, absenden</span></span>
+            </button>
+            <button class="modal-cancel" id="modal-no">
+                <span id="modal-no-text"><span data-de="Nein, zurück" data-en="No, go back">Nein, zurück</span></span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="images/Logo-lang-lang.svg" alt="NUNIQUE">
+            <p><span data-de="Handgefertigte Konditorkreationen, individuelle Torten und herzhafte Spezialitäten in München." data-en="Handcrafted pastry creations, bespoke cakes and savoury specialities in Munich.">Handgefertigte Konditorkreationen, individuelle Torten und herzhafte Spezialitäten in München.</span></p>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/nunique.cakes" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="https://www.facebook.com/NuniqueCakes/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                <a href="https://wa.me/491704742351" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+                <a href="https://g.page/r/Cd65igMqELdyEBM" target="_blank" rel="noopener" aria-label="Google"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1H12.18V13.83H18.69C18.36 17.64 15.19 19.27 12.19 19.27C8.36 19.27 5 16.25 5 12C5 7.9 8.2 4.73 12.2 4.73C15.29 4.73 17.1 6.7 17.1 6.7L19 4.72C19 4.72 16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12C2.03 17.05 6.16 22 12.25 22C17.6 22 21.5 18.33 21.5 12.91C21.5 11.76 21.35 11.1 21.35 11.1Z"/></svg></a>
+            </div>
+        </div>
+        <div>
+            <h4><span data-de="Navigation" data-en="Navigation">Navigation</span></h4>
+            <ul>
+                <li><a href="flavours"><span data-de="Geschmacksrichtungen" data-en="Flavours">Geschmacksrichtungen</span></a></li>
+                <li><a href="pastryshop"><span data-de="Konditorei-Sortiment" data-en="Pastry Selection">Konditorei-Sortiment</span></a></li>
+                <li><a href="cakeshop"><span data-de="Torten-Sortiment" data-en="Cake Selection">Torten-Sortiment</span></a></li>
+                <li><a href="week-special"><span data-de="Wochen-Special" data-en="Weekly Special">Wochen-Special</span></a></li>
+                <li><a href="about"><span data-de="Über uns" data-en="About us">Über uns</span></a></li>
+                <li><a href="jobs">Jobs</a></li>
+                <li><a href="./#faq">FAQ</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Kontakt</h4>
+            <ul>
+                <li><a href="tel:+4989215464622">+49 89 21 54 64 62</a></li>
+                <li><a href="https://wa.me/491704742351">WhatsApp</a></li>
+                <li><a href="mailto:info@designcakes.de">info@designcakes.de</a></li>
+                <li><a href="https://g.page/r/Cd65igMqELdyEBM" target="_blank"><span data-de="Elsenheimerstr. 28, München" data-en="Elsenheimerstr. 28, Munich">Elsenheimerstr. 28, München</span></a></li>
+                <li><a href="order" class="nav-active">Torte anfragen →</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 NUNIQUE — Cakes &amp; Coffee</span>
+        <span><a href="agb"><span data-de="AGB" data-en="T&amp;Cs">AGB</span></a> · <a href="impressum"><span data-de="Impressum" data-en="Imprint">Impressum</span></a> · <a href="datenschutz"><span data-de="Datenschutz" data-en="Privacy">Datenschutz</span></a></span>
+    </div>
+</footer>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none">
+    <div class="cookie-inner">
+        <div class="cookie-text">
+            <strong><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;opacity:.65;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/><path d="M11 17v.01"/><path d="M7 14v.01"/></svg></span> Diese Website verwendet Cookies.</strong><br>
+            Wir setzen Cookies ein, um die Funktionalität unserer Website zu gewährleisten. Mit Klick auf „<span data-de="Alle akzeptieren" data-en="Accept all">Alle akzeptieren</span>" stimmen Sie der Verwendung aller Cookies gemäß unserer <a href="datenschutz"><span data-de="Datenschutzerklärung" data-en="Privacy Policy">Datenschutzerklärung</span></a> zu.
+        </div>
+        <div class="cookie-buttons">
+            <button class="cookie-btn-accept" id="cookie-accept"><span data-de="Alle akzeptieren" data-en="Accept all">Alle akzeptieren</span></button>
+            <button class="cookie-btn-decline" id="cookie-decline"><span data-de="Nur notwendige" data-en="Essential only">Nur notwendige</span></button>
+            <button class="cookie-btn-reject" id="cookie-reject"><span data-de="Alle ablehnen" data-en="Reject all">Alle ablehnen</span></button>
+        </div>
+    </div>
+</div>
+
+<script src="main.js"></script>
+
+<script>
+// ── SINGLE-SELECT TILES (anlass, form) ───────────────────────────────────────
+document.querySelectorAll('.opt-tiles:not(.multi) .opt-tile, .shape-tile').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var group = this.dataset.group;
+        document.querySelectorAll('[data-group="' + group + '"]').forEach(function(b) { b.classList.remove('sel'); });
+        this.classList.add('sel');
+        var hid = document.getElementById(group + '-hidden') || document.getElementById(group.replace('form','form') + '-hidden');
+        if (group === 'form') hid = document.getElementById('form-hidden');
+        if (hid) hid.value = this.dataset.val;
+        if (group === 'anlass') {
+            var w = document.getElementById('anlass-other-field');
+            if (w) w.style.display = this.dataset.val === 'Sonstiges' ? 'block' : 'none';
+        }
+    });
+});
+
+// ── MULTI-SELECT TILES (allergie) ─────────────────────────────────────────────
+document.querySelectorAll('.opt-tiles.multi .opt-tile').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        this.classList.toggle('sel');
+        var group = this.dataset.group;
+        var selected = Array.from(document.querySelectorAll('.opt-tile.sel[data-group="' + group + '"]')).map(function(b) { return b.dataset.val; });
+        var hid = document.getElementById(group + 'ien-hidden');
+        if (hid) hid.value = selected.join(', ');
+        if (group === 'allergie') {
+            var w = document.getElementById('allergy-other-wrap');
+            if (w) w.style.display = selected.indexOf('Sonstiges') !== -1 ? 'block' : 'none';
+        }
+    });
+});
+
+// ── SIZE TILES ────────────────────────────────────────────────────────────────
+function selectSize(btn) {
+    document.querySelectorAll('.size-tile').forEach(function(b) { b.classList.remove('sel'); });
+    btn.classList.add('sel');
+    var val = btn.dataset.val;
+    var hid = document.getElementById('groesse-hidden');
+    var wrap = document.getElementById('groesse-custom-wrap');
+    var ci = document.getElementById('groesse-custom-input');
+    if (val === 'custom') {
+        if (hid) hid.value = '';
+        if (wrap) wrap.style.display = 'block';
+        if (ci) ci.required = true;
+    } else {
+        if (hid) hid.value = val;
+        if (wrap) wrap.style.display = 'none';
+        if (ci) ci.required = false;
+    }
+}
+
+// ── FLAVOR TILES (max 2) ──────────────────────────────────────────────────────
+var flavorSel = [];
+document.querySelectorAll('.flavor-tile').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var val = this.dataset.val;
+        var idx = flavorSel.indexOf(val);
+        if (idx > -1) {
+            flavorSel.splice(idx, 1);
+            this.classList.remove('sel');
+        } else {
+            if (flavorSel.length >= 2) {
+                var old = flavorSel.shift();
+                var oldBtn = document.querySelector('.flavor-tile[data-val="' + old + '"]');
+                if (oldBtn) oldBtn.classList.remove('sel');
+            }
+            flavorSel.push(val);
+            this.classList.add('sel');
+        }
+        document.getElementById('geschmack-1').value = flavorSel[0] || '';
+        document.getElementById('geschmack-2').value = flavorSel[1] || '';
+    });
+});
+
+// ── CALENDAR ──────────────────────────────────────────────────────────────────
+var calY = new Date().getFullYear(), calM = new Date().getMonth();
+var MO = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+function renderCal() {
+    var lbl = document.getElementById('calMonthLbl');
+    if (lbl) lbl.textContent = MO[calM] + ' ' + calY;
+    var grid = document.getElementById('calGrid');
+    if (!grid) return;
+    grid.querySelectorAll('.cal-day').forEach(function(d){ d.remove(); });
+    var today = new Date(); today.setHours(0,0,0,0);
+    var minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+    var first = new Date(calY, calM, 1).getDay();
+    var offset = first === 0 ? 6 : first - 1;
+    var total = new Date(calY, calM+1, 0).getDate();
+    for (var i=0; i<offset; i++) { var e=document.createElement('div'); e.className='cal-day empty'; grid.appendChild(e); }
+    for (var d=1; d<=total; d++) {
+        var el = document.createElement('div'); el.className='cal-day'; el.textContent=d;
+        var dt = new Date(calY, calM, d);
+        if (dt < minDate || dt.getDay() === 0) { el.classList.add('disabled'); }
+        else {
+            (function(day){ el.addEventListener('click', function(){
+                grid.querySelectorAll('.cal-day.sel').forEach(function(x){ x.classList.remove('sel'); });
+                this.classList.add('sel');
+                var p = function(n){ return String(n).padStart(2,'0'); };
+                document.getElementById('datum-input').value = calY+'-'+p(calM+1)+'-'+p(day);
+            }.bind(el)); })(d);
+        }
+        grid.appendChild(el);
+    }
+}
+var cpb = document.getElementById('calPrevBtn'), cnb = document.getElementById('calNextBtn');
+if (cpb) cpb.addEventListener('click', function(){ if(calM===0){calM=11;calY--;}else{calM--;} renderCal(); });
+if (cnb) cnb.addEventListener('click', function(){ if(calM===11){calM=0;calY++;}else{calM++;} renderCal(); });
+renderCal();
+
+// ── TIME CHIPS ────────────────────────────────────────────────────────────────
+var tc = document.getElementById('timeChips');
+if (tc) { ['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30'].forEach(function(t){
+    var b=document.createElement('button'); b.type='button'; b.className='time-chip'; b.textContent=t;
+    b.addEventListener('click',function(){ tc.querySelectorAll('.time-chip.sel').forEach(function(x){x.classList.remove('sel');}); this.classList.add('sel'); document.getElementById('uhrzeit-input').value=t; }.bind(b));
+    tc.appendChild(b);
+}); }
+
+// ── LANG TOGGLE ───────────────────────────────────────────────────────────────
+document.querySelectorAll('.lang-btn').forEach(function(btn){ btn.addEventListener('click', function(){
+    var lang = this.getAttribute('data-lang');
+    document.getElementById('langField').value = lang;
+    document.querySelectorAll('.lang-btn').forEach(function(b){ b.classList.remove('active'); });
+    this.classList.add('active');
+    document.querySelectorAll('[data-de]').forEach(function(el){ el.textContent = lang==='de'?el.getAttribute('data-de'):el.getAttribute('data-en'); });
+    var cq=document.getElementById('captchaQuestion'); if(cq) cq.textContent = lang==='de'?cq.getAttribute('data-de'):cq.getAttribute('data-en');
+}); });
+
+
+
+// ── ROTATING SECURITY QUESTION ───────────────────────────────────────────────
+var captchaQuestions = [
+    {de:'Was ist 2 + 5?', en:'What is 2 + 5?', answer:'7'},
+    {de:'Was ist 4 + 3?', en:'What is 4 + 3?', answer:'7'},
+    {de:'Was ist 9 - 2?', en:'What is 9 - 2?', answer:'7'},
+    {de:'Was ist 3 + 6?', en:'What is 3 + 6?', answer:'9'},
+    {de:'Was ist 8 - 3?', en:'What is 8 - 3?', answer:'5'},
+    {de:'Was ist 5 + 4?', en:'What is 5 + 4?', answer:'9'}
+];
+function currentOrderLang(){ var active=document.querySelector('.lang-btn.active'); return active ? active.getAttribute('data-lang') : (document.getElementById('langField') ? document.getElementById('langField').value : 'de'); }
+function setCaptchaQuestion(){
+    var q = captchaQuestions[Math.floor(Math.random() * captchaQuestions.length)];
+    var qEl = document.getElementById('captchaQuestion');
+    var input = document.getElementById('orderCaptcha');
+    var expected = document.getElementById('captchaExpected');
+    if(!qEl || !input || !expected) return;
+    qEl.setAttribute('data-de', q.de);
+    qEl.setAttribute('data-en', q.en);
+    qEl.textContent = currentOrderLang()==='en' ? q.en : q.de;
+    input.dataset.captchaAnswer = q.answer;
+    input.value = '';
+    expected.value = q.answer;
+}
+function validateCaptchaInline(){
+    var input = document.getElementById('orderCaptcha');
+    var error = document.getElementById('captchaError');
+    if(!input) return true;
+    var ok = String(input.value).trim() === String(input.dataset.captchaAnswer).trim();
+    if(!ok){
+        if(error){ error.textContent = currentOrderLang()==='en' ? 'Please answer the security question correctly.' : 'Bitte beantworten Sie die Sicherheitsfrage richtig.'; }
+        input.classList.add('input-error');
+        input.focus();
+        return false;
+    }
+    if(error) error.textContent = '';
+    input.classList.remove('input-error');
+    return true;
+}
+setCaptchaQuestion();
+var captchaInput = document.getElementById('orderCaptcha');
+if(captchaInput){ captchaInput.addEventListener('input', function(){ var e=document.getElementById('captchaError'); if(e) e.textContent=''; this.classList.remove('input-error'); }); }
+
+// ── CONFIRMATION MODAL ────────────────────────────────────────────────────────
+var submitBtn = document.getElementById('submitBtn');
+var confirmModal = document.getElementById('confirmModal');
+var modalYes = document.getElementById('modal-yes');
+var modalNo = document.getElementById('modal-no');
+
+if (submitBtn && confirmModal) {
+    submitBtn.addEventListener('click', function() {
+        var form = document.getElementById('cakeForm');
+        if (form && !form.checkValidity()) { form.reportValidity(); return; }
+        if (!validateCaptchaInline()) { return; }
+        var agb = document.getElementById('agbCheck');
+        if (agb && !agb.checked) {
+            agb.closest('.agb-checkbox').style.outline = '2px solid var(--magenta)';
+            agb.focus(); return;
+        }
+        confirmModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    });
+}
+if (modalYes) {
+    modalYes.addEventListener('click', function() {
+        confirmModal.classList.remove('open');
+        document.body.style.overflow = '';
+        if (!validateCaptchaInline()) { return; }
+        document.getElementById('cakeForm').submit();
+    });
+}
+if (modalNo) {
+    modalNo.addEventListener('click', function() {
+        confirmModal.classList.remove('open');
+        document.body.style.overflow = '';
+    });
+}
+if (confirmModal) {
+    confirmModal.addEventListener('click', function(e) {
+        if (e.target === confirmModal) { confirmModal.classList.remove('open'); document.body.style.overflow = ''; }
+    });
+}
+</script>
+
+</body>
+</html>
