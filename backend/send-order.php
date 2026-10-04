@@ -5,6 +5,7 @@
  */
 
 $config = require __DIR__ . '/config.php';
+require_once __DIR__ . '/form-security.php';
 
 function nq_clean_text($value, $maxLength = 1000) {
     $value = is_string($value) ? $value : '';
@@ -205,10 +206,7 @@ if ($started > 0) {
     }
 }
 
-// Client-side captcha is not a replacement for server security, but helps reduce casual bot noise.
-$captcha = nq_clean_text($_POST['captcha'] ?? '', 20);
-$expected = nq_clean_text($_POST['captcha_expected'] ?? '', 20);
-if ($expected === '' || !hash_equals($expected, $captcha)) {
+if (!nq_verify_order_security($_POST)) {
     nq_error($lang, 'CAPTCHA_INVALID', $config);
 }
 

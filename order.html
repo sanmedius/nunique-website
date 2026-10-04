@@ -34,7 +34,7 @@
 <span class="lang-label" id="langLabelEN">EN</span>
 </div>
 <div class="header-logo">
-<a href="./"><img alt="NUNIQUE Cakes &amp; Coffee" decoding="async" src="images/Logo-lang-lang.svg"/></a>
+<a class="active" href="./"><img alt="NUNIQUE Cakes &amp; Coffee" decoding="async" src="images/Logo-lang-lang.svg"/></a>
 </div>
 <div class="header-social">
 <a aria-label="Instagram" href="https://www.instagram.com/nunique.cakes" rel="noopener" target="_blank"><svg fill="currentColor" height="20" viewbox="0 0 24 24" width="20"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a>
@@ -256,7 +256,7 @@
             <span data-de="" data-en="" id="captchaQuestion"></span>
 </label>
 <input autocomplete="off" data-captcha-answer="" id="orderCaptcha" inputmode="numeric" name="captcha" required="" type="text"/>
-<input id="captchaExpected" name="captcha_expected" type="hidden" value=""/>
+<input id="csrfToken" name="csrf_token" type="hidden" value=""/>
 <p aria-live="polite" class="captcha-error" id="captchaError"></p>
 <p aria-live="polite" class="form-error-summary" id="formValidationError"></p>
 </div>
@@ -318,13 +318,13 @@
 </ul>
 </div>
 <div>
-<h4>Kontakt</h4>
+<h4><span data-de="Kontakt" data-en="Contact">Kontakt</span></h4>
 <ul>
 <li><a href="tel:+4989215464622">+49 89 21 54 64 62</a></li>
 <li><a href="https://wa.me/491704742351">WhatsApp</a></li>
 <li><a href="mailto:info@designcakes.de">info@designcakes.de</a></li>
-<li><a href="https://g.page/r/Cd65igMqELdyEBM" target="_blank"><span data-de="Elsenheimerstr. 28, München" data-en="Elsenheimerstr. 28, Munich">Elsenheimerstr. 28, München</span></a></li>
-<li><a class="nav-active" href="order"><span data-de="TORTE ANFRAGEN" data-en="REQUEST A CAKE">TORTE ANFRAGEN</span> →</a></li>
+<li><a href="https://g.page/r/Cd65igMqELdyEBM" rel="noopener" target="_blank"><span data-de="Elsenheimerstr. 28, München" data-en="Elsenheimerstr. 28, Munich">Elsenheimerstr. 28, München</span></a></li>
+<li><a href="order"><span data-de="TORTE ANFRAGEN" data-en="REQUEST A CAKE">TORTE ANFRAGEN</span> →</a></li>
 </ul>
 </div>
 </div>
@@ -483,33 +483,23 @@ document.querySelectorAll('.lang-btn').forEach(function(btn){ btn.addEventListen
 
 
 // ── ROTATING SECURITY QUESTION ───────────────────────────────────────────────
-var captchaQuestions = [
-    {de:'Was ist 2 + 5?', en:'What is 2 + 5?', answer:'7'},
-    {de:'Was ist 4 + 3?', en:'What is 4 + 3?', answer:'7'},
-    {de:'Was ist 9 - 2?', en:'What is 9 - 2?', answer:'7'},
-    {de:'Was ist 3 + 6?', en:'What is 3 + 6?', answer:'9'},
-    {de:'Was ist 8 - 3?', en:'What is 8 - 3?', answer:'5'},
-    {de:'Was ist 5 + 4?', en:'What is 5 + 4?', answer:'9'}
-];
 function currentOrderLang(){ var active=document.querySelector('.lang-btn.active'); return active ? active.getAttribute('data-lang') : (document.getElementById('langField') ? document.getElementById('langField').value : 'de'); }
-function setCaptchaQuestion(){
-    var q = captchaQuestions[Math.floor(Math.random() * captchaQuestions.length)];
+function setCaptchaQuestion(q){
     var qEl = document.getElementById('captchaQuestion');
     var input = document.getElementById('orderCaptcha');
-    var expected = document.getElementById('captchaExpected');
-    if(!qEl || !input || !expected) return;
-    qEl.setAttribute('data-de', q.de);
-    qEl.setAttribute('data-en', q.en);
-    qEl.textContent = currentOrderLang()==='en' ? q.en : q.de;
-    input.dataset.captchaAnswer = q.answer;
+    var token = document.getElementById('csrfToken');
+    if(!qEl || !input || !token) return;
+    qEl.setAttribute('data-de', q.question);
+    qEl.setAttribute('data-en', q.question);
+    qEl.textContent = q.question;
+    token.value = q.token;
     input.value = '';
-    expected.value = q.answer;
 }
 function validateCaptchaInline(){
     var input = document.getElementById('orderCaptcha');
     var error = document.getElementById('captchaError');
     if(!input) return true;
-    var ok = String(input.value).trim() === String(input.dataset.captchaAnswer).trim();
+    var ok = String(input.value).trim() !== '' && document.getElementById('csrfToken').value !== '';
     if(!ok){
         if(error){ error.textContent = currentOrderLang()==='en' ? 'Please answer the security question correctly.' : 'Bitte beantworten Sie die Sicherheitsfrage richtig.'; }
         input.classList.add('input-error');
@@ -520,7 +510,10 @@ function validateCaptchaInline(){
     input.classList.remove('input-error');
     return true;
 }
-setCaptchaQuestion();
+fetch('backend/order-token.php', {credentials:'same-origin'})
+    .then(function(response){ if(!response.ok) throw new Error('token'); return response.json(); })
+    .then(setCaptchaQuestion)
+    .catch(function(){ var error=document.getElementById('captchaError'); if(error) error.textContent='Sicherheitsprüfung konnte nicht geladen werden. Bitte laden Sie die Seite neu.'; });
 var captchaInput = document.getElementById('orderCaptcha');
 if(captchaInput){ captchaInput.addEventListener('input', function(){ var e=document.getElementById('captchaError'); if(e) e.textContent=''; this.classList.remove('input-error'); }); }
 

@@ -105,6 +105,17 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // Give keyboard users a direct route past the repeated navigation.
+    const mainTarget = document.querySelector('main, .page-hero, .order-hero');
+    if (mainTarget && !mainTarget.id) mainTarget.id = 'main-content';
+    if (mainTarget && !document.querySelector('.skip-link')) {
+        const skipLink = document.createElement('a');
+        skipLink.className = 'skip-link';
+        skipLink.href = '#main-content';
+        skipLink.textContent = 'Zum Inhalt springen / Skip to content';
+        document.body.prepend(skipLink);
+    }
+
     // ── CAKE GALLERY CAROUSEL (cakeshop.html) ──
     var cakeTrack = document.getElementById('cakeGalleryTrack');
     if (cakeTrack) {
@@ -232,24 +243,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggle = document.getElementById('navToggle') || document.querySelector('.nav-toggle');
     const drawer = document.getElementById('navDrawer') || document.querySelector('.nav-drawer');
     if (toggle && drawer) {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-controls', 'navDrawer');
         toggle.addEventListener('click', () => {
             toggle.classList.toggle('open');
             drawer.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', String(drawer.classList.contains('open')));
         });
         // Close on link click
         drawer.querySelectorAll('a').forEach(a => {
             a.addEventListener('click', () => {
                 toggle.classList.remove('open');
                 drawer.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
             });
         });
     }
 
     // ── ACTIVE NAV LINK ──
-    const current = window.location.pathname.split('/').pop() || 'index.html';
+    const current = (window.location.pathname.replace(/\/$/, '').split('/').pop() || 'index').replace(/\.html$/, '');
     document.querySelectorAll('.nav-links a, .nav-drawer a').forEach(a => {
         const href = a.getAttribute('href');
-        if (href && (href === current || href.includes(current))) {
+        const target = (href || '').split('#')[0].replace(/^\.\//, '').replace(/\.html$/, '') || 'index';
+        if (target === current) {
             a.classList.add('active');
         }
     });
