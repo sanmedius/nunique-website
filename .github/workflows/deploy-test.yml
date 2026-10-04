@@ -27,18 +27,16 @@ jobs:
 
       - name: Upload website over SFTP
         env:
-          SFTP_HOST: ${{ secrets.STRATO_SFTP_HOST }}
-          SFTP_PORT: ${{ secrets.STRATO_SFTP_PORT }}
-          SFTP_USERNAME: ${{ secrets.STRATO_SFTP_USERNAME }}
+          SFTP_HOST: 58146001.ssh.w1.strato.hosting
+          SFTP_PORT: "22"
+          SFTP_USERNAME: stu991161244
           SFTP_PASSWORD: ${{ secrets.STRATO_SFTP_PASSWORD }}
-          SFTP_TARGET: ${{ secrets.STRATO_SFTP_TARGET }}
+          SFTP_TARGET: /test-website
         run: |
-          for required_name in SFTP_HOST SFTP_PORT SFTP_USERNAME SFTP_PASSWORD SFTP_TARGET; do
-            if [ -z "${!required_name}" ]; then
-              echo "Missing GitHub secret for $required_name"
-              exit 1
-            fi
-          done
+          if [ -z "$SFTP_PASSWORD" ]; then
+            echo "Missing GitHub secret: STRATO_SFTP_PASSWORD"
+            exit 1
+          fi
 
           mkdir -p "$HOME/.ssh"
           chmod 700 "$HOME/.ssh"
