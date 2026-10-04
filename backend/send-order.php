@@ -270,7 +270,10 @@ if (!empty($_FILES['inspiration']) && is_array($_FILES['inspiration']['name'])) 
         if ($totalBytes > $config['max_total_bytes']) nq_error($lang, 'UPLOAD_TOTAL_TOO_LARGE', $config);
         if (!is_uploaded_file($tmpNames[$i])) nq_error($lang, 'UPLOAD_INVALID_SOURCE', $config);
 
-        $mime = $finfo ? $finfo->file($tmpNames[$i]) : mime_content_type($tmpNames[$i]);
+        if (!$finfo) {
+            nq_error($lang, 'UPLOAD_VALIDATION_UNAVAILABLE', $config);
+        }
+        $mime = $finfo->file($tmpNames[$i]);
         if (!isset($config['allowed_mime'][$mime])) nq_error($lang, 'UPLOAD_TYPE_NOT_ALLOWED', $config);
 
         $base = pathinfo((string)$names[$i], PATHINFO_FILENAME);
