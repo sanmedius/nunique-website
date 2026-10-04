@@ -1,0 +1,66 @@
+name: Deploy test website to STRATO
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: strato-test-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Upload to test.designcakes.de
+    runs-on: ubuntu-latest
+    environment: test
+
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v6
+
+      - name: Install SFTP client
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes lftp
+
+      - name: Trust the STRATO server
+        env:
+          SFTP_HOST: ${{ secrets.STRATO_SFTP_HOST }}
+          SFTP_PORT: ${{ secrets.STRATO_SFTP_PORT }}
+        run: |
+          mkdir -p "$HOME/.ssh"
+          ssh-keyscan -p "$SFTP_PORT" "$SFTP_HOST" >> "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/known_hosts"
+
+      - name: Upload website over SFTP
+        env:
+          SFTP_HOST: ${{ secrets.STRATO_SFTP_HOST }}
+          SFTP_PORT: ${{ secrets.STRATO_SFTP_PORT }}
+          SFTP_USERNAME: ${{ secrets.STRATO_SFTP_USERNAME }}
+          SFTP_PASSWORD: ${{ secrets.STRATO_SFTP_PASSWORD }}
+          SFTP_TARGET: ${{ secrets.STRATO_SFTP_TARGET }}
+        run: |
+          lftp -u "$SFTP_USERNAME,$SFTP_PASSWORD" "sftp://$SFTP_HOST:$SFTP_PORT" <<LFTP
+          set cmd:fail-exit yes
+          set net:max-retries 2
+          set net:timeout 20
+          set sftp:connect-program "ssh -a -x -o StrictHostKeyChecking=yes"
+          mirror --reverse --verbose --only-newer \
+            --exclude-glob .git/ \
+            --exclude-glob .github/ \
+            --exclude-glob .gitignore \
+            --exclude-glob .vscode/ \
+            --exclude-glob archive-unused/ \
+            --exclude-glob docs/ \
+            --exclude-glob forms/ \
+            --exclude-glob scripts/ \
+            --exclude-glob shared-reference/ \
+            --exclude-glob backend/config.local.php \
+            --exclude-glob backend/config.local.example.php \
+            --exclude-glob '*.log' \
+            --exclude-glob '*.zip' \
+            ./ "$SFTP_TARGET"
+          bye
+          LFTP
