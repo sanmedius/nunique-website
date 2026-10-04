@@ -327,34 +327,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ── CONTACT FORM ──
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = this.querySelector('button[type=submit]');
-            btn.textContent = (window.NUNIQUE_CURRENT_LANG === 'en') ? 'Sending...' : 'Wird gesendet...';
-            btn.disabled = true;
-
-            // Submit via fetch to contact.php
-            const data = new FormData(this);
-            fetch('contact.php', { method: 'POST', body: data })
-                .then(r => r.text())
-                .then(() => {
-                    contactForm.innerHTML = `
-                        <div style="text-align:center;padding:2rem 0">
-                            <div style="font-size:2.5rem;margin-bottom:1rem">✓</div>
-                            <h3 style="font-family:'Cormorant Garamond',serif;margin-bottom:.5rem">${window.NUNIQUE_CURRENT_LANG === 'en' ? 'Message received!' : 'Nachricht erhalten!'}</h3>
-                            <p style="color:#4A4A4A">${window.NUNIQUE_CURRENT_LANG === 'en' ? 'We will get back to you as soon as possible.' : 'Wir melden uns so schnell wie möglich.'}</p>
-                        </div>`;
-                })
-                .catch(() => {
-                    btn.textContent = (window.NUNIQUE_CURRENT_LANG === 'en') ? 'Send' : 'Absenden';
-                    btn.disabled = false;
-                    alert((window.NUNIQUE_CURRENT_LANG === 'en') ? 'Error while sending. Please try again or contact us directly.' : 'Fehler beim Senden. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.');
-                });
-        });
-    }
 });
 
     // ── COOKIE BANNER ──
