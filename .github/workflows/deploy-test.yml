@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Upload to test.designcakes.de
+    name: Upload to test.cakes-coffee.de
     runs-on: ubuntu-latest
     environment: test
 
