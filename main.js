@@ -219,29 +219,32 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
 
-    // ── HEADER SCROLL BEHAVIOUR ──
+    // ── HEADER AND NAVIGATION ──
     const headerNav = document.getElementById('headerNav');
     const siteHeader = document.getElementById('siteHeader');
-    let lastScrollY = 0;
+    const toggle = document.getElementById('navToggle') || document.querySelector('.nav-toggle');
+    const drawer = document.getElementById('navDrawer') || document.querySelector('.nav-drawer');
 
     function handleHeaderScroll() {
         const scrollY = window.scrollY;
+        const compact = scrollY > 80;
         if (headerNav) {
-            if (scrollY > 80) {
-                headerNav.classList.add('scrolled-away');
-            } else {
-                headerNav.classList.remove('scrolled-away');
-            }
+            headerNav.classList.toggle('scrolled-away', compact);
         }
-        lastScrollY = scrollY;
+        if (siteHeader) {
+            siteHeader.classList.toggle('is-compact', compact);
+        }
+        if (!compact && window.innerWidth > 900 && toggle && drawer) {
+            toggle.classList.remove('open');
+            drawer.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+        }
     }
 
     window.addEventListener('scroll', handleHeaderScroll, { passive: true });
     handleHeaderScroll();
 
-    // ── MOBILE NAV ──
-    const toggle = document.getElementById('navToggle') || document.querySelector('.nav-toggle');
-    const drawer = document.getElementById('navDrawer') || document.querySelector('.nav-drawer');
+    // ── COLLAPSIBLE NAV ──
     if (toggle && drawer) {
         toggle.setAttribute('aria-expanded', 'false');
         toggle.setAttribute('aria-controls', 'navDrawer');
@@ -292,19 +295,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ── SCROLL ANIMATIONS ──
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-                // Stagger children
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, i * 80);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.12 });
+    const animatedElements = document.querySelectorAll('.fade-up');
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    // Stagger children
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, i * 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
 
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+        animatedElements.forEach(el => observer.observe(el));
+    } else {
+        animatedElements.forEach(el => el.classList.add('visible'));
+    }
 
     // ── SMOOTH ANCHOR SCROLL ──
     document.querySelectorAll('a[href^="#"]').forEach(a => {

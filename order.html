@@ -516,7 +516,13 @@ function validateCaptchaInline(){
 fetch('backend/order-token.php', {credentials:'same-origin'})
     .then(function(response){ if(!response.ok) throw new Error('token'); return response.json(); })
     .then(setCaptchaQuestion)
-    .catch(function(){ var error=document.getElementById('captchaError'); if(error) error.textContent='Sicherheitsprüfung konnte nicht geladen werden. Bitte laden Sie die Seite neu.'; });
+    .catch(function(){
+        var error=document.getElementById('captchaError');
+        if(!error) return;
+        error.textContent = location.protocol === 'file:'
+            ? 'Die Sicherheitsfrage benötigt die PHP-Vorschau. Starten Sie die Seite über http://localhost:8080/order.'
+            : 'Sicherheitsprüfung konnte nicht geladen werden. Bitte prüfen Sie, ob die Seite über einen PHP-Server geöffnet wurde.';
+    });
 var captchaInput = document.getElementById('orderCaptcha');
 if(captchaInput){ captchaInput.addEventListener('input', function(){ var e=document.getElementById('captchaError'); if(e) e.textContent=''; this.classList.remove('input-error'); }); }
 

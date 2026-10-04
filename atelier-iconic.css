@@ -206,9 +206,16 @@ textarea{min-height:110px!important;}
 @media (min-width: 901px){
   .header-nav-inner{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;gap:14px!important;max-width:1280px!important;padding:0 clamp(14px,2vw,28px)!important;}
   .header-nav-inner .nav-links{display:flex!important;align-items:center!important;justify-content:center!important;gap:clamp(4px,.55vw,10px)!important;min-width:0!important;white-space:nowrap!important;}
-  .header-nav-inner .nav-links a{height:36px!important;padding:0 clamp(7px,.8vw,12px)!important;font-size:clamp(10px,.78vw,12px)!important;display:inline-flex!important;align-items:center!important;}
+  .header-nav-inner .nav-links a{height:36px!important;padding:0 clamp(5px,.65vw,10px)!important;font-size:clamp(12px,.9vw,14px)!important;display:inline-flex!important;align-items:center!important;}
   .header-nav-inner .nav-below{display:flex!important;align-items:center!important;justify-content:flex-end!important;margin:0!important;padding:0!important;align-self:center!important;}
-  .header-nav-inner .nav-anfragen{height:36px!important;padding:0 clamp(12px,1vw,16px)!important;font-size:clamp(10px,.78vw,12px)!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;margin:0!important;line-height:1!important;}
+  .header-nav-inner .nav-anfragen{height:36px!important;padding:0 clamp(10px,.9vw,14px)!important;font-size:clamp(12px,.9vw,14px)!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;margin:0!important;line-height:1!important;}
+}
+
+/* Keep navigation available after the desktop link row collapses on scroll. */
+@media (min-width:901px){
+  .site-header.is-compact .nav-toggle{display:flex!important;}
+  .site-header.is-compact .header-social{display:none!important;}
+  .site-header.is-compact + .nav-drawer{top:var(--header-logo-h)!important;max-height:calc(100vh - var(--header-logo-h))!important;}
 }
 .process-section .atelier-section-head h2{font-size:clamp(20px,1.8vw,28px)!important;}
 .process-grid article{padding:14px 13px!important;border-radius:18px!important;}
