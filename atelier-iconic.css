@@ -121,7 +121,7 @@ body{background:linear-gradient(180deg,#fffafc 0%,#fff 45%,#f7fdff 100%); color:
 footer{background:#fffafc!important;color:#4c3d45!important;border-top:1px solid rgba(233,30,140,.10)!important;}
 footer a{color:#4c3d45!important;} footer .footer-bottom{border-top:1px solid rgba(233,30,140,.10)!important;}
 /* Subpages softer atelier styling */
-.page-hero,.order-hero{background:radial-gradient(circle at 20% 10%,rgba(255,95,168,.18),transparent 32%),linear-gradient(135deg,#fffafc,var(--brand-teal-soft))!important;color:var(--atelier-ink)!important;padding:90px 5vw 54px!important;}
+.page-hero,.order-hero{background:radial-gradient(circle at 20% 10%,rgba(255,95,168,.18),transparent 32%),linear-gradient(135deg,#fffafc,var(--brand-teal-soft))!important;color:var(--atelier-ink)!important;padding:54px 5vw!important;}
 .page-hero h1,.order-hero h1{font-size:clamp(34px,5vw,62px)!important;letter-spacing:-.04em!important;}
 .page-hero p,.order-hero p{font-size:clamp(15px,1.5vw,19px)!important;color:var(--atelier-muted)!important;}
 .card,.product-card,.flavour-card,.job-card,.form-section{border-radius:28px!important;border:1px solid rgba(233,30,140,.10)!important;box-shadow:0 18px 50px rgba(0,188,212,.08)!important;background:rgba(255,255,255,.92)!important;}
