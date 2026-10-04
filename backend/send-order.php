@@ -224,6 +224,10 @@ $geschmack2 = nq_clean_text($_POST['geschmack_2'] ?? '', 80);
 $geschmack = implode(', ', array_filter([$geschmack1, $geschmack2]));
 $formShape = nq_clean_text($_POST['form'] ?? '', 80);
 $groesse = nq_clean_text($_POST['groesse'] ?? '', 120);
+$groesseCustom = nq_clean_text($_POST['groesse_custom'] ?? '', 120);
+if ($groesse === '' && $groesseCustom !== '') {
+    $groesse = $groesseCustom;
+}
 $farbe = nq_clean_text($_POST['farbe'] ?? '', 120);
 $schriftzug = nq_clean_text($_POST['schriftzug'] ?? '', 180);
 $verzierung = nq_clean_text($_POST['verzierung'] ?? '', 180);

@@ -397,7 +397,7 @@ function selectSize(btn) {
     var wrap = document.getElementById('groesse-custom-wrap');
     var ci = document.getElementById('groesse-custom-input');
     if (val === 'custom') {
-        if (hid) hid.value = '';
+        if (hid) hid.value = ci ? ci.value.trim() : '';
         if (wrap) wrap.style.display = 'block';
         if (ci) ci.required = true;
     } else {
@@ -405,6 +405,16 @@ function selectSize(btn) {
         if (wrap) wrap.style.display = 'none';
         if (ci) ci.required = false;
     }
+}
+var customSizeInput = document.getElementById('groesse-custom-input');
+if (customSizeInput) {
+    customSizeInput.addEventListener('input', function() {
+        var selectedSize = document.querySelector('.size-tile.sel');
+        var hiddenSize = document.getElementById('groesse-hidden');
+        if (selectedSize && selectedSize.dataset.val === 'custom' && hiddenSize) {
+            hiddenSize.value = this.value.trim();
+        }
+    });
 }
 
 // ── FLAVOR TILES (max 2) ──────────────────────────────────────────────────────
