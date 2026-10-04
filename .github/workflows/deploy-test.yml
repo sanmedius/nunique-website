@@ -25,15 +25,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install --yes lftp
 
-      - name: Trust the STRATO server
-        env:
-          SFTP_HOST: ${{ secrets.STRATO_SFTP_HOST }}
-          SFTP_PORT: ${{ secrets.STRATO_SFTP_PORT }}
-        run: |
-          mkdir -p "$HOME/.ssh"
-          ssh-keyscan -p "$SFTP_PORT" "$SFTP_HOST" >> "$HOME/.ssh/known_hosts"
-          chmod 600 "$HOME/.ssh/known_hosts"
-
       - name: Upload website over SFTP
         env:
           SFTP_HOST: ${{ secrets.STRATO_SFTP_HOST }}
@@ -42,11 +33,21 @@ jobs:
           SFTP_PASSWORD: ${{ secrets.STRATO_SFTP_PASSWORD }}
           SFTP_TARGET: ${{ secrets.STRATO_SFTP_TARGET }}
         run: |
+          for required_name in SFTP_HOST SFTP_PORT SFTP_USERNAME SFTP_PASSWORD SFTP_TARGET; do
+            if [ -z "${!required_name}" ]; then
+              echo "Missing GitHub secret for $required_name"
+              exit 1
+            fi
+          done
+
+          mkdir -p "$HOME/.ssh"
+          chmod 700 "$HOME/.ssh"
+
           lftp -u "$SFTP_USERNAME,$SFTP_PASSWORD" "sftp://$SFTP_HOST:$SFTP_PORT" <<LFTP
           set cmd:fail-exit yes
           set net:max-retries 2
           set net:timeout 20
-          set sftp:connect-program "ssh -a -x -o StrictHostKeyChecking=yes"
+          set sftp:connect-program "ssh -a -x -o StrictHostKeyChecking=accept-new"
           mirror --reverse --verbose --only-newer \
             --exclude-glob .git/ \
             --exclude-glob .github/ \
