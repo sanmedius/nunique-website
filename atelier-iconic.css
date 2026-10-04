@@ -223,6 +223,18 @@ textarea{min-height:110px!important;}
 .process-grid article>span{font-size:10px!important;}
 .process-grid h3{font-size:clamp(14px,1.12vw,18px)!important;margin:6px 0 4px!important;}
 .process-grid p{font-size:12.5px!important;line-height:1.42!important;}
+.process-grid h3,
+.process-grid h3 span{
+  font-family:'Urbanist',sans-serif!important;
+  font-size:1.3rem!important;
+}
+.process-grid p,
+.process-grid p span{
+  font-family:'Urbanist',sans-serif!important;
+  font-size:.78rem!important;
+}
+.atelier-kicker{font-size:16.5px!important;}
+.process-section .atelier-section-head .atelier-kicker{font-size:15px!important;}
 .captcha-error{margin:.55rem 0 0;color:#C2185B;font-size:.92rem;font-weight:700;}
 .input-error{border-color:#C2185B!important;box-shadow:0 0 0 4px rgba(194,24,91,.10)!important;}
 
