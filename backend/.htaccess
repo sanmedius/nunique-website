@@ -4,6 +4,6 @@ Options -Indexes
   Require all denied
 </FilesMatch>
 
-<Files "config.php">
+<FilesMatch "^config(\.local)?\.php$">
   Require all denied
-</Files>
+</FilesMatch>

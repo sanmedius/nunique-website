@@ -6,6 +6,7 @@
 
 $config = require __DIR__ . '/config.php';
 require_once __DIR__ . '/form-security.php';
+require_once __DIR__ . '/smtp-mailer.php';
 
 function nq_clean_text($value, $maxLength = 1000) {
     $value = is_string($value) ? $value : '';
@@ -80,7 +81,7 @@ function nq_build_html_table($rows) {
     return $out . '</table>';
 }
 
-function nq_mail_html($to, $subject, $html, $fromEmail, $fromName, $replyTo = null, $attachments = []) {
+function nq_mail_html($to, $subject, $html, $fromEmail, $fromName, $replyTo = null, $attachments = [], $smtpConfig = []) {
     $subject = nq_header_text($subject, 180);
     $fromName = nq_header_text($fromName, 120);
     $fromEmail = filter_var($fromEmail, FILTER_VALIDATE_EMAIL) ? $fromEmail : 'noreply@localhost';
@@ -129,9 +130,7 @@ function nq_mail_html($to, $subject, $html, $fromEmail, $fromName, $replyTo = nu
     if (stripos(PHP_OS, 'WIN') !== 0 && filter_var($fromEmail, FILTER_VALIDATE_EMAIL)) {
         $params = '-f' . $fromEmail;
     }
-    return $params !== ''
-        ? mail($to, $encodedSubject, $message, $headerString, $params)
-        : mail($to, $encodedSubject, $message, $headerString);
+    return nq_smtp_send($to, $encodedSubject, $headerString, $message, $smtpConfig);
 }
 
 function nq_show_result($type, $lang, $name = '', $ref = '', $config = [], $code = '') {
@@ -342,8 +341,8 @@ $customerHtml = '<html><body style="font-family:Arial,sans-serif;color:#1A1A1A;m
     . '</div><div style="background:#E91E8C;color:#fff;padding:12px;text-align:center;border-radius:0 0 14px 14px;font-size:13px">NUNIQUE — Cakes & Coffee</div></body></html>';
 
 $ownerSubject = 'Tortenanfrage von ' . $name . ' — ' . $datum;
-$ownerOk = nq_mail_html($config['bakery_email'], $ownerSubject, $ownerHtml, $config['from_email'], $config['from_name'], $email, $attachments);
-$customerOk = nq_mail_html($email, $customerSubject . ' (' . $ref . ')', $customerHtml, $config['from_email'], $config['from_name'], $config['bakery_email']);
+$ownerOk = nq_mail_html($config['bakery_email'], $ownerSubject, $ownerHtml, $config['from_email'], $config['from_name'], $email, $attachments, $config);
+$customerOk = nq_mail_html($email, $customerSubject . ' (' . $ref . ')', $customerHtml, $config['from_email'], $config['from_name'], $config['bakery_email'], [], $config);
 
 if (!$ownerOk) {
     error_log('NUNIQUE order form: owner email failed for ' . $ref);
