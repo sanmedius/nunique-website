@@ -5,6 +5,9 @@
 <meta charset="utf-8"/>
 <link href="images/Logo_quadrat_solo.svg" rel="icon" type="image/svg+xml"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
 <title data-de="Torte anfragen München | Hochzeitstorte &amp; Event Cake bestellen" data-en="Request a Cake in Munich | Wedding &amp; Event Cake Enquiry">Torte anfragen München | Hochzeitstorte &amp; Event Cake bestellen</title>
 <meta content="Fragen Sie Ihre individuelle Torte in München an: Hochzeitstorte, Geburtstagstorte, Firmentorte oder Event Cake mit Design, Geschmack und Terminwunsch." data-de-content="Fragen Sie Ihre individuelle Torte in München an: Hochzeitstorte, Geburtstagstorte, Firmentorte oder Event Cake mit Design, Geschmack und Terminwunsch." data-en-content="Request your custom cake in Munich: wedding cake, birthday cake, corporate cake or event cake with design, flavour and preferred date." name="description"/><meta content="summary_large_image" name="twitter:card"/><meta content="https://munichcakes.de/order" property="og:url"/><meta content="website" property="og:type"/><meta content="Fragen Sie Ihre individuelle Torte in München an: Hochzeitstorte, Geburtstagstorte, Firmentorte oder Event Cake mit Design, Geschmack und Terminwunsch." data-de-content="Fragen Sie Ihre individuelle Torte in München an: Hochzeitstorte, Geburtstagstorte, Firmentorte oder Event Cake mit Design, Geschmack und Terminwunsch." data-en-content="Request your custom cake in Munich: wedding cake, birthday cake, corporate cake or event cake with design, flavour and preferred date." property="og:description"/><meta content="Torte anfragen München | Hochzeitstorte &amp; Event Cake bestellen" data-de-content="Torte anfragen München | Hochzeitstorte &amp; Event Cake bestellen" data-en-content="Request a Cake in Munich | Wedding &amp; Event Cake Enquiry" property="og:title"/>
 <link href="https://munichcakes.de/order" rel="canonical"/>
@@ -94,13 +97,13 @@
 <div class="form-section">
 <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg fill="none" height="20" stroke="var(--pink)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span data-de="Ihre Daten" data-en="Your Details">Ihre Daten</span></div>
 <div class="two-col">
-<div class="field-group"><label><span data-de="Vorname" data-en="First Name">Vorname</span><span class="req">*</span></label><input name="vorname" required="" type="text"/></div>
-<div class="field-group"><label><span data-de="Nachname" data-en="Last Name">Nachname</span><span class="req">*</span></label><input name="nachname" required="" type="text"/></div>
+<div class="field-group"><label><span data-de="Vorname" data-en="First Name">Vorname</span><span class="req">*</span></label><input autocomplete="given-name" name="vorname" required="" type="text"/></div>
+<div class="field-group"><label><span data-de="Nachname" data-en="Last Name">Nachname</span><span class="req">*</span></label><input autocomplete="family-name" name="nachname" required="" type="text"/></div>
 </div>
-<div class="field-group"><label><span data-de="Adresse" data-en="Address">Adresse</span></label><input data-de-ph="Straße, Hausnr., PLZ, Ort" data-en-ph="Street, no., postcode, city" name="adresse" placeholder="Straße, Hausnr., PLZ, Ort" type="text"/></div>
+<div class="field-group"><label><span data-de="Adresse" data-en="Address">Adresse</span></label><input autocomplete="street-address" data-de-ph="Straße, Hausnr., PLZ, Ort" data-en-ph="Street, no., postcode, city" name="adresse" placeholder="Straße, Hausnr., PLZ, Ort" type="text"/></div>
 <div class="two-col">
-<div class="field-group"><label><span data-de="E-Mail" data-en="Email">E-Mail</span><span class="req">*</span></label><input name="customer_email" required="" type="email"/></div>
-<div class="field-group"><label><span data-de="Telefon" data-en="Phone">Telefon</span><span class="req">*</span></label><input data-de-ph="+49 ..." data-en-ph="+49 ..." name="phone" placeholder="+49 ..." required="" type="tel"/></div>
+<div class="field-group"><label><span data-de="E-Mail" data-en="Email">E-Mail</span><span class="req">*</span></label><input autocomplete="email" inputmode="email" name="customer_email" required="" type="email"/></div>
+<div class="field-group"><label><span data-de="Telefon" data-en="Phone">Telefon</span><span class="req">*</span></label><input autocomplete="tel" data-de-ph="+49 ..." data-en-ph="+49 ..." inputmode="tel" name="phone" placeholder="+49 ..." required="" type="tel"/></div>
 </div>
 </div>
 <!-- 2: ANLASS & ABHOLUNG -->

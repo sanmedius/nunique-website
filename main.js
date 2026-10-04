@@ -443,6 +443,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (overlay && lbImg) {
     const triggers = Array.from(document.querySelectorAll('a.lightbox, [data-lightbox], .gallery-grid img, .portfolio-card img'));
     let current = 0;
+    let previouslyFocused = null;
 
     function itemSrc(el) {
       if (!el) return '';
@@ -463,15 +464,18 @@ document.addEventListener('DOMContentLoaded', function () {
       if (lbCaption) lbCaption.textContent = itemCaption(el);
     }
     function open(index) {
+      previouslyFocused = document.activeElement;
       render(index);
       overlay.classList.add('open');
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      if (lbClose) lbClose.focus();
     }
     function close() {
       overlay.classList.remove('open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      if (previouslyFocused && typeof previouslyFocused.focus === 'function') previouslyFocused.focus();
     }
     triggers.forEach(function (el, index) {
       el.addEventListener('click', function (event) {
@@ -489,6 +493,13 @@ document.addEventListener('DOMContentLoaded', function () {
       if (e.key === 'Escape') close();
       if (e.key === 'ArrowLeft') render(current - 1);
       if (e.key === 'ArrowRight') render(current + 1);
+      if (e.key === 'Tab') {
+        const controls = [lbClose, lbPrev, lbNext].filter(Boolean);
+        if (!controls.length) return;
+        const first = controls[0], last = controls[controls.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     });
   }
 
