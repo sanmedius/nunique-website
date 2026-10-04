@@ -1,0 +1,39 @@
+# NUNIQUE - Clean URLs and basic hardening
+Options -MultiViews
+RewriteEngine On
+
+# Block files that should never be public
+<FilesMatch "\.(zip|bak|old|sql|env|log|ini|sh)$">
+  Require all denied
+</FilesMatch>
+
+# Security headers. If the host does not support mod_headers, these lines are ignored.
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# Browser caching for static assets
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# If the file exists as-is, serve it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Try adding .html
+RewriteRule ^([^.]+)$ $1.html [L]
+
+# Redirect .html requests to clean URLs
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{THE_REQUEST} \s/+(.*?)\.html[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L,NE]

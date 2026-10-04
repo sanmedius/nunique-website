@@ -1,0 +1,9 @@
+Options -Indexes
+
+<FilesMatch "\.(bak|old|zip|log|ini|env|sh|sql)$">
+  Require all denied
+</FilesMatch>
+
+<Files "config.php">
+  Require all denied
+</Files>

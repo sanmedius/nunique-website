@@ -1,0 +1,19 @@
+# Operating-system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Local secrets and environment overrides
+.env
+.env.*
+!.env.example
+
+# Runtime and temporary files
+*.log
+uploads/
+tmp/
+
+# Deployment archives and local backups
+*.zip
+*.bak
+*.old
