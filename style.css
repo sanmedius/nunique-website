@@ -162,32 +162,26 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
 .nav-toggle.open span:nth-child(2) { opacity: 0; }
 .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 .nav-drawer {
-    display: flex; position: fixed;
+    display: none; position: fixed;
     top: var(--header-total); left: 0; right: 0;
-    background: #fff; border-bottom: 0 solid var(--border);
-    padding: 0 2rem; z-index: 899;
+    background: #fff; border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem 1.5rem; z-index: 899;
     flex-direction: column; gap: 0;
     box-shadow: 0 8px 24px rgba(0,0,0,.08);
-    max-height: 0; overflow: hidden;
-    opacity: 0; visibility: hidden; pointer-events: none;
-    transition: max-height .35s ease, opacity .25s ease, padding .35s ease, border .25s ease, visibility 0s linear .35s;
+    max-height: calc(100vh - var(--header-total)); overflow-y: auto;
 }
-.nav-drawer.open {
-    max-height: calc(100vh - var(--header-total));
-    padding: 1rem 2rem 1.5rem;
-    border-bottom-width: 1px;
-    opacity: 1; visibility: visible; pointer-events: auto;
-    overflow-y: auto;
-    transition-delay: 0s;
-}
+.nav-drawer.open { display: flex; }
 .nav-drawer a {
     font-size: 1.05rem; font-weight: 500; color: var(--mid);
     padding: 1rem .75rem; border-bottom: 1px solid var(--border);
-    transition: color .2s, background .2s, padding-left .2s; border-radius: 6px;
+    transition: color .2s ease, background .2s ease; border-radius: 999px;
 }
-.nav-drawer a:hover { color: var(--pink); background: var(--pink-soft); padding-left: 1.25rem; border-bottom-color: transparent; }
+.nav-drawer > a:not(.nav-cta):hover {
+    color: var(--pink-dark); background: rgba(224,247,250,.8);
+    border-bottom-color: transparent;
+}
 .nav-drawer a.active { color: var(--pink); font-weight: 700; }
-.nav-drawer a.active:hover { color: var(--pink); background: var(--pink-soft); }
+.nav-drawer a.active:hover { color: var(--pink-dark); background: rgba(224,247,250,.8); }
 .nav-drawer .nav-cta {
     text-align: center; background: var(--pink); color: #fff !important;
     padding: .75rem 1.5rem; border-radius: 50px;
