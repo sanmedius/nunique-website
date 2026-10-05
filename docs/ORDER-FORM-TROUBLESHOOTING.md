@@ -13,8 +13,8 @@ Common codes:
 - `MISSING_GESCHMACK` — no flavour was selected.
 - `MISSING_GROESSE` — no size was selected.
 - `SECURITY_TOKEN_INVALID` — the session-bound form token was missing or expired.
-- `BOT_CHECK_FAILED` — Cloudflare Turnstile was missing, expired, or rejected.
 - `FORM_TIME_INVALID` — the form was submitted too quickly or too late.
+- `DUPLICATE_SUBMISSION` — the same inquiry was already accepted recently.
 - `UPLOAD_FILE_TOO_LARGE` — one uploaded image is too large.
 - `UPLOAD_TOTAL_TOO_LARGE` — all uploaded images together are too large.
 - `UPLOAD_TYPE_NOT_ALLOWED` — uploaded file is not JPG, PNG or WebP.
@@ -28,17 +28,15 @@ an SMTP response error.
 
 For STRATO, copy `docs/nunique-config.example.php` to
 `/private/nunique-config.php`, outside `/test-website`, and enter the SMTP password
-and Turnstile keys there. This file is intentionally excluded from source control
+there. This file is intentionally excluded from source control
 and deployment. Production never reads `backend/config.local.php`.
 
 If the error persists after deployment, confirm that the SMTP password belongs to
 `info@designcakes.de` and review the hosting PHP error log for the SMTP response code.
 Do not put the password in source control or share it in support messages.
 
-## If the security check does not load
+## If the form reports a security-token error
 
-1. Confirm that `/private/nunique-config.php` contains both Turnstile keys.
-2. Add `test.cakes-coffee.de` and the production domains to the Turnstile widget's
-   allowed hostnames.
-3. Confirm that the browser can reach `https://challenges.cloudflare.com`.
-4. Check the PHP error log for a `NUNIQUE Turnstile` entry.
+1. Open the form through the PHP website rather than as a local `file://` page.
+2. Reload the page so it can request a fresh session token.
+3. Confirm that PHP sessions work on the server and that cookies are accepted.

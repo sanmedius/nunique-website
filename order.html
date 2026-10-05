@@ -253,11 +253,9 @@
 </div>
 </div>
 <!-- SUBMIT -->
-<div class="captcha-box" id="captchaBox">
-<label><span data-de="Sicherheitsprüfung" data-en="Security check">Sicherheitsprüfung</span></label>
-<div aria-live="polite" id="turnstileWidget"></div>
+<div>
 <input id="csrfToken" name="csrf_token" type="hidden" value=""/>
-<p aria-live="polite" class="captcha-error" id="captchaError"></p>
+<p aria-live="polite" class="captcha-error" id="securityError"></p>
 <p aria-live="polite" class="form-error-summary" id="formValidationError"></p>
 </div>
 <div class="submit-section">
@@ -491,48 +489,25 @@ document.querySelectorAll('.lang-btn').forEach(function(btn){ btn.addEventListen
 
 
 
-// ── TURNSTILE SECURITY CHECK ─────────────────────────────────────────────────
+// ── LOCAL FORM SECURITY ──────────────────────────────────────────────────────
 function currentOrderLang(){ var active=document.querySelector('.lang-btn.active'); return active ? active.getAttribute('data-lang') : (document.getElementById('langField') ? document.getElementById('langField').value : 'de'); }
-var turnstileVerified = false;
 function securityMessage(de, en){ return currentOrderLang()==='en' ? en : de; }
 function showSecurityError(message){
-    var error = document.getElementById('captchaError');
+    var error = document.getElementById('securityError');
     if(error) error.textContent = message;
 }
-function loadTurnstile(q){
+function setSecurityToken(q){
     var token = document.getElementById('csrfToken');
     if(!token) return;
-    token.value = q.token;
-    if(!q.turnstileSiteKey){
-        showSecurityError(securityMessage('Sicherheitsprüfung ist auf dem Server noch nicht eingerichtet.', 'The security check is not configured on the server yet.'));
-        return;
-    }
-    var script = document.createElement('script');
-    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-    script.async = true;
-    script.defer = true;
-    script.onload = function(){
-        window.turnstile.render('#turnstileWidget', {
-            sitekey: q.turnstileSiteKey,
-            action: 'order_form',
-            theme: 'light',
-            size: 'flexible',
-            callback: function(){ turnstileVerified = true; showSecurityError(''); },
-            'expired-callback': function(){ turnstileVerified = false; showSecurityError(securityMessage('Bitte führen Sie die Sicherheitsprüfung erneut aus.', 'Please complete the security check again.')); },
-            'error-callback': function(){ turnstileVerified = false; showSecurityError(securityMessage('Sicherheitsprüfung konnte nicht geladen werden.', 'The security check could not be loaded.')); }
-        });
-    };
-    script.onerror = function(){ showSecurityError(securityMessage('Sicherheitsprüfung konnte nicht geladen werden.', 'The security check could not be loaded.')); };
-    document.head.appendChild(script);
+    token.value = q && q.token ? q.token : '';
+    if(token.value) showSecurityError('');
 }
-function validateCaptchaInline(){
-    var error = document.getElementById('captchaError');
+function validateSecurityInline(){
+    var error = document.getElementById('securityError');
     var csrf = document.getElementById('csrfToken');
-    var ok = turnstileVerified && csrf && csrf.value !== '';
+    var ok = csrf && csrf.value !== '';
     if(!ok){
-        if(error){ error.textContent = securityMessage('Bitte schließen Sie die Sicherheitsprüfung ab.', 'Please complete the security check.'); }
-        var widget = document.getElementById('turnstileWidget');
-        if(widget) widget.scrollIntoView({behavior:'smooth', block:'center'});
+        if(error){ error.textContent = securityMessage('Das Formular ist noch nicht bereit. Bitte laden Sie die Seite neu.', 'The form is not ready yet. Please reload the page.'); }
         return false;
     }
     if(error) error.textContent = '';
@@ -540,13 +515,13 @@ function validateCaptchaInline(){
 }
 fetch('backend/order-token.php', {credentials:'same-origin'})
     .then(function(response){ if(!response.ok) throw new Error('token'); return response.json(); })
-    .then(loadTurnstile)
+    .then(setSecurityToken)
     .catch(function(){
-        var error=document.getElementById('captchaError');
+        var error=document.getElementById('securityError');
         if(!error) return;
         error.textContent = location.protocol === 'file:'
-            ? 'Die Sicherheitsprüfung benötigt die PHP-Vorschau. Starten Sie die Seite über http://localhost:8080/order.'
-            : 'Sicherheitsprüfung konnte nicht geladen werden. Bitte prüfen Sie, ob die Seite über einen PHP-Server geöffnet wurde.';
+            ? 'Das Formular benötigt die PHP-Vorschau. Starten Sie die Seite über http://localhost:8080/order.'
+            : 'Das Formular konnte nicht vollständig geladen werden. Bitte laden Sie die Seite neu.';
     });
 
 // ── CONFIRMATION MODAL ────────────────────────────────────────────────────────
@@ -602,7 +577,7 @@ function validateOrderBeforeModal(){
         return false;
     }
 
-    if (!validateCaptchaInline()) { return false; }
+    if (!validateSecurityInline()) { return false; }
 
     var agb = document.getElementById('agbCheck');
     if (agb && !agb.checked) {

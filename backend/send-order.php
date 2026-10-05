@@ -48,23 +48,59 @@ function nq_rate_limited($config) {
     $now = time();
     $window = (int)$config['rate_limit_window_seconds'];
     $max = (int)$config['rate_limit_max_submits'];
-    $data = ['start' => $now, 'count' => 0];
+    if ($window < 1 || $max < 1) return false;
 
-    if (is_file($file)) {
-        $decoded = json_decode((string)file_get_contents($file), true);
-        if (is_array($decoded) && isset($decoded['start'], $decoded['count'])) {
-            $data = $decoded;
-        }
+    $handle = @fopen($file, 'c+');
+    if (!$handle || !flock($handle, LOCK_EX)) {
+        if (is_resource($handle)) fclose($handle);
+        error_log('NUNIQUE rate limit: temporary storage is unavailable.');
+        return false;
     }
 
-    if (($now - (int)$data['start']) > $window) {
-        $data = ['start' => $now, 'count' => 0];
+    $raw = stream_get_contents($handle);
+    $decoded = json_decode((string)$raw, true);
+    $timestamps = is_array($decoded) ? $decoded : [];
+    $timestamps = array_values(array_filter($timestamps, static function ($timestamp) use ($now, $window) {
+        return is_int($timestamp) && $timestamp > ($now - $window) && $timestamp <= $now;
+    }));
+    $limited = count($timestamps) >= $max;
+    if (!$limited) $timestamps[] = $now;
+
+    rewind($handle);
+    ftruncate($handle, 0);
+    fwrite($handle, json_encode($timestamps));
+    fflush($handle);
+    flock($handle, LOCK_UN);
+    fclose($handle);
+    return $limited;
+}
+
+function nq_claim_submission($fingerprint, $config) {
+    $window = max(1, (int)($config['duplicate_window_seconds'] ?? 900));
+    $file = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR
+        . 'nq_duplicate_' . hash('sha256', $fingerprint) . '.txt';
+    $handle = @fopen($file, 'c+');
+    if (!$handle || !flock($handle, LOCK_EX)) {
+        if (is_resource($handle)) fclose($handle);
+        error_log('NUNIQUE duplicate check: temporary storage is unavailable.');
+        return ['duplicate' => false, 'file' => null];
     }
+    $previous = (int)trim((string)stream_get_contents($handle));
+    $now = time();
+    $duplicate = $previous > 0 && ($now - $previous) < $window;
+    if (!$duplicate) {
+        rewind($handle);
+        ftruncate($handle, 0);
+        fwrite($handle, (string)$now);
+        fflush($handle);
+    }
+    flock($handle, LOCK_UN);
+    fclose($handle);
+    return ['duplicate' => $duplicate, 'file' => $duplicate ? null : $file];
+}
 
-    $data['count'] = (int)$data['count'] + 1;
-    @file_put_contents($file, json_encode($data), LOCK_EX);
-
-    return $data['count'] > $max;
+function nq_release_submission_claim($file) {
+    if (is_string($file) && $file !== '') @unlink($file);
 }
 
 function nq_build_html_table($rows) {
@@ -190,24 +226,21 @@ if (!empty($_POST['website'] ?? '')) {
     exit;
 }
 
-if (nq_rate_limited($config)) {
-    nq_error($lang, 'RATE_LIMITED', $config);
-}
-
 $started = (int)($_POST['form_started_at'] ?? 0);
-if ($started > 0) {
-    $age = time() - $started;
-    if ($age < 3 || $age > 8 * 60 * 60) {
-        nq_error($lang, 'FORM_TIME_INVALID', $config);
-    }
+if ($started <= 0) {
+    nq_error($lang, 'FORM_TIME_INVALID', $config);
+}
+$age = time() - $started;
+if ($age < 3 || $age > 8 * 60 * 60) {
+    nq_error($lang, 'FORM_TIME_INVALID', $config);
 }
 
 if (!nq_verify_order_security($_POST)) {
     nq_error($lang, 'SECURITY_TOKEN_INVALID', $config);
 }
 
-if (!nq_verify_turnstile($_POST, $config)) {
-    nq_error($lang, 'BOT_CHECK_FAILED', $config);
+if (nq_rate_limited($config)) {
+    nq_error($lang, 'RATE_LIMITED', $config);
 }
 
 $vorname = nq_clean_text($_POST['vorname'] ?? '', 80);
@@ -286,6 +319,20 @@ if (!empty($_FILES['inspiration']) && is_array($_FILES['inspiration']['name'])) 
     }
 }
 
+$submissionFingerprint = implode('|', [
+    strtolower((string)$email),
+    strtolower($vorname),
+    strtolower($nachname),
+    $datum,
+    $uhrzeit,
+    strtolower($geschmack),
+    strtolower($groesse),
+]);
+$submissionClaim = nq_claim_submission($submissionFingerprint, $config);
+if ($submissionClaim['duplicate']) {
+    nq_error($lang, 'DUPLICATE_SUBMISSION', $config);
+}
+
 $name = trim($vorname . ' ' . $nachname);
 $ref = 'NQ-' . date('Ymd') . '-' . strtoupper(substr(bin2hex(random_bytes(4)), 0, 6));
 $timestamp = date('d.m.Y H:i');
@@ -350,12 +397,13 @@ $customerHtml = '<html><body style="font-family:Arial,sans-serif;color:#1A1A1A;m
 
 $ownerSubject = 'Tortenanfrage von ' . $name . ' — ' . $datum;
 $ownerOk = nq_mail_html($config['bakery_email'], $ownerSubject, $ownerHtml, $config['from_email'], $config['from_name'], $email, $attachments, $config);
-$customerOk = nq_mail_html($email, $customerSubject . ' (' . $ref . ')', $customerHtml, $config['from_email'], $config['from_name'], $config['bakery_email'], [], $config);
-
 if (!$ownerOk) {
+    nq_release_submission_claim($submissionClaim['file']);
     error_log('NUNIQUE order form: owner email failed for ' . $ref);
     nq_error($lang, 'MAIL_OWNER_FAILED', $config);
 }
+
+$customerOk = nq_mail_html($email, $customerSubject . ' (' . $ref . ')', $customerHtml, $config['from_email'], $config['from_name'], $config['bakery_email'], [], $config);
 if (!$customerOk) {
     error_log('NUNIQUE order form: customer confirmation failed for ' . $ref);
 }

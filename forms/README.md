@@ -13,14 +13,14 @@ Die öffentliche Website besteht weiterhin aus statischen HTML-, CSS- und JavaSc
 `backend/send-order.php` versendet die Anfrage und die Kundenbestätigung über authentifiziertes STRATO SMTP. Die geheimen Zugangsdaten liegen auf dem Server außerhalb des öffentlich erreichbaren Website-Ordners:
 
 - `backend/config.php`: allgemeine, versionierte Einstellungen
-- STRATO `/private/nunique-config.php`: SMTP-Passwort und privater Turnstile-Schlüssel
+- STRATO `/private/nunique-config.php`: SMTP-Passwort
 - `backend/config.local.php`: ausschließlich für die lokale PHP-Vorschau
 
 Eine Vorlage befindet sich in `docs/nunique-config.example.php`. Die ausgefüllte Datei wird einmal manuell nach `/private/nunique-config.php` auf STRATO übertragen. Sie wird weder in Git gespeichert noch von GitHub Actions hochgeladen.
 
-## Sicherheitsprüfung
+## Schutz vor Spam und Missbrauch
 
-Das Formular verwendet Cloudflare Turnstile in Kombination mit einem sitzungsgebundenen CSRF-Token, Honeypot, Zeitprüfung und serverseitiger Rate-Begrenzung. Turnstile-Tokens werden serverseitig geprüft, sind nur fünf Minuten gültig und nur einmal verwendbar.
+Das Formular arbeitet ohne externen CAPTCHA-Dienst. Es kombiniert einen sitzungsgebundenen CSRF-Token, ein verstecktes Honeypot-Feld, eine Zeitprüfung, ein gleitendes serverseitiges Rate Limit und eine kurzzeitige Duplikaterkennung. Alle Prüfungen, die über die Annahme einer Anfrage entscheiden, laufen in PHP auf dem eigenen Server.
 
 ## Voraussetzungen
 

@@ -24,9 +24,10 @@ $config = [
         'image/webp' => 'webp',
     ],
 
-    // Simple rate limit. This stores small counter files in the system temp folder.
+    // Local abuse controls. These store only hashes and timestamps in the system temp folder.
     'rate_limit_window_seconds' => 10 * 60,
     'rate_limit_max_submits'    => 5,
+    'duplicate_window_seconds'  => 15 * 60,
     
     // STRATO SMTP. Production reads the password from a private file outside
     // the public website directory; the local PHP server uses config.local.php.
@@ -35,16 +36,6 @@ $config = [
     'smtp_encryption' => 'ssl',
     'smtp_username'   => 'info@designcakes.de',
     'smtp_password'   => '',
-
-    // Cloudflare Turnstile. Both values are supplied by the private server config.
-    'turnstile_site_key'   => '',
-    'turnstile_secret_key' => '',
-    'turnstile_allowed_hostnames' => [
-        'cakes-coffee.de',
-        'www.cakes-coffee.de',
-        'test.cakes-coffee.de',
-        'localhost',
-    ],
 ];
 
 $privateConfigCandidates = [];

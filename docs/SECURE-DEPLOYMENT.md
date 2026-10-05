@@ -9,7 +9,7 @@ through SFTP and copy `docs/nunique-config.example.php` to:
 /private/nunique-config.php
 ```
 
-Fill in the STRATO mailbox password and both Cloudflare Turnstile keys. The completed
+Fill in the STRATO mailbox password. The completed
 file must exist only on STRATO and in a protected local password store. Never commit
 or upload it through GitHub Actions.
 
@@ -21,19 +21,6 @@ After the private file works, delete the former public copy if it exists:
 
 Production PHP never reads that public path. Local `php -S` development still uses
 `backend/config.local.php`.
-
-## Turnstile
-
-Create a Cloudflare Turnstile widget in Managed mode and allow these hostnames:
-
-```text
-test.cakes-coffee.de
-cakes-coffee.de
-www.cakes-coffee.de
-```
-
-Put the public site key and private secret key in `/private/nunique-config.php`.
-The secret key must never appear in HTML, JavaScript, Git, or GitHub Actions.
 
 ## GitHub environment secrets
 
