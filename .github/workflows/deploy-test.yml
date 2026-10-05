@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Check out website
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
       - name: Install SFTP client
         run: |
@@ -31,21 +31,41 @@ jobs:
           SFTP_PORT: "22"
           SFTP_USERNAME: stu991161244
           SFTP_PASSWORD: ${{ secrets.STRATO_SFTP_PASSWORD }}
+          SFTP_HOST_FINGERPRINT: ${{ secrets.STRATO_SSH_FINGERPRINT }}
           SFTP_TARGET: /test-website
         run: |
           if [ -z "$SFTP_PASSWORD" ]; then
             echo "Missing GitHub secret: STRATO_SFTP_PASSWORD"
             exit 1
           fi
+          if [ -z "$SFTP_HOST_FINGERPRINT" ]; then
+            echo "Missing GitHub secret: STRATO_SSH_FINGERPRINT"
+            exit 1
+          fi
 
           mkdir -p "$HOME/.ssh"
           chmod 700 "$HOME/.ssh"
+          ssh-keyscan -p "$SFTP_PORT" "$SFTP_HOST" > "$RUNNER_TEMP/strato-host-keys"
+          : > "$HOME/.ssh/known_hosts"
+          while IFS= read -r host_key; do
+            printf '%s\n' "$host_key" > "$RUNNER_TEMP/strato-host-key"
+            detected_fingerprint="$(ssh-keygen -lf "$RUNNER_TEMP/strato-host-key" -E sha256 | awk '{print $2}')"
+            if [ "$detected_fingerprint" = "$SFTP_HOST_FINGERPRINT" ]; then
+              printf '%s\n' "$host_key" >> "$HOME/.ssh/known_hosts"
+            fi
+          done < "$RUNNER_TEMP/strato-host-keys"
+          if [ ! -s "$HOME/.ssh/known_hosts" ]; then
+            echo "STRATO SSH host-key fingerprint does not match. Deployment stopped."
+            exit 1
+          fi
+          chmod 600 "$HOME/.ssh/known_hosts"
 
-          lftp -u "$SFTP_USERNAME,$SFTP_PASSWORD" "sftp://$SFTP_HOST:$SFTP_PORT" <<LFTP
+          lftp <<LFTP
           set cmd:fail-exit yes
           set net:max-retries 2
           set net:timeout 20
-          set sftp:connect-program "ssh -a -x -o StrictHostKeyChecking=accept-new"
+          set sftp:connect-program "ssh -a -x -o StrictHostKeyChecking=yes"
+          open -u "$SFTP_USERNAME","$SFTP_PASSWORD" "sftp://$SFTP_HOST:$SFTP_PORT"
           mirror --reverse --verbose \
             --exclude-glob .git/ \
             --exclude-glob .github/ \

@@ -8,6 +8,8 @@ Thumbs.db
 .env.*
 !.env.example
 backend/config.local.php
+private/
+**/nunique-config.php
 
 # Runtime and temporary files
 *.log

@@ -254,11 +254,8 @@
 </div>
 <!-- SUBMIT -->
 <div class="captcha-box" id="captchaBox">
-<label for="orderCaptcha">
-<span data-de="Sicherheitsfrage" data-en="Security question">Sicherheitsfrage</span>:
-            <span data-de="" data-en="" id="captchaQuestion"></span>
-</label>
-<input autocomplete="off" data-captcha-answer="" id="orderCaptcha" inputmode="numeric" name="captcha" required="" type="text"/>
+<label><span data-de="Sicherheitsprüfung" data-en="Security check">Sicherheitsprüfung</span></label>
+<div aria-live="polite" id="turnstileWidget"></div>
 <input id="csrfToken" name="csrf_token" type="hidden" value=""/>
 <p aria-live="polite" class="captcha-error" id="captchaError"></p>
 <p aria-live="polite" class="form-error-summary" id="formValidationError"></p>
@@ -490,51 +487,67 @@ document.querySelectorAll('.lang-btn').forEach(function(btn){ btn.addEventListen
     document.querySelectorAll('.lang-btn').forEach(function(b){ b.classList.remove('active'); });
     this.classList.add('active');
     document.querySelectorAll('[data-de]').forEach(function(el){ el.textContent = lang==='de'?el.getAttribute('data-de'):el.getAttribute('data-en'); });
-    var cq=document.getElementById('captchaQuestion'); if(cq) cq.textContent = lang==='de'?cq.getAttribute('data-de'):cq.getAttribute('data-en');
 }); });
 
 
 
-// ── ROTATING SECURITY QUESTION ───────────────────────────────────────────────
+// ── TURNSTILE SECURITY CHECK ─────────────────────────────────────────────────
 function currentOrderLang(){ var active=document.querySelector('.lang-btn.active'); return active ? active.getAttribute('data-lang') : (document.getElementById('langField') ? document.getElementById('langField').value : 'de'); }
-function setCaptchaQuestion(q){
-    var qEl = document.getElementById('captchaQuestion');
-    var input = document.getElementById('orderCaptcha');
+var turnstileVerified = false;
+function securityMessage(de, en){ return currentOrderLang()==='en' ? en : de; }
+function showSecurityError(message){
+    var error = document.getElementById('captchaError');
+    if(error) error.textContent = message;
+}
+function loadTurnstile(q){
     var token = document.getElementById('csrfToken');
-    if(!qEl || !input || !token) return;
-    qEl.setAttribute('data-de', q.question);
-    qEl.setAttribute('data-en', q.question);
-    qEl.textContent = q.question;
+    if(!token) return;
     token.value = q.token;
-    input.value = '';
+    if(!q.turnstileSiteKey){
+        showSecurityError(securityMessage('Sicherheitsprüfung ist auf dem Server noch nicht eingerichtet.', 'The security check is not configured on the server yet.'));
+        return;
+    }
+    var script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    script.async = true;
+    script.defer = true;
+    script.onload = function(){
+        window.turnstile.render('#turnstileWidget', {
+            sitekey: q.turnstileSiteKey,
+            action: 'order_form',
+            theme: 'light',
+            size: 'flexible',
+            callback: function(){ turnstileVerified = true; showSecurityError(''); },
+            'expired-callback': function(){ turnstileVerified = false; showSecurityError(securityMessage('Bitte führen Sie die Sicherheitsprüfung erneut aus.', 'Please complete the security check again.')); },
+            'error-callback': function(){ turnstileVerified = false; showSecurityError(securityMessage('Sicherheitsprüfung konnte nicht geladen werden.', 'The security check could not be loaded.')); }
+        });
+    };
+    script.onerror = function(){ showSecurityError(securityMessage('Sicherheitsprüfung konnte nicht geladen werden.', 'The security check could not be loaded.')); };
+    document.head.appendChild(script);
 }
 function validateCaptchaInline(){
-    var input = document.getElementById('orderCaptcha');
     var error = document.getElementById('captchaError');
-    if(!input) return true;
-    var ok = String(input.value).trim() !== '' && document.getElementById('csrfToken').value !== '';
+    var csrf = document.getElementById('csrfToken');
+    var ok = turnstileVerified && csrf && csrf.value !== '';
     if(!ok){
-        if(error){ error.textContent = currentOrderLang()==='en' ? 'Please answer the security question correctly.' : 'Bitte beantworten Sie die Sicherheitsfrage richtig.'; }
-        input.classList.add('input-error');
-        input.focus();
+        if(error){ error.textContent = securityMessage('Bitte schließen Sie die Sicherheitsprüfung ab.', 'Please complete the security check.'); }
+        var widget = document.getElementById('turnstileWidget');
+        if(widget) widget.scrollIntoView({behavior:'smooth', block:'center'});
         return false;
     }
     if(error) error.textContent = '';
-    input.classList.remove('input-error');
     return true;
 }
 fetch('backend/order-token.php', {credentials:'same-origin'})
     .then(function(response){ if(!response.ok) throw new Error('token'); return response.json(); })
-    .then(setCaptchaQuestion)
+    .then(loadTurnstile)
     .catch(function(){
         var error=document.getElementById('captchaError');
         if(!error) return;
         error.textContent = location.protocol === 'file:'
-            ? 'Die Sicherheitsfrage benötigt die PHP-Vorschau. Starten Sie die Seite über http://localhost:8080/order.'
+            ? 'Die Sicherheitsprüfung benötigt die PHP-Vorschau. Starten Sie die Seite über http://localhost:8080/order.'
             : 'Sicherheitsprüfung konnte nicht geladen werden. Bitte prüfen Sie, ob die Seite über einen PHP-Server geöffnet wurde.';
     });
-var captchaInput = document.getElementById('orderCaptcha');
-if(captchaInput){ captchaInput.addEventListener('input', function(){ var e=document.getElementById('captchaError'); if(e) e.textContent=''; this.classList.remove('input-error'); }); }
 
 // ── CONFIRMATION MODAL ────────────────────────────────────────────────────────
 var submitBtn = document.getElementById('submitBtn');

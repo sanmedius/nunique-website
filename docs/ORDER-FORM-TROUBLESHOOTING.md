@@ -12,7 +12,8 @@ Common codes:
 - `MISSING_UHRZEIT` — no pickup time reached the backend.
 - `MISSING_GESCHMACK` — no flavour was selected.
 - `MISSING_GROESSE` — no size was selected.
-- `CAPTCHA_INVALID` — the security question was missing or wrong.
+- `SECURITY_TOKEN_INVALID` — the session-bound form token was missing or expired.
+- `BOT_CHECK_FAILED` — Cloudflare Turnstile was missing, expired, or rejected.
 - `FORM_TIME_INVALID` — the form was submitted too quickly or too late.
 - `UPLOAD_FILE_TOO_LARGE` — one uploaded image is too large.
 - `UPLOAD_TOTAL_TOO_LARGE` — all uploaded images together are too large.
@@ -21,12 +22,23 @@ Common codes:
 
 ## If `MAIL_OWNER_FAILED` appears
 
-This usually means the host does not send via PHP `mail()` reliably or requires special mail settings.
+The backend sends through STRATO SMTP. Check the PHP error log for the corresponding
+`NUNIQUE SMTP` entry; it distinguishes a missing password, a connection failure, and
+an SMTP response error.
 
-Next options:
+For STRATO, copy `docs/nunique-config.example.php` to
+`/private/nunique-config.php`, outside `/test-website`, and enter the SMTP password
+and Turnstile keys there. This file is intentionally excluded from source control
+and deployment. Production never reads `backend/config.local.php`.
 
-1. Confirm that `info@designcakes.de` exists on the hosting account.
-2. Check whether the host allows PHP `mail()` with `-f info@designcakes.de`.
-3. If not, replace the mail function with SMTP via PHPMailer.
+If the error persists after deployment, confirm that the SMTP password belongs to
+`info@designcakes.de` and review the hosting PHP error log for the SMTP response code.
+Do not put the password in source control or share it in support messages.
 
-The frontend can remain unchanged.
+## If the security check does not load
+
+1. Confirm that `/private/nunique-config.php` contains both Turnstile keys.
+2. Add `test.cakes-coffee.de` and the production domains to the Turnstile widget's
+   allowed hostnames.
+3. Confirm that the browser can reach `https://challenges.cloudflare.com`.
+4. Check the PHP error log for a `NUNIQUE Turnstile` entry.

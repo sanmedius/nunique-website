@@ -35,12 +35,9 @@ function nq_redirect($path) {
 }
 
 function nq_client_ip() {
-    foreach (['HTTP_CF_CONNECTING_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'] as $key) {
-        if (empty($_SERVER[$key])) continue;
-        $raw = explode(',', $_SERVER[$key])[0];
-        $ip = trim($raw);
-        if (filter_var($ip, FILTER_VALIDATE_IP)) return $ip;
-    }
+    // STRATO serves this endpoint directly. Never trust client-controlled forwarded headers.
+    $ip = trim((string)($_SERVER['REMOTE_ADDR'] ?? ''));
+    if (filter_var($ip, FILTER_VALIDATE_IP)) return $ip;
     return 'unknown';
 }
 
@@ -206,7 +203,11 @@ if ($started > 0) {
 }
 
 if (!nq_verify_order_security($_POST)) {
-    nq_error($lang, 'CAPTCHA_INVALID', $config);
+    nq_error($lang, 'SECURITY_TOKEN_INVALID', $config);
+}
+
+if (!nq_verify_turnstile($_POST, $config)) {
+    nq_error($lang, 'BOT_CHECK_FAILED', $config);
 }
 
 $vorname = nq_clean_text($_POST['vorname'] ?? '', 80);

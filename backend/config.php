@@ -7,7 +7,7 @@ $config = [
     'bakery_email' => 'info@designcakes.de',
     'bakery_name'  => 'NUNIQUE — Cakes & Coffee',
     'bakery_phone' => '+49 170 47 42 351',
-    'site_url'     => 'https://munichcakes.de',
+    'site_url'     => 'https://cakes-coffee.de',
 
     // Use an address from your own domain for better deliverability.
     'from_email'   => 'info@designcakes.de',
@@ -28,18 +28,46 @@ $config = [
     'rate_limit_window_seconds' => 10 * 60,
     'rate_limit_max_submits'    => 5,
     
-    // STRATO SMTP. Keep the password in backend/config.local.php.
+    // STRATO SMTP. Production reads the password from a private file outside
+    // the public website directory; the local PHP server uses config.local.php.
     'smtp_host'       => 'smtp.strato.de',
     'smtp_port'       => 465,
     'smtp_encryption' => 'ssl',
     'smtp_username'   => 'info@designcakes.de',
     'smtp_password'   => '',
+
+    // Cloudflare Turnstile. Both values are supplied by the private server config.
+    'turnstile_site_key'   => '',
+    'turnstile_secret_key' => '',
+    'turnstile_allowed_hostnames' => [
+        'cakes-coffee.de',
+        'www.cakes-coffee.de',
+        'test.cakes-coffee.de',
+        'localhost',
+    ],
 ];
 
-$localConfig = __DIR__ . '/config.local.php';
-if (is_file($localConfig)) {
-    $local = require $localConfig;
-    if (is_array($local)) $config = array_replace($config, $local);
+$privateConfigCandidates = [];
+$configuredPath = getenv('NUNIQUE_CONFIG_PATH');
+if (is_string($configuredPath) && trim($configuredPath) !== '') {
+    $privateConfigCandidates[] = trim($configuredPath);
+}
+
+// Production: /private is a sibling of the public /test-website directory.
+$privateConfigCandidates[] = dirname(__DIR__, 2) . '/private/nunique-config.php';
+
+// Local development fallback only. Production never reads a secret from the web root.
+if (PHP_SAPI === 'cli-server') {
+    $privateConfigCandidates[] = __DIR__ . '/config.local.php';
+}
+
+foreach ($privateConfigCandidates as $privateConfig) {
+    if (!is_file($privateConfig) || !is_readable($privateConfig)) continue;
+    $local = require $privateConfig;
+    if (is_array($local)) {
+        $config = array_replace($config, $local);
+        break;
+    }
 }
 
 return $config;
