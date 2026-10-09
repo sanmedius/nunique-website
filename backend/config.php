@@ -7,7 +7,7 @@ $config = [
     'bakery_email' => 'info@designcakes.de',
     'bakery_name'  => 'NUNIQUE — Cakes & Coffee',
     'bakery_phone' => '+49 170 47 42 351',
-    'site_url'     => 'https://cakes-coffee.de',
+    'site_url'     => 'https://munichcakes.de',
 
     // Use an address from your own domain for better deliverability.
     'from_email'   => 'info@designcakes.de',

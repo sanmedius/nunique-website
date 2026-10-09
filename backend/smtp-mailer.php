@@ -40,8 +40,12 @@ function nq_smtp_send($to, $subject, $headers, $message, $config) {
     }
     stream_set_timeout($socket, 15);
     try {
+        $siteHost = parse_url((string)($config['site_url'] ?? ''), PHP_URL_HOST);
+        if (!is_string($siteHost) || $siteHost === '') {
+            $siteHost = 'localhost';
+        }
         nq_smtp_expect($socket, [220]);
-        nq_smtp_command($socket, 'EHLO munichcakes.de', [250]);
+        nq_smtp_command($socket, 'EHLO ' . $siteHost, [250]);
         nq_smtp_command($socket, 'AUTH LOGIN', [334]);
         nq_smtp_command($socket, base64_encode((string)$config['smtp_username']), [334]);
         nq_smtp_command($socket, base64_encode($password), [235]);

@@ -12,13 +12,17 @@ concurrency:
 
 jobs:
   deploy:
-    name: Upload to test.cakes-coffee.de
+    name: Upload test website
     runs-on: ubuntu-latest
     environment: test
 
     steps:
       - name: Check out website
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: Apply production domain
+        shell: pwsh
+        run: ./scripts/apply-site-domain.ps1
 
       - name: Install SFTP client
         run: |
