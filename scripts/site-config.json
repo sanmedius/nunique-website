@@ -1,3 +1,15 @@
 {
-  "productionDomain": "https://munichcakes.de"
+  "productionDomain": "https://munichcakes.de",
+  "socialImage": "/images/torte5.jpg",
+  "businessTelephone": "+49 89 21 54 64 62",
+  "indexablePages": [
+    "/",
+    "/about",
+    "/cakeshop",
+    "/flavours",
+    "/jobs",
+    "/order",
+    "/pastryshop",
+    "/week-special"
+  ]
 }

@@ -24,6 +24,10 @@ jobs:
         shell: pwsh
         run: ./scripts/apply-site-domain.ps1
 
+      - name: Synchronize image dimensions
+        shell: pwsh
+        run: ./scripts/sync-image-dimensions.ps1
+
       - name: Install SFTP client
         run: |
           sudo apt-get update

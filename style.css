@@ -746,7 +746,12 @@ footer ul li a:hover { color: var(--pink); }
     object-fit: cover; display: block;
 }
 .about-text p { color: var(--mid); line-height: 1.85; margin-bottom: 1rem; }
-.about-text h3 { color: var(--dark); font-family: 'Cormorant Garamond', serif; }
+.about-text h2,
+.about-text h3 {
+    color: var(--dark);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+}
 @media (max-width: 768px) {
     .about-layout { grid-template-columns: 1fr; gap: 2rem; }
     .about-image { aspect-ratio: 4/3; }

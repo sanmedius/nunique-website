@@ -9,7 +9,9 @@ website. The script synchronizes:
 
 - canonical links on every root HTML page;
 - `og:url` social sharing metadata on every root HTML page;
+- `og:image` and `twitter:image` social preview metadata;
 - `site_url` in `backend/config.php`.
+- `sitemap.xml` and its entry in `robots.txt`.
 
 The SMTP client derives its `EHLO` hostname from `site_url`, so it does not have
 a separate hardcoded website domain.
