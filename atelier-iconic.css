@@ -111,6 +111,7 @@ body{background:linear-gradient(180deg,#fffafc 0%,#fff 45%,#f7fdff 100%); color:
 .stars{color:var(--brand-pink);letter-spacing:.08em;margin-bottom:14px;}
 .review-text{font-size:16px;line-height:1.7;color:#45343c;}
 .review-author{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--brand-teal-dark);margin-top:20px;}
+.review-source-link{text-align:center;margin:18px 0 0}.review-source-link a{color:var(--brand-pink-dark);font-weight:700;text-underline-offset:4px}
 .carousel-hint{text-align:center;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--atelier-muted);}
 .faq-section{background:#fff;}
 .faq-grid{max-width:980px;margin:0 auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
@@ -118,6 +119,7 @@ body{background:linear-gradient(180deg,#fffafc 0%,#fff 45%,#f7fdff 100%); color:
 .faq-grid summary{cursor:pointer;font-weight:700;color:var(--brand-pink-dark);}
 .faq-grid p{color:var(--atelier-muted);line-height:1.65;margin:12px 0 0;}
 .atelier-final-cta{text-align:center;margin:0 auto 80px;padding:72px 6vw;max-width:1080px;border-radius:42px;background:radial-gradient(circle at top left,rgba(255,95,168,.22),transparent 45%),linear-gradient(135deg,#fff,#eefdff 55%,var(--brand-teal-soft));box-shadow:0 24px 70px rgba(194,24,91,.10);}
+.atelier-cta-copy{max-width:680px;margin:1rem auto 1.8rem;color:#625b64;font-size:1.05rem;line-height:1.7}
 footer{background:#fffafc!important;color:#4c3d45!important;border-top:1px solid rgba(233,30,140,.10)!important;}
 footer a{color:#4c3d45!important;} footer .footer-bottom{border-top:1px solid rgba(233,30,140,.10)!important;}
 /* Subpages softer atelier styling */
