@@ -33,8 +33,8 @@ $config = [
     // private file outside the public website directory; local PHP uses
     // config.local.php. Brevo SMTP values belong in that private file.
     'smtp_host'       => '',
-    'smtp_port'       => 465,
-    'smtp_encryption' => 'ssl',
+    'smtp_port'       => 587,
+    'smtp_encryption' => 'tls',
     'smtp_username'   => '',
     'smtp_password'   => '',
 ];

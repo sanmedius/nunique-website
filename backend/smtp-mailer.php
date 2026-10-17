@@ -42,7 +42,8 @@ function nq_smtp_send($to, $subject, $headers, $message, $config) {
         return false;
     }
     $port = (int)$config['smtp_port'];
-    $transport = ($config['smtp_encryption'] ?? '') === 'ssl' ? 'ssl://' : 'tcp://';
+    $encryption = strtolower(trim((string)($config['smtp_encryption'] ?? '')));
+    $transport = $encryption === 'ssl' ? 'ssl://' : 'tcp://';
     $socket = @stream_socket_client($transport . $host . ':' . $port, $errno, $error, 15, STREAM_CLIENT_CONNECT);
     if (!$socket) {
         nq_smtp_set_last_error('CONNECTION_FAILED');
@@ -57,6 +58,13 @@ function nq_smtp_send($to, $subject, $headers, $message, $config) {
         }
         nq_smtp_expect($socket, [220]);
         nq_smtp_command($socket, 'EHLO ' . $siteHost, [250]);
+        if ($encryption === 'tls') {
+            nq_smtp_command($socket, 'STARTTLS', [220]);
+            if (!stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+                throw new RuntimeException('SMTP TLS negotiation failed');
+            }
+            nq_smtp_command($socket, 'EHLO ' . $siteHost, [250]);
+        }
         nq_smtp_command($socket, 'AUTH LOGIN', [334]);
         nq_smtp_command($socket, base64_encode($username), [334]);
         nq_smtp_command($socket, base64_encode($password), [235]);
