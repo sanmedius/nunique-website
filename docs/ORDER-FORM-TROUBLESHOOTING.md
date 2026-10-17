@@ -18,22 +18,25 @@ Common codes:
 - `UPLOAD_FILE_TOO_LARGE` — one uploaded image is too large.
 - `UPLOAD_TOTAL_TOO_LARGE` — all uploaded images together are too large.
 - `UPLOAD_TYPE_NOT_ALLOWED` — uploaded file is not JPG, PNG or WebP.
-- `MAIL_OWNER_FAILED` — PHP accepted the form data, but the email to the bakery could not be sent.
+- `MAIL_OWNER_FAILED_CONFIG_MISSING` — the private SMTP configuration could not be read.
+- `MAIL_OWNER_FAILED_CONNECTION_FAILED` — the web server could not connect to the SMTP relay.
+- `MAIL_OWNER_FAILED_AUTH_FAILED` — the Brevo SMTP login or SMTP key was rejected.
+- `MAIL_OWNER_FAILED_IP_NOT_AUTHORIZED` — Brevo SMTP IP blocking is active and the server IP is not allowed.
+- `MAIL_OWNER_FAILED_SMTP_REJECTED` — Brevo rejected the sender or another SMTP request.
 
 ## If `MAIL_OWNER_FAILED` appears
 
-The backend sends through STRATO SMTP. Check the PHP error log for the corresponding
-`NUNIQUE SMTP` entry; it distinguishes a missing password, a connection failure, and
+The backend sends through Brevo SMTP. Check the PHP error log for the corresponding
+`NUNIQUE SMTP` entry; it distinguishes a missing SMTP key, a connection failure, and
 an SMTP response error.
 
-For STRATO, copy `docs/nunique-config.example.php` to
-`/private/nunique-config.php`, outside `/test-website`, and enter the SMTP password
-there. This file is intentionally excluded from source control
+Copy `docs/nunique-config.example.php` to `/private/nunique-config.php`, outside
+`/test-website`, and enter the Brevo SMTP login and SMTP key there. This file is intentionally excluded from source control
 and deployment. Production never reads `backend/config.local.php`.
 
-If the error persists after deployment, confirm that the SMTP password belongs to
-`info@designcakes.de` and review the hosting PHP error log for the SMTP response code.
-Do not put the password in source control or share it in support messages.
+If the error persists after deployment, confirm that the SMTP key is active in Brevo,
+the sender domain is authenticated, and review the hosting PHP error log for the SMTP
+response code. Do not put the key in source control or share it in support messages.
 
 ## If the form reports a security-token error
 

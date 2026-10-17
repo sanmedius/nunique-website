@@ -10,10 +10,10 @@ Die öffentliche Website besteht weiterhin aus statischen HTML-, CSS- und JavaSc
 
 ## E-Mail-Versand
 
-`backend/send-order.php` versendet die Anfrage und die Kundenbestätigung über authentifiziertes STRATO SMTP. Die geheimen Zugangsdaten liegen auf dem Server außerhalb des öffentlich erreichbaren Website-Ordners:
+`backend/send-order.php` versendet die Anfrage und die Kundenbestätigung über Brevo SMTP. Die Website verwendet einen eingeschränkten Brevo SMTP-Schlüssel und niemals das Passwort des geschäftlichen E-Mail-Postfachs. Die Zugangsdaten liegen auf dem Server außerhalb des öffentlich erreichbaren Website-Ordners:
 
 - `backend/config.php`: allgemeine, versionierte Einstellungen
-- STRATO `/private/nunique-config.php`: SMTP-Passwort
+- STRATO `/private/nunique-config.php`: Brevo SMTP-Zugangsdaten
 - `backend/config.local.php`: ausschließlich für die lokale PHP-Vorschau
 
 Eine Vorlage befindet sich in `docs/nunique-config.example.php`. Die ausgefüllte Datei wird einmal manuell nach `/private/nunique-config.php` auf STRATO übertragen. Sie wird weder in Git gespeichert noch von GitHub Actions hochgeladen.

@@ -400,7 +400,7 @@ $ownerOk = nq_mail_html($config['bakery_email'], $ownerSubject, $ownerHtml, $con
 if (!$ownerOk) {
     nq_release_submission_claim($submissionClaim['file']);
     error_log('NUNIQUE order form: owner email failed for ' . $ref);
-    nq_error($lang, 'MAIL_OWNER_FAILED', $config);
+    nq_error($lang, 'MAIL_OWNER_FAILED_' . nq_smtp_last_error(), $config);
 }
 
 $customerOk = nq_mail_html($email, $customerSubject . ' (' . $ref . ')', $customerHtml, $config['from_email'], $config['from_name'], $config['bakery_email'], [], $config);

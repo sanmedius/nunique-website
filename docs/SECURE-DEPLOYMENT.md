@@ -9,7 +9,7 @@ through SFTP and copy `docs/nunique-config.example.php` to:
 /private/nunique-config.php
 ```
 
-Fill in the STRATO mailbox password. The completed
+Fill in the Brevo SMTP login and SMTP key. The completed
 file must exist only on STRATO and in a protected local password store. Never commit
 or upload it through GitHub Actions.
 

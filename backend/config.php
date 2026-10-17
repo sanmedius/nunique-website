@@ -29,12 +29,13 @@ $config = [
     'rate_limit_max_submits'    => 5,
     'duplicate_window_seconds'  => 15 * 60,
     
-    // STRATO SMTP. Production reads the password from a private file outside
-    // the public website directory; the local PHP server uses config.local.php.
-    'smtp_host'       => 'smtp.strato.de',
+    // Transactional email provider. Production reads the credentials from a
+    // private file outside the public website directory; local PHP uses
+    // config.local.php. Brevo SMTP values belong in that private file.
+    'smtp_host'       => '',
     'smtp_port'       => 465,
     'smtp_encryption' => 'ssl',
-    'smtp_username'   => 'info@designcakes.de',
+    'smtp_username'   => '',
     'smtp_password'   => '',
 ];
 
