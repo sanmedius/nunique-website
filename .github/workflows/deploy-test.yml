@@ -40,8 +40,6 @@ jobs:
           SFTP_USERNAME: stu991161244
           SFTP_PASSWORD: ${{ secrets.STRATO_SFTP_PASSWORD }}
           SFTP_HOST_FINGERPRINT: ${{ secrets.STRATO_SSH_FINGERPRINT }}
-          # STRATO exposes this directory relative to the SFTP account root.
-          SFTP_TARGET: test-website
         run: |
           if [ -z "$SFTP_PASSWORD" ]; then
             echo "Missing GitHub secret: STRATO_SFTP_PASSWORD"
@@ -69,9 +67,9 @@ jobs:
           fi
           chmod 600 "$HOME/.ssh/known_hosts"
 
-          # Mirror the repository contents into the existing target directory.
-          # Omitting source/target after lcd/cd prevents lftp from nesting the
-          # checkout folder inside /test-website.
+          # This dedicated SFTP account is already rooted at STRATO's
+          # /test-website directory. Mirror the repository contents into that
+          # root without adding a remote path or a nested checkout folder.
           lftp <<LFTP
           set cmd:fail-exit yes
           set net:max-retries 2
@@ -79,7 +77,6 @@ jobs:
           set sftp:connect-program "ssh -a -x -o StrictHostKeyChecking=yes"
           open -u "$SFTP_USERNAME","$SFTP_PASSWORD" "sftp://$SFTP_HOST:$SFTP_PORT"
           lcd "$GITHUB_WORKSPACE"
-          cd "$SFTP_TARGET"
           mirror --reverse --verbose \
             --exclude-glob .git/ \
             --exclude-glob .github/ \
