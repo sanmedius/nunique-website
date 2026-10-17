@@ -68,12 +68,17 @@ jobs:
           fi
           chmod 600 "$HOME/.ssh/known_hosts"
 
+          # Mirror the repository contents into the existing target directory.
+          # Omitting source/target after lcd/cd prevents lftp from nesting the
+          # checkout folder inside /test-website.
           lftp <<LFTP
           set cmd:fail-exit yes
           set net:max-retries 2
           set net:timeout 20
           set sftp:connect-program "ssh -a -x -o StrictHostKeyChecking=yes"
           open -u "$SFTP_USERNAME","$SFTP_PASSWORD" "sftp://$SFTP_HOST:$SFTP_PORT"
+          lcd "$GITHUB_WORKSPACE"
+          cd "$SFTP_TARGET"
           mirror --reverse --verbose \
             --exclude-glob .git/ \
             --exclude-glob .github/ \
@@ -87,7 +92,6 @@ jobs:
             --exclude-glob backend/config.local.php \
             --exclude-glob backend/config.local.example.php \
             --exclude-glob '*.log' \
-            --exclude-glob '*.zip' \
-            ./ "$SFTP_TARGET"
+            --exclude-glob '*.zip'
           bye
           LFTP
