@@ -5,6 +5,8 @@
 // Use a normal Brevo API key here; do not use an MCP key or real mailbox password.
 return [
     'brevo_api_key'   => 'YOUR_BREVO_API_KEY',
+    'turnstile_secret_key' => 'YOUR_TURNSTILE_SECRET_KEY',
+    'turnstile_allowed_hostnames' => ['munichcakes.de', 'www.munichcakes.de', 'test.cakes-coffee.de'],
     'smtp_host'       => 'smtp-relay.brevo.com',
     'smtp_port'       => 587,
     'smtp_encryption' => 'tls',

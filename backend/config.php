@@ -38,6 +38,14 @@ $config = [
     'smtp_username'   => '',
     'smtp_password'   => '',
     'brevo_api_key'   => '',
+
+    // Cloudflare Turnstile secret. Keep the real value only in /private.
+    'turnstile_secret_key' => '',
+    'turnstile_allowed_hostnames' => [
+        'munichcakes.de',
+        'www.munichcakes.de',
+        'test.cakes-coffee.de',
+    ],
 ];
 
 $privateConfigCandidates = [];

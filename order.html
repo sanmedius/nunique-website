@@ -14,6 +14,7 @@
 <link href="style.css" rel="stylesheet"/>
 <link href="order.css" rel="stylesheet"/>
 <link href="atelier-iconic.css" rel="stylesheet"/>
+<script async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
 <script>
 /* Anti-flicker: apply language class before render */
 (function(){
@@ -254,6 +255,10 @@
 <!-- SUBMIT -->
 <div>
 <input id="csrfToken" name="csrf_token" type="hidden" value=""/>
+<div class="field-group">
+<label><span data-de="SicherheitsprÃ¼fung" data-en="Security check">SicherheitsprÃ¼fung</span></label>
+<div class="cf-turnstile" data-sitekey="0x4AAAAAAFZZJQvY2fGdYr1i" data-theme="light"></div>
+</div>
 <p aria-live="polite" class="captcha-error" id="securityError"></p>
 <p aria-live="polite" class="form-error-summary" id="formValidationError"></p>
 </div>
@@ -512,6 +517,14 @@ function validateSecurityInline(){
     if(error) error.textContent = '';
     return true;
 }
+function validateTurnstileInline(){
+    var response = document.querySelector('[name="cf-turnstile-response"]');
+    if (!response || !response.value) {
+        showSecurityError(securityMessage('Bitte schlieÃŸen Sie die SicherheitsprÃ¼fung ab.', 'Please complete the security check.'));
+        return false;
+    }
+    return true;
+}
 fetch('backend/order-token.php', {credentials:'same-origin'})
     .then(function(response){ if(!response.ok) throw new Error('token'); return response.json(); })
     .then(setSecurityToken)
@@ -577,6 +590,7 @@ function validateOrderBeforeModal(){
     }
 
     if (!validateSecurityInline()) { return false; }
+    if (!validateTurnstileInline()) { return false; }
 
     var agb = document.getElementById('agbCheck');
     if (agb && !agb.checked) {

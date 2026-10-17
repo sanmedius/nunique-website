@@ -43,3 +43,10 @@ error code. Do not put the key in source control or share it in support messages
 1. Open the form through the PHP website rather than as a local `file://` page.
 2. Reload the page so it can request a fresh session token.
 3. Confirm that PHP sessions work on the server and that cookies are accepted.
+
+## If the form reports a Turnstile error
+
+Confirm that `/private/nunique-config.php` contains `turnstile_secret_key` with the
+private Cloudflare secret key. Do not put that key in GitHub or the public website.
+The widget hostname list in Cloudflare must include the domain used for testing and
+the live domain. A Turnstile token can be used only once and expires after five minutes.

@@ -8,6 +8,7 @@ $config = require __DIR__ . '/config.php';
 require_once __DIR__ . '/form-security.php';
 require_once __DIR__ . '/smtp-mailer.php';
 require_once __DIR__ . '/brevo-mailer.php';
+require_once __DIR__ . '/turnstile.php';
 
 function nq_clean_text($value, $maxLength = 1000) {
     $value = is_string($value) ? $value : '';
@@ -242,6 +243,10 @@ if ($age < 3 || $age > 8 * 60 * 60) {
 
 if (!nq_verify_order_security($_POST)) {
     nq_error($lang, 'SECURITY_TOKEN_INVALID', $config);
+}
+
+if (!nq_turnstile_verify($_POST['cf-turnstile-response'] ?? '', $config, nq_client_ip())) {
+    nq_error($lang, 'TURNSTILE_' . nq_turnstile_last_error(), $config);
 }
 
 if (nq_rate_limited($config)) {
