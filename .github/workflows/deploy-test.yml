@@ -40,7 +40,8 @@ jobs:
           SFTP_USERNAME: stu991161244
           SFTP_PASSWORD: ${{ secrets.STRATO_SFTP_PASSWORD }}
           SFTP_HOST_FINGERPRINT: ${{ secrets.STRATO_SSH_FINGERPRINT }}
-          SFTP_TARGET: /test-website
+          # STRATO exposes this directory relative to the SFTP account root.
+          SFTP_TARGET: test-website
         run: |
           if [ -z "$SFTP_PASSWORD" ]; then
             echo "Missing GitHub secret: STRATO_SFTP_PASSWORD"
