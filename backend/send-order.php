@@ -7,6 +7,7 @@
 $config = require __DIR__ . '/config.php';
 require_once __DIR__ . '/form-security.php';
 require_once __DIR__ . '/smtp-mailer.php';
+require_once __DIR__ . '/brevo-mailer.php';
 
 function nq_clean_text($value, $maxLength = 1000) {
     $value = is_string($value) ? $value : '';
@@ -119,6 +120,10 @@ function nq_mail_html($to, $subject, $html, $fromEmail, $fromName, $replyTo = nu
     $fromName = nq_header_text($fromName, 120);
     $fromEmail = filter_var($fromEmail, FILTER_VALIDATE_EMAIL) ? $fromEmail : 'noreply@localhost';
     $replyTo = filter_var($replyTo, FILTER_VALIDATE_EMAIL) ? $replyTo : $fromEmail;
+
+    if (trim((string)($smtpConfig['brevo_api_key'] ?? '')) !== '') {
+        return nq_brevo_send($to, $subject, $html, $fromEmail, $fromName, $replyTo, $attachments, $smtpConfig);
+    }
 
     $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
     $encodedFromName = '=?UTF-8?B?' . base64_encode($fromName) . '?=';

@@ -37,6 +37,7 @@ $config = [
     'smtp_encryption' => 'tls',
     'smtp_username'   => '',
     'smtp_password'   => '',
+    'brevo_api_key'   => '',
 ];
 
 $privateConfigCandidates = [];

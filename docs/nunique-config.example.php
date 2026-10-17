@@ -3,8 +3,9 @@
 // Copy this file on STRATO to /private/nunique-config.php.
 // /private must be outside the public /test-website directory.
 // Never commit the completed file or paste its secrets into support messages.
-// Use a Brevo SMTP key, never the password for a real mailbox.
+// Use a normal Brevo API key (not an MCP key). The form prefers HTTPS API delivery.
 return [
+    'brevo_api_key'   => 'YOUR_BREVO_API_KEY',
     'smtp_host'       => 'smtp-relay.brevo.com',
     'smtp_port'       => 587,
     'smtp_encryption' => 'tls',

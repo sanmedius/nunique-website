@@ -2,8 +2,9 @@
 
 // Local development only: copy this file to config.local.php.
 // Never upload config.local.php. Production uses /private/nunique-config.php.
-// Use a Brevo SMTP key, never the password for a real mailbox.
+// Use a normal Brevo API key here; do not use an MCP key or real mailbox password.
 return [
+    'brevo_api_key'   => 'YOUR_BREVO_API_KEY',
     'smtp_host'       => 'smtp-relay.brevo.com',
     'smtp_port'       => 587,
     'smtp_encryption' => 'tls',

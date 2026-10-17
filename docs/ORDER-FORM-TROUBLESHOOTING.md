@@ -26,17 +26,17 @@ Common codes:
 
 ## If `MAIL_OWNER_FAILED` appears
 
-The backend sends through Brevo SMTP. Check the PHP error log for the corresponding
-`NUNIQUE SMTP` entry; it distinguishes a missing SMTP key, a connection failure, and
-an SMTP response error.
+The backend prefers Brevo's HTTPS API when `brevo_api_key` is configured; otherwise it
+uses Brevo SMTP. Check the PHP error log for the corresponding `NUNIQUE Brevo API` or
+`NUNIQUE SMTP` entry.
 
 Copy `docs/nunique-config.example.php` to `/private/nunique-config.php`, outside
-`/test-website`, and enter the Brevo SMTP login and SMTP key there. This file is intentionally excluded from source control
-and deployment. Production never reads `backend/config.local.php`.
+`/test-website`, and enter the normal Brevo API key there. This file is intentionally excluded from source control
+and deployment. Production never reads `backend/config.local.php`. Do not use a Brevo MCP key.
 
-If the error persists after deployment, confirm that the SMTP key is active in Brevo,
-the sender domain is authenticated, and review the hosting PHP error log for the SMTP
-response code. Do not put the key in source control or share it in support messages.
+If the error persists after deployment, confirm that the API key is active in Brevo,
+the sender domain is authenticated, and review the hosting PHP error log for the safe
+error code. Do not put the key in source control or share it in support messages.
 
 ## If the form reports a security-token error
 
