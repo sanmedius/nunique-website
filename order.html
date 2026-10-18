@@ -256,7 +256,7 @@
 <div>
 <input id="csrfToken" name="csrf_token" type="hidden" value=""/>
 <div class="field-group">
-<label><span data-de="SicherheitsprÃ¼fung" data-en="Security check">SicherheitsprÃ¼fung</span></label>
+<label><span data-de="Sicherheitspr&uuml;fung" data-en="Security check">Sicherheitspr&uuml;fung</span></label>
 <div class="cf-turnstile" data-sitekey="0x4AAAAAAFZZJQvY2fGdYr1i" data-theme="light"></div>
 </div>
 <p aria-live="polite" class="captcha-error" id="securityError"></p>
@@ -520,7 +520,7 @@ function validateSecurityInline(){
 function validateTurnstileInline(){
     var response = document.querySelector('[name="cf-turnstile-response"]');
     if (!response || !response.value) {
-        showSecurityError(securityMessage('Bitte schlieÃŸen Sie die SicherheitsprÃ¼fung ab.', 'Please complete the security check.'));
+        showSecurityError(securityMessage('Bitte schlie\u00dfen Sie die Sicherheitspr\u00fcfung ab.', 'Please complete the security check.'));
         return false;
     }
     return true;
