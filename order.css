@@ -641,3 +641,9 @@
   outline: 2px solid #B00020 !important;
   outline-offset: 3px;
 }
+
+/* Time buttons keep a stable width when the selected state becomes heavier. */
+.time-chip {
+  min-width: 64px;
+  text-align: center;
+}
