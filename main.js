@@ -498,6 +498,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // V4 cake-gallery scroll patch
 document.addEventListener('DOMContentLoaded', function(){
+  // These SVGs are decorative: the parent links/text already provide their names.
+  document.querySelectorAll('.header-social svg, .drawer-social svg, .social-icons svg, #cookie-banner svg').forEach(function(svg){
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+  });
+
   var track=document.getElementById('cakeGalleryTrack'); if(!track) return;
   var prev=document.getElementById('cakeGalleryPrev'), next=document.getElementById('cakeGalleryNext');
   function step(){return Math.min(track.clientWidth*.82,760)}
