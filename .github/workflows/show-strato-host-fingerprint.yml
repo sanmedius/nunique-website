@@ -1,0 +1,22 @@
+name: Show STRATO SSH host fingerprint
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fingerprint:
+    name: Read public STRATO host key
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Display the ED25519 SHA-256 fingerprint
+        run: |
+          ssh-keyscan -t ed25519 -p 22 58146001.ssh.w1.strato.hosting 2>/dev/null > "$RUNNER_TEMP/strato-ed25519-key"
+          if [ ! -s "$RUNNER_TEMP/strato-ed25519-key" ]; then
+            echo "Could not retrieve STRATO's public ED25519 host key."
+            exit 1
+          fi
+          ssh-keygen -lf "$RUNNER_TEMP/strato-ed25519-key" -E sha256
