@@ -38,6 +38,9 @@ jobs:
           mkdir -p "$HOME/.ssh"
           chmod 700 "$HOME/.ssh"
           ssh-keyscan -p "$SFTP_PORT" "$SFTP_HOST" > "$RUNNER_TEMP/strato-host-keys"
+          echo "Detected public STRATO host-key fingerprints:"
+          ssh-keygen -lf "$RUNNER_TEMP/strato-host-keys" -E sha256
+          echo "Saved production fingerprint length: ${#SFTP_HOST_FINGERPRINT}"
           : > "$HOME/.ssh/known_hosts"
           while IFS= read -r host_key; do
             printf '%s\n' "$host_key" > "$RUNNER_TEMP/strato-host-key"
