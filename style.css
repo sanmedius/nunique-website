@@ -752,9 +752,61 @@ footer ul li a:hover { color: var(--pink); }
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(1.2rem, 2.5vw, 1.6rem);
 }
+
+/* ── ABOUT: TEAM ── */
+.about-team-section { background: var(--atelier-cream); }
+.about-team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.25rem, 3vw, 2rem);
+}
+.about-team-card {
+    display: grid;
+    grid-template-columns: minmax(130px, 180px) 1fr;
+    gap: 1.4rem;
+    align-items: start;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background: rgba(255, 255, 255, .82);
+    border: 1px solid rgba(255, 255, 255, .68);
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .05);
+}
+.about-team-card img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--pink-soft);
+}
+.about-team-card h3 { margin: 0; }
+.about-team-card-content {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+.about-team-card .role {
+    margin: .25rem 0 1rem;
+    color: var(--pink-dark);
+    font-weight: 700;
+}
+.about-team-card p { color: var(--mid); }
+.about-team-card .team-signoff {
+    margin-top: 1rem;
+    color: var(--pink-dark);
+    font-weight: 700;
+}
 @media (max-width: 768px) {
     .about-layout { grid-template-columns: 1fr; gap: 2rem; }
     .about-image { aspect-ratio: 4/3; }
+    .about-team-card { grid-template-columns: 130px 1fr; }
+}
+@media (max-width: 640px) {
+    .about-team-grid { grid-template-columns: 1fr; }
+    .about-team-card {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        text-align: center;
+    }
+    .about-team-card img { width: min(150px, 100%); margin: 0 auto; }
 }
 
 /* ── SCROLL-TO-TOP BUTTON ── */
