@@ -510,6 +510,9 @@
         .time-chip:hover { border-color:var(--turquoise); color:var(--turquoise); }
         .time-chip.sel { background:#e0f7fa; border-color:var(--turquoise); color:#0097a7; font-weight:600; }
 
+        /* Keep choice rows still when selected text becomes bold. */
+        .opt-tile, .time-chip { font-weight: 600; }
+
         /* ── FLAVOR TILES ── */
         .flavor-tiles {
             display: grid;

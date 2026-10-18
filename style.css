@@ -755,6 +755,7 @@ footer ul li a:hover { color: var(--pink); }
 
 /* ── ABOUT: TEAM ── */
 .about-team-section { background: var(--atelier-cream); }
+.about-team-section .section-heading { margin-bottom: 2rem; }
 .about-team-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1030,7 +1031,7 @@ footer ul li a:hover { color: var(--pink); }
 /* ── FLAVOUR CARD HOVER ZOOM ── */
 .flavour-card {
     position: relative;
-    overflow: visible !important;
+    overflow: hidden !important;
 }
 .flavour-card .card-img-wrap {
     overflow: hidden;
@@ -1047,9 +1048,9 @@ footer ul li a:hover { color: var(--pink); }
 .flavour-card::after {
     content: '';
     position: absolute;
-    inset: -4px;
+    inset: 0;
     border: 2px solid var(--pink);
-    border-radius: 16px;
+    border-radius: inherit;
     opacity: 0;
     transition: opacity .2s;
     pointer-events: none;
