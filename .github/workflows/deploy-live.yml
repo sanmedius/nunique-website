@@ -1,0 +1,103 @@
+name: Deploy live website to STRATO
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_production:
+        description: Confirm that this deployment should update munichcakes.de
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: strato-live-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ inputs.confirm_production }}
+    name: Upload live website
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://munichcakes.de
+
+    steps:
+      - name: Check out website
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: Apply live domain configuration
+        shell: pwsh
+        run: ./scripts/apply-site-domain.ps1
+
+      - name: Synchronize image dimensions
+        shell: pwsh
+        run: ./scripts/sync-image-dimensions.ps1
+
+      - name: Install SFTP client
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes lftp
+
+      - name: Upload website over SFTP
+        env:
+          SFTP_HOST: 58146001.ssh.w1.strato.hosting
+          SFTP_PORT: "22"
+          SFTP_USERNAME: ${{ secrets.STRATO_LIVE_SFTP_USERNAME }}
+          SFTP_PASSWORD: ${{ secrets.STRATO_LIVE_SFTP_PASSWORD }}
+          SFTP_HOST_FINGERPRINT: ${{ secrets.STRATO_SSH_FINGERPRINT }}
+        run: |
+          if [ -z "$SFTP_USERNAME" ] || [ -z "$SFTP_PASSWORD" ]; then
+            echo "Missing production secrets: STRATO_LIVE_SFTP_USERNAME or STRATO_LIVE_SFTP_PASSWORD"
+            exit 1
+          fi
+          if [ -z "$SFTP_HOST_FINGERPRINT" ]; then
+            echo "Missing production secret: STRATO_SSH_FINGERPRINT"
+            exit 1
+          fi
+
+          mkdir -p "$HOME/.ssh"
+          chmod 700 "$HOME/.ssh"
+          ssh-keyscan -p "$SFTP_PORT" "$SFTP_HOST" > "$RUNNER_TEMP/strato-host-keys"
+          : > "$HOME/.ssh/known_hosts"
+          while IFS= read -r host_key; do
+            printf '%s\n' "$host_key" > "$RUNNER_TEMP/strato-host-key"
+            detected_fingerprint="$(ssh-keygen -lf "$RUNNER_TEMP/strato-host-key" -E sha256 | awk '{print $2}')"
+            if [ "$detected_fingerprint" = "$SFTP_HOST_FINGERPRINT" ]; then
+              printf '%s\n' "$host_key" >> "$HOME/.ssh/known_hosts"
+            fi
+          done < "$RUNNER_TEMP/strato-host-keys"
+          if [ ! -s "$HOME/.ssh/known_hosts" ]; then
+            echo "STRATO SSH host-key fingerprint does not match. Deployment stopped."
+            exit 1
+          fi
+          chmod 600 "$HOME/.ssh/known_hosts"
+
+          # The live SFTP account must be restricted to STRATO's /munichcakes.de
+          # directory. Upload only to that account root: never add a remote path.
+          lftp <<LFTP
+          set cmd:fail-exit yes
+          set net:max-retries 2
+          set net:timeout 20
+          set sftp:connect-program "ssh -a -x -o StrictHostKeyChecking=yes"
+          open -u "$SFTP_USERNAME","$SFTP_PASSWORD" "sftp://$SFTP_HOST:$SFTP_PORT"
+          lcd "$GITHUB_WORKSPACE"
+          mirror --reverse --verbose \
+            --exclude-glob .git/ \
+            --exclude-glob .github/ \
+            --exclude-glob .gitignore \
+            --exclude-glob .vscode/ \
+            --exclude-glob archive-unused/ \
+            --exclude-glob docs/ \
+            --exclude-glob forms/ \
+            --exclude-glob scripts/ \
+            --exclude-glob shared-reference/ \
+            --exclude-glob backend/config.local.php \
+            --exclude-glob backend/config.local.example.php \
+            --exclude-glob '*.log' \
+            --exclude-glob '*.zip'
+          bye
+          LFTP

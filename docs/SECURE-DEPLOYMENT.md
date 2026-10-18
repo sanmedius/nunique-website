@@ -9,9 +9,9 @@ through SFTP and copy `docs/nunique-config.example.php` to:
 /private/nunique-config.php
 ```
 
-Fill in the Brevo SMTP login and SMTP key. The completed
-file must exist only on STRATO and in a protected local password store. Never commit
-or upload it through GitHub Actions.
+Fill in the Brevo API key and the Cloudflare Turnstile secret key. The completed file
+must exist only on STRATO and in a protected local password store. Never commit or
+upload it through GitHub Actions.
 
 After the private file works, delete the former public copy if it exists:
 
@@ -37,6 +37,27 @@ the SHA-256 fingerprint matches.
 Restrict the SFTP account to the website directory and give repository administration
 access only to people who are allowed to deploy. Protect the GitHub `test` environment
 so deployments can run only from `main`.
+
+## Live deployment
+
+The repository also contains a separate manual workflow named **Deploy live website to
+STRATO**. It uses GitHub's `production` environment and never runs automatically.
+
+Before using it, create a separate STRATO SFTP account that is restricted to the
+actual `/munichcakes.de` website directory. Its SFTP root must show the website files
+directly, not a parent folder containing `munichcakes.de`. Confirm that in FileZilla
+before adding its credentials to GitHub.
+
+Add these secrets to the GitHub `production` environment:
+
+- `STRATO_LIVE_SFTP_USERNAME`: the restricted live-site SFTP username
+- `STRATO_LIVE_SFTP_PASSWORD`: its password
+- `STRATO_SSH_FINGERPRINT`: the verified `SHA256:...` fingerprint for the STRATO host
+
+The live workflow applies `scripts/site-config.json`, which is already set to
+`https://munichcakes.de`, before uploading. It has a confirmation checkbox and is
+safe to prepare before it is ever run. Configure a required reviewer for the
+`production` environment in GitHub before the first live deployment.
 
 ## Deployment boundaries
 
