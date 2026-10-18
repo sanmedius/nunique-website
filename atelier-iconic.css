@@ -76,7 +76,7 @@ footer{background:linear-gradient(180deg,#fff,var(--atelier-cream))!important;co
 html{scroll-behavior:smooth;}
 body{background:linear-gradient(180deg,#fffafc 0%,#fff 45%,#f7fdff 100%); color:var(--atelier-ink);}
 .site-header{background:rgba(255,255,255,.78)!important;backdrop-filter:blur(18px);box-shadow:0 10px 34px rgba(194,24,91,.07)!important;}
-.header-logo img{max-height:60px!important;}
+.header-logo img{max-height:70px!important;}
 .header-top{padding:10px 0!important;}
 .header-nav{border-top:1px solid rgba(233,30,140,.08)!important;background:rgba(255,255,255,.58)!important;}
 .header-nav-inner{display:flex!important;justify-content:center!important;align-items:center!important;gap:18px!important;}
