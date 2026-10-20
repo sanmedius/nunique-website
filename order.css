@@ -279,6 +279,15 @@
             line-height: 1.2;
             letter-spacing: .08em;
         }
+        .preferred-contact-note {
+            max-width: 680px;
+            margin: .8rem auto .7rem;
+            color: var(--text-mid);
+            font-size: .92rem;
+            font-weight: 600;
+            line-height: 1.5;
+            text-align: center;
+        }
         .whatsapp-upload-note {
             max-width: 680px;
             margin: .85rem auto 0;
