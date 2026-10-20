@@ -749,11 +749,14 @@ input[type="file"] {
 }
 #submitBtn:hover {
   background: var(--magenta-dark) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 8px 24px rgba(194, 24, 91, .28) !important;
+  transform: none !important;
+  box-shadow: 0 4px 18px rgba(233,30,140,.2) !important;
 }
 #submitBtn:active {
-  transform: translateY(0) !important;
+  transform: none !important;
+}
+#submitBtn {
+  transition: background-color .2s ease !important;
 }
 
 @media (max-width: 600px) {

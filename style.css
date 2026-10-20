@@ -195,8 +195,14 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
     text-align: center; background: var(--pink); color: #fff !important;
     padding: .75rem 1.5rem; border-radius: 50px;
     border: none !important; margin-top: .75rem; font-weight: 700; letter-spacing: .05em;
+    transition: background-color .2s ease !important;
+    transform: none !important;
 }
-.nav-drawer .nav-cta:hover { background: var(--pink-dark) !important; }
+.nav-drawer .nav-cta:hover,
+.nav-drawer .nav-cta:active {
+    background: var(--pink-dark) !important;
+    transform: none !important;
+}
 .drawer-social {
     display: flex; gap: 1rem; margin-top: 1.25rem;
     padding-top: 1rem; border-top: 1px solid var(--border); justify-content: center;
