@@ -670,6 +670,61 @@
   text-align: center;
 }
 
+/* Empty validation messages should not create a large blank gap. */
+.captcha-error:empty,
+.form-error-summary:empty {
+  display: none;
+}
+
+/* Flavour details are sourced from flavours.html and shown on hover/focus. */
+.flavor-tile {
+  overflow: hidden;
+  position: relative;
+}
+.flavor-tile img {
+  border-radius: 10px 10px 0 0;
+}
+.flavor-tile::after {
+  content: attr(data-tooltip-de);
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  left: .5rem;
+  z-index: 30;
+  width: auto;
+  padding: .65rem .7rem;
+  border: 1px solid rgba(0,151,167,.24);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--text-dark);
+  box-shadow: 0 12px 32px rgba(26,26,26,.16);
+  font-size: .76rem;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: left;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+}
+html[lang="en"] .flavor-tile::after {
+  content: attr(data-tooltip-en);
+}
+@media (hover: hover) {
+  .flavor-tile:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+.flavor-tile:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
 /* Keep the order form inside narrow iPhone/Safari viewports. */
 html,
 body {
