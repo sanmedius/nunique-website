@@ -271,11 +271,11 @@
 <button class="submit-btn" id="submitBtn" type="button">
 <span data-de="Anfrage absenden" data-en="Submit enquiry">Anfrage absenden</span>
 </button>
-<button class="submit-btn whatsapp-submit-btn" hidden id="whatsappSubmitBtn" type="button">
+<button class="submit-btn whatsapp-submit-btn" id="whatsappSubmitBtn" type="button">
 <span data-de="Per WhatsApp senden" data-en="Send via WhatsApp">Per WhatsApp senden</span>
 </button>
 </div>
-<p class="whatsapp-upload-note" hidden id="whatsappUploadNote"><span data-de="Hinweis: Ausgewählte Bilder müssen nach dem Öffnen von WhatsApp manuell angehängt werden." data-en="Note: Selected images must be attached manually after WhatsApp opens.">Hinweis: Ausgewählte Bilder müssen nach dem Öffnen von WhatsApp manuell angehängt werden.</span></p>
+<p class="whatsapp-upload-note" id="whatsappUploadNote"><span data-de="Hinweis: Ausgewählte Bilder müssen nach dem Öffnen von WhatsApp manuell angehängt werden." data-en="Note: Selected images must be attached manually after WhatsApp opens.">Hinweis: Ausgewählte Bilder müssen nach dem Öffnen von WhatsApp manuell angehängt werden.</span></p>
 </div>
 <input id="langField" name="lang" type="hidden" value="de"/>
 <input id="formStartedAt" name="form_started_at" type="hidden" value=""/>
@@ -550,18 +550,11 @@ var confirmModal = document.getElementById('confirmModal');
 var modalYes = document.getElementById('modal-yes');
 var modalNo = document.getElementById('modal-no');
 var pendingSubmissionMode = 'email';
-var whatsappTestHosts = ['test.cakes-coffee.de', 'localhost', '127.0.0.1'];
-var whatsappTestEnabled = whatsappTestHosts.indexOf(window.location.hostname.toLowerCase()) !== -1;
-
-if (whatsappTestEnabled) {
-    whatsappSubmitBtn.hidden = false;
-    whatsappUploadNote.hidden = false;
-    var emailButtonText = submitBtn.querySelector('span');
-    if (emailButtonText) {
-        emailButtonText.setAttribute('data-de', 'Per E-Mail senden');
-        emailButtonText.setAttribute('data-en', 'Send via email');
-        emailButtonText.textContent = orderMessage('Per E-Mail senden', 'Send via email');
-    }
+var emailButtonText = submitBtn.querySelector('span');
+if (emailButtonText) {
+    emailButtonText.setAttribute('data-de', 'Per E-Mail senden');
+    emailButtonText.setAttribute('data-en', 'Send via email');
+    emailButtonText.textContent = orderMessage('Per E-Mail senden', 'Send via email');
 }
 
 function showFormError(message, targetId){
@@ -712,7 +705,7 @@ if (submitBtn && confirmModal) {
         document.body.style.overflow = 'hidden';
     });
 }
-if (whatsappSubmitBtn && confirmModal && whatsappTestEnabled) {
+if (whatsappSubmitBtn && confirmModal) {
     whatsappSubmitBtn.addEventListener('click', function() {
         if (!validateOrderBeforeModal()) { return; }
         setConfirmationMode('whatsapp');
