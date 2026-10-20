@@ -258,10 +258,26 @@
         .submit-btn.whatsapp-submit-btn {
             background: var(--turquoise) !important;
             box-shadow: 0 4px 18px rgba(0,188,212,.22) !important;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .3rem;
         }
         .submit-btn.whatsapp-submit-btn:hover {
             background: var(--turquoise-dark) !important;
             box-shadow: 0 6px 24px rgba(0,188,212,.30) !important;
+        }
+        .preferred-badge {
+            display: inline-block;
+            padding: .16rem .55rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,.9);
+            color: var(--turquoise-dark);
+            font-size: .62rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: .08em;
         }
         .whatsapp-upload-note {
             max-width: 680px;
