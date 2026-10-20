@@ -246,6 +246,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── COLLAPSIBLE NAV ──
     if (toggle && drawer) {
+        const closeDrawer = () => {
+            toggle.classList.remove('open');
+            drawer.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+        };
+
         toggle.setAttribute('aria-expanded', 'false');
         toggle.setAttribute('aria-controls', 'navDrawer');
         toggle.addEventListener('click', () => {
@@ -255,11 +261,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         // Close on link click
         drawer.querySelectorAll('a').forEach(a => {
-            a.addEventListener('click', () => {
-                toggle.classList.remove('open');
-                drawer.classList.remove('open');
-                toggle.setAttribute('aria-expanded', 'false');
-            });
+            a.addEventListener('click', closeDrawer);
+        });
+        // Close when tapping or clicking anywhere outside the open menu.
+        document.addEventListener('click', event => {
+            if (!drawer.classList.contains('open')) return;
+            if (drawer.contains(event.target) || toggle.contains(event.target)) return;
+            closeDrawer();
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && drawer.classList.contains('open')) {
+                closeDrawer();
+                toggle.focus();
+            }
         });
     }
 

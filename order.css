@@ -742,6 +742,20 @@ input[type="file"] {
   max-width: 100%;
 }
 
+/* Override the shared atelier spacing around the final consent and submit area. */
+#cakeForm .submit-section {
+  margin-top: .35rem !important;
+  padding-top: 0 !important;
+}
+#submitBtn:hover {
+  background: var(--magenta-dark) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(194, 24, 91, .28) !important;
+}
+#submitBtn:active {
+  transform: translateY(0) !important;
+}
+
 @media (max-width: 600px) {
   body .form-container {
     width: 100% !important;
