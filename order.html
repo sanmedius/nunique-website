@@ -267,9 +267,15 @@
 <input id="agbCheck" name="agb_accepted" required="" type="checkbox"/>
 <span><span data-de-html='Ich bestätige den Auftrag i.V.m. den aktuell gültigen &lt;a href="agb"&gt;&lt;span data-de="AGB" data-en="T&amp;amp;Cs"&gt;AGB&lt;/span&gt;&lt;/a&gt; und habe die &lt;a href="datenschutz"&gt;Datenschutzhinweise&lt;/a&gt; gelesen.' data-en-html='I confirm the order in connection with the currently valid &lt;a href="agb"&gt;T&amp;amp;Cs&lt;/a&gt; and have read the &lt;a href="datenschutz"&gt;privacy information&lt;/a&gt;.'>Ich bestätige den Auftrag i.V.m. den aktuell gültigen <a href="agb">AGB</a> und habe die <a href="datenschutz">Datenschutzhinweise</a> gelesen.</span><span class="req">*</span></span>
 </label>
+<div class="submit-actions">
 <button class="submit-btn" id="submitBtn" type="button">
 <span data-de="Anfrage absenden" data-en="Submit enquiry">Anfrage absenden</span>
 </button>
+<button class="submit-btn whatsapp-submit-btn" hidden id="whatsappSubmitBtn" type="button">
+<span data-de="Per WhatsApp senden" data-en="Send via WhatsApp">Per WhatsApp senden</span>
+</button>
+</div>
+<p class="whatsapp-upload-note" hidden id="whatsappUploadNote"><span data-de="Hinweis: Ausgewählte Bilder müssen nach dem Öffnen von WhatsApp manuell angehängt werden." data-en="Note: Selected images must be attached manually after WhatsApp opens.">Hinweis: Ausgewählte Bilder müssen nach dem Öffnen von WhatsApp manuell angehängt werden.</span></p>
 </div>
 <input id="langField" name="lang" type="hidden" value="de"/>
 <input id="formStartedAt" name="form_started_at" type="hidden" value=""/>
@@ -538,9 +544,25 @@ fetch('backend/order-token.php', {credentials:'same-origin'})
 
 // ── CONFIRMATION MODAL ────────────────────────────────────────────────────────
 var submitBtn = document.getElementById('submitBtn');
+var whatsappSubmitBtn = document.getElementById('whatsappSubmitBtn');
+var whatsappUploadNote = document.getElementById('whatsappUploadNote');
 var confirmModal = document.getElementById('confirmModal');
 var modalYes = document.getElementById('modal-yes');
 var modalNo = document.getElementById('modal-no');
+var pendingSubmissionMode = 'email';
+var whatsappTestHosts = ['test.cakes-coffee.de', 'localhost', '127.0.0.1'];
+var whatsappTestEnabled = whatsappTestHosts.indexOf(window.location.hostname.toLowerCase()) !== -1;
+
+if (whatsappTestEnabled) {
+    whatsappSubmitBtn.hidden = false;
+    whatsappUploadNote.hidden = false;
+    var emailButtonText = submitBtn.querySelector('span');
+    if (emailButtonText) {
+        emailButtonText.setAttribute('data-de', 'Per E-Mail senden');
+        emailButtonText.setAttribute('data-en', 'Send via email');
+        emailButtonText.textContent = orderMessage('Per E-Mail senden', 'Send via email');
+    }
+}
 
 function showFormError(message, targetId){
     var box = document.getElementById('formValidationError');
@@ -559,6 +581,87 @@ function clearFormError(){
     if (box) { box.textContent = ''; }
 }
 function orderMessage(de, en){ return currentOrderLang()==='en' ? en : de; }
+function setConfirmationMode(mode){
+    pendingSubmissionMode = mode;
+    var title = document.querySelector('#modal-title span');
+    var text = document.querySelector('#modal-text span');
+    var yes = document.querySelector('#modal-yes-text span');
+    if (mode === 'whatsapp') {
+        if (title) title.textContent = orderMessage('Anfrage in WhatsApp öffnen?', 'Open enquiry in WhatsApp?');
+        if (text) text.textContent = orderMessage('Bitte prüfen Sie Ihre Angaben. WhatsApp wird mit der ausgefüllten Nachricht geöffnet; dort müssen Sie noch auf Senden tippen.', 'Please review your details. WhatsApp will open with the completed message; you still need to press Send there.');
+        if (yes) yes.textContent = orderMessage('Ja, WhatsApp öffnen', 'Yes, open WhatsApp');
+        return;
+    }
+    if (title) title.textContent = orderMessage('Alle Angaben gemacht?', 'All details filled in?');
+    if (text) text.textContent = orderMessage('Bitte prüfen Sie Ihre Angaben noch einmal, bevor Sie die Anfrage absenden.', 'Please review your details once more before submitting the enquiry.');
+    if (yes) yes.textContent = orderMessage('Ja, absenden', 'Yes, submit');
+}
+function formValue(name){
+    var field = document.querySelector('[name="' + name + '"]');
+    return field ? field.value.trim() : '';
+}
+function buildWhatsAppMessage(){
+    var isEnglish = currentOrderLang() === 'en';
+    var files = Array.prototype.slice.call(document.querySelectorAll('[name="inspiration[]"]'))
+        .reduce(function(names, input){
+            return names.concat(Array.prototype.map.call(input.files || [], function(file){ return file.name; }));
+        }, []);
+    var rows = isEnglish ? [
+        ['Name', formValue('vorname') + ' ' + formValue('nachname')],
+        ['Address', formValue('adresse')],
+        ['Email', formValue('customer_email')],
+        ['Phone', formValue('phone')],
+        ['Occasion', formValue('anlass')],
+        ['Other occasion', formValue('anlass_sonstig')],
+        ['Pickup date', formValue('datum')],
+        ['Pickup time', formValue('uhrzeit')],
+        ['Flavour 1', formValue('geschmack_1')],
+        ['Flavour 2', formValue('geschmack_2')],
+        ['Cake shape', formValue('form')],
+        ['Size', formValue('groesse')],
+        ['Custom size', formValue('groesse_custom')],
+        ['Colours', formValue('farbe')],
+        ['Cake inscription', formValue('schriftzug')],
+        ['Decoration wishes', formValue('verzierung')],
+        ['Allergies / intolerances', formValue('allergien_hidden')],
+        ['Other allergy information', formValue('allergie_sonstig')],
+        ['Additional notes', formValue('anmerkungen')],
+        ['Selected image files', files.join(', ')]
+    ] : [
+        ['Name', formValue('vorname') + ' ' + formValue('nachname')],
+        ['Adresse', formValue('adresse')],
+        ['E-Mail', formValue('customer_email')],
+        ['Telefon', formValue('phone')],
+        ['Anlass', formValue('anlass')],
+        ['Sonstiger Anlass', formValue('anlass_sonstig')],
+        ['Abholdatum', formValue('datum')],
+        ['Abholzeit', formValue('uhrzeit')],
+        ['Geschmacksrichtung 1', formValue('geschmack_1')],
+        ['Geschmacksrichtung 2', formValue('geschmack_2')],
+        ['Tortenform', formValue('form')],
+        ['Größe', formValue('groesse')],
+        ['Individuelle Größe', formValue('groesse_custom')],
+        ['Farben', formValue('farbe')],
+        ['Schriftzug', formValue('schriftzug')],
+        ['Dekorationswünsche', formValue('verzierung')],
+        ['Allergien / Unverträglichkeiten', formValue('allergien_hidden')],
+        ['Weitere Allergieangaben', formValue('allergie_sonstig')],
+        ['Zusätzliche Anmerkungen', formValue('anmerkungen')],
+        ['Ausgewählte Bilddateien', files.join(', ')]
+    ];
+    var heading = isEnglish ? 'CAKE ENQUIRY' : 'TORTENANFRAGE';
+    var imageReminder = isEnglish
+        ? 'I will attach the selected images manually in WhatsApp.'
+        : 'Die ausgewählten Bilder sende ich anschließend manuell in WhatsApp.';
+    var details = rows.filter(function(row){ return row[1]; })
+        .map(function(row){ return '*' + row[0] + ':* ' + row[1]; });
+    if (files.length) details.push('', imageReminder);
+    return heading + '\n\n' + details.join('\n');
+}
+function openWhatsAppOrder(){
+    var url = 'https://wa.me/491704742351?text=' + encodeURIComponent(buildWhatsAppMessage());
+    window.open(url, '_blank', 'noopener');
+}
 function validateOrderBeforeModal(){
     clearFormError();
     var form = document.getElementById('cakeForm');
@@ -604,6 +707,15 @@ function validateOrderBeforeModal(){
 if (submitBtn && confirmModal) {
     submitBtn.addEventListener('click', function() {
         if (!validateOrderBeforeModal()) { return; }
+        setConfirmationMode('email');
+        confirmModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    });
+}
+if (whatsappSubmitBtn && confirmModal && whatsappTestEnabled) {
+    whatsappSubmitBtn.addEventListener('click', function() {
+        if (!validateOrderBeforeModal()) { return; }
+        setConfirmationMode('whatsapp');
         confirmModal.classList.add('open');
         document.body.style.overflow = 'hidden';
     });
@@ -613,6 +725,10 @@ if (modalYes) {
         confirmModal.classList.remove('open');
         document.body.style.overflow = '';
         if (!validateOrderBeforeModal()) { return; }
+        if (pendingSubmissionMode === 'whatsapp') {
+            openWhatsAppOrder();
+            return;
+        }
         document.getElementById('cakeForm').submit();
     });
 }

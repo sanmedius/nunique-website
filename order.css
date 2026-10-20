@@ -229,6 +229,13 @@
 
         /* Submit */
         .submit-section { margin-top: 2rem; text-align: center; }
+        .submit-actions {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            flex-wrap: wrap;
+            gap: .85rem;
+        }
         .submit-btn {
             background: var(--magenta);
             color: #fff; border: none;
@@ -248,6 +255,21 @@
         }
         .submit-btn:active { transform: translateY(0); }
         .submit-btn.loading { pointer-events: none; opacity: .7; }
+        .submit-btn.whatsapp-submit-btn {
+            background: #128C4A !important;
+            box-shadow: 0 4px 18px rgba(18,140,74,.22) !important;
+        }
+        .submit-btn.whatsapp-submit-btn:hover {
+            background: #0F7A40 !important;
+            box-shadow: 0 6px 24px rgba(18,140,74,.30) !important;
+        }
+        .whatsapp-upload-note {
+            max-width: 680px;
+            margin: .85rem auto 0;
+            color: var(--text-mid);
+            font-size: .88rem;
+            line-height: 1.5;
+        }
 
         .privacy-note {
             text-align: center; font-size: .82rem;
