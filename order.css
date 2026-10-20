@@ -747,6 +747,12 @@ input[type="file"] {
   margin-top: .35rem !important;
   padding-top: 0 !important;
 }
+#submitBtn {
+  background: var(--magenta) !important;
+  box-shadow: 0 4px 18px rgba(233,30,140,.2) !important;
+  transition: background-color .2s ease !important;
+  transform: none !important;
+}
 #submitBtn:hover {
   background: var(--magenta-dark) !important;
   transform: none !important;
@@ -754,9 +760,6 @@ input[type="file"] {
 }
 #submitBtn:active {
   transform: none !important;
-}
-#submitBtn {
-  transition: background-color .2s ease !important;
 }
 
 @media (max-width: 600px) {
