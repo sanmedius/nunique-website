@@ -256,12 +256,12 @@
         .submit-btn:active { transform: translateY(0); }
         .submit-btn.loading { pointer-events: none; opacity: .7; }
         .submit-btn.whatsapp-submit-btn {
-            background: #128C4A !important;
-            box-shadow: 0 4px 18px rgba(18,140,74,.22) !important;
+            background: var(--turquoise) !important;
+            box-shadow: 0 4px 18px rgba(0,188,212,.22) !important;
         }
         .submit-btn.whatsapp-submit-btn:hover {
-            background: #0F7A40 !important;
-            box-shadow: 0 6px 24px rgba(18,140,74,.30) !important;
+            background: var(--turquoise-dark) !important;
+            box-shadow: 0 6px 24px rgba(0,188,212,.30) !important;
         }
         .whatsapp-upload-note {
             max-width: 680px;
@@ -668,4 +668,60 @@
 .time-chip {
   min-width: 64px;
   text-align: center;
+}
+
+/* Keep the order form inside narrow iPhone/Safari viewports. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+input[type="file"] {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+.cf-turnstile {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (max-width: 600px) {
+  body .form-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 1.25rem auto !important;
+    padding: 0 .625rem 2.5rem !important;
+  }
+  .form-section {
+    width: 100%;
+    min-width: 0;
+    padding: 1.25rem 1rem;
+  }
+  .field-group,
+  .cal-wrap,
+  .time-wrap,
+  .section-title {
+    min-width: 0;
+  }
+  .section-title > span:last-child {
+    overflow-wrap: anywhere;
+  }
+  .submit-actions {
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .submit-actions .submit-btn {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  #cookie-banner {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .cookie-text {
+    width: 100%;
+    min-width: 0;
+  }
 }
