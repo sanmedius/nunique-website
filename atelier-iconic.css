@@ -433,6 +433,5 @@ textarea{min-height:110px!important;}
   .page-hero h1,
   .order-hero h1 { max-width: 100%; font-size: clamp(28px, 9vw, 34px) !important; overflow-wrap: anywhere; }
   .form-container,
-  .order-progress,
   .form-section { max-width: 100%; min-width: 0; }
 }

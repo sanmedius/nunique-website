@@ -97,69 +97,6 @@ if (requestedFlavor) {
     }
 }
 
-// Keep the side progress indicator aligned with the section currently in view.
-var progressLinks = Array.from(document.querySelectorAll('[data-progress-step]'));
-var orderStepSections = Array.from(document.querySelectorAll('[data-order-step]'));
-var orderProgress = document.querySelector('.order-progress');
-function updateOrderProgress() {
-    if (!progressLinks.length || !orderStepSections.length) return;
-    var marker = window.scrollY + Math.min(window.innerHeight * .42, 360);
-    var firstSectionTop = orderStepSections[0].getBoundingClientRect().top + window.scrollY;
-    var lastSection = orderStepSections[orderStepSections.length - 1];
-    var lastSectionBottom = lastSection.getBoundingClientRect().bottom + window.scrollY;
-    var currentStep = 1;
-    orderStepSections.forEach(function(section) {
-        var sectionTop = section.getBoundingClientRect().top + window.scrollY;
-        if (sectionTop <= marker) currentStep = Number(section.dataset.orderStep) || currentStep;
-    });
-    progressLinks.forEach(function(link) {
-        var step = Number(link.dataset.progressStep);
-        link.classList.toggle('is-active', step === currentStep);
-        link.classList.toggle('is-complete', step < currentStep);
-        if (step === currentStep) link.setAttribute('aria-current', 'step');
-        else link.removeAttribute('aria-current');
-    });
-    if (orderProgress) {
-        var formHasStarted = window.scrollY + Math.min(window.innerHeight * .35, 260) >= firstSectionTop;
-        var formHasEnded = window.scrollY + 120 > lastSectionBottom;
-        orderProgress.classList.toggle('is-visible', formHasStarted && !formHasEnded);
-        if (window.innerWidth > 900) {
-            var form = document.getElementById('cakeForm');
-            if (form) {
-                var formRect = form.getBoundingClientRect();
-                var stepPositions = [];
-                progressLinks.forEach(function(link) {
-                    var targetSelector = link.getAttribute('href');
-                    var target = targetSelector ? document.querySelector(targetSelector) : null;
-                    if (!target) return;
-                    var position = target.getBoundingClientRect().top - formRect.top;
-                    link.style.top = position + 'px';
-                    stepPositions.push(position);
-                });
-                if (stepPositions.length) {
-                    var timelineStart = stepPositions[0];
-                    var timelineEnd = stepPositions[stepPositions.length - 1];
-                    var activePosition = stepPositions[Math.max(0, currentStep - 1)] || timelineStart;
-                    orderProgress.style.setProperty('--timeline-start', timelineStart + 'px');
-                    orderProgress.style.setProperty('--timeline-height', Math.max(0, timelineEnd - timelineStart) + 'px');
-                    orderProgress.style.setProperty('--progress-fill', Math.max(0, activePosition - timelineStart) + 'px');
-                }
-            }
-        }
-    }
-}
-var progressTicking = false;
-window.addEventListener('scroll', function() {
-    if (progressTicking) return;
-    progressTicking = true;
-    window.requestAnimationFrame(function() {
-        updateOrderProgress();
-        progressTicking = false;
-    });
-}, {passive: true});
-window.addEventListener('resize', updateOrderProgress);
-updateOrderProgress();
-
 // ── CALENDAR ──────────────────────────────────────────────────────────────────
 var calY = new Date().getFullYear(), calM = new Date().getMonth();
 var MO = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
