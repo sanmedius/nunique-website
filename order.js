@@ -376,3 +376,160 @@ if (confirmModal) {
     });
     confirmModal.addEventListener('cancel', function() { document.body.style.overflow = ''; });
 }
+
+// ── PROGRESSIVE FORM SECTIONS ────────────────────────────────────────────────
+// Keep the form on one page, but disclose the longer sections only when needed.
+(function enhanceOrderSections() {
+    var form = document.getElementById('cakeForm');
+    if (!form) return;
+
+    var sections = Array.prototype.slice.call(form.querySelectorAll('.form-section'));
+    var summary = document.createElement('aside');
+    summary.className = 'order-summary';
+    summary.setAttribute('aria-live', 'polite');
+    var submitSection = form.querySelector('.submit-section');
+    if (submitSection) form.insertBefore(summary, submitSection);
+
+    function text(de, en) {
+        return currentOrderLang() === 'en' ? en : de;
+    }
+
+    function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function(character) {
+            return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character];
+        });
+    }
+
+    function setExpanded(section, expanded, focusContent) {
+        var toggle = section.querySelector('.section-toggle');
+        var content = section.querySelector('.section-content');
+        if (!toggle || !content) return;
+        section.classList.toggle('is-collapsed', !expanded);
+        toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        content.hidden = !expanded;
+        if (expanded && focusContent) {
+            var first = content.querySelector('input:not([type="hidden"]), textarea, select, button');
+            if (first) first.focus({preventScroll: true});
+        }
+    }
+
+    function sectionStatus(section) {
+        var required = Array.prototype.slice.call(section.querySelectorAll('[required]'));
+        var flavour = section.querySelector('#geschmack-1');
+        if (flavour) return flavour.value ? 'complete' : 'open';
+        if (!required.length) return 'optional';
+        return required.every(function(field) {
+            if (field.type === 'checkbox') return field.checked;
+            return String(field.value || '').trim() !== '';
+        }) ? 'complete' : 'open';
+    }
+
+    function updateSectionStates() {
+        sections.forEach(function(section) {
+            var status = section.querySelector('.section-state');
+            var state = sectionStatus(section);
+            var complete = state === 'complete';
+            section.classList.toggle('is-complete', complete);
+            if (status) status.textContent = state === 'optional' ? text('Optional', 'Optional') : (complete ? text('Fertig', 'Complete') : text('Offen', 'Open'));
+        });
+        updateSummary();
+    }
+
+    function updateSummary() {
+        if (!summary) return;
+        var values = [
+            [text('Anlass', 'Occasion'), formValue('anlass')],
+            [text('Termin', 'Date'), [formValue('datum'), formValue('uhrzeit')].filter(Boolean).join(' · ')],
+            [text('Geschmack', 'Flavour'), formValue('geschmack_1')],
+            [text('Größe', 'Size'), formValue('groesse_custom') || formValue('groesse')]
+        ].filter(function(item) { return item[1]; });
+        var rows = values.length
+            ? '<dl>' + values.map(function(item) { return '<div><dt>' + escapeHtml(item[0]) + '</dt><dd>' + escapeHtml(item[1]) + '</dd></div>'; }).join('') + '</dl>'
+            : '<p>' + text('Ihre Auswahl erscheint hier, sobald Sie das Formular ausfüllen.', 'Your choices will appear here as you complete the form.') + '</p>';
+        summary.innerHTML = '<strong>' + text('Ihre Anfrage im Überblick', 'Your enquiry at a glance') + '</strong>' + rows;
+    }
+
+    sections.forEach(function(section, index) {
+        var title = section.querySelector(':scope > .section-title');
+        if (!title) return;
+        var content = document.createElement('div');
+        content.className = 'section-content';
+        while (title.nextSibling) content.appendChild(title.nextSibling);
+        section.appendChild(content);
+
+        var toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'section-toggle';
+        toggle.innerHTML = '<span class="section-toggle-label">' + title.innerHTML + '</span><span class="section-toggle-meta"><span class="section-state"></span><span class="section-chevron" aria-hidden="true">⌄</span></span>';
+        title.replaceWith(toggle);
+        toggle.addEventListener('click', function() {
+            setExpanded(section, toggle.getAttribute('aria-expanded') !== 'true', false);
+        });
+        setExpanded(section, index < 2, false);
+    });
+
+    // When browser validation finds a field, reveal its section first.
+    form.addEventListener('invalid', function(event) {
+        var section = event.target.closest('.form-section');
+        if (section) setExpanded(section, true, false);
+    }, true);
+
+    form.addEventListener('input', updateSectionStates);
+    form.addEventListener('change', updateSectionStates);
+    form.addEventListener('click', function(event) {
+        if (event.target.closest('.opt-tile, .shape-tile, .size-tile, .flavor-tile, .time-chip, .cal-day')) {
+            window.setTimeout(updateSectionStates, 0);
+        }
+    });
+    document.addEventListener('nunique:languagechange', updateSectionStates);
+    updateSectionStates();
+})();
+
+// Preserve unfinished scalar choices only for the lifetime of this browser tab.
+(function preserveUnfinishedOrder() {
+    var form = document.getElementById('cakeForm');
+    if (!form || !window.sessionStorage) return;
+    var storageKey = 'nunique_unfinished_order';
+    var excluded = ['csrf_token', 'cf-turnstile-response', 'website', 'form_started_at', 'agb_accepted'];
+
+    function save() {
+        var values = {};
+        Array.prototype.forEach.call(form.elements, function(field) {
+            if (!field.name || excluded.indexOf(field.name) !== -1 || field.type === 'file' || field.type === 'submit' || field.type === 'button') return;
+            values[field.name] = field.type === 'checkbox' ? field.checked : field.value;
+        });
+        sessionStorage.setItem(storageKey, JSON.stringify(values));
+    }
+
+    try {
+        var saved = JSON.parse(sessionStorage.getItem(storageKey) || '{}');
+        Object.keys(saved).forEach(function(name) {
+            var field = form.elements.namedItem(name);
+            if (!field) return;
+            if (field.type === 'checkbox') field.checked = Boolean(saved[name]);
+            else field.value = saved[name];
+        });
+        document.querySelectorAll('[data-group]').forEach(function(button) {
+            var hidden = document.getElementById(button.dataset.group + '-hidden');
+            if (button.dataset.group === 'geschmack') hidden = document.getElementById('geschmack-1');
+            if (hidden && hidden.value === button.dataset.val) button.classList.add('sel');
+        });
+        document.querySelectorAll('.size-tile').forEach(function(button) {
+            var selectedSize = saved.groesse_custom ? 'custom' : saved.groesse;
+            button.classList.toggle('sel', button.dataset.val === selectedSize);
+        });
+        document.querySelectorAll('.time-chip').forEach(function(button) {
+            button.classList.toggle('sel', button.textContent === saved.uhrzeit);
+        });
+        form.dispatchEvent(new Event('change', {bubbles: true}));
+    } catch (error) {
+        sessionStorage.removeItem(storageKey);
+    }
+
+    form.addEventListener('input', save);
+    form.addEventListener('change', save);
+    form.addEventListener('click', function(event) {
+        if (event.target.closest('button')) window.setTimeout(save, 0);
+    });
+    if (modalYes) modalYes.addEventListener('click', function() { sessionStorage.removeItem(storageKey); });
+})();
