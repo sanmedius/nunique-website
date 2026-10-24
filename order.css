@@ -92,6 +92,16 @@
             background: rgba(255,255,255,.92);
             box-shadow: 0 8px 26px rgba(0,0,0,.05);
             z-index: 20;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity .2s ease, transform .2s ease, visibility 0s linear .2s;
+        }
+        .order-progress.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            transition-delay: 0s;
         }
         .order-progress > a {
             display: flex;
@@ -826,12 +836,60 @@ input[type="file"] {
 @media (min-width: 901px) {
   body .form-container {
     display: grid;
-    grid-template-columns: 170px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) 190px;
     align-items: start;
     gap: 1.5rem;
     max-width: 1280px !important;
   }
-  #cakeForm { min-width: 0; }
+  #cakeForm { grid-column:1; grid-row:1; min-width:0; }
+  .order-progress {
+    grid-column:2;
+    grid-row:1;
+    align-self:start;
+    top:calc(var(--header-total) + 1.5rem);
+    margin-top:1.5rem;
+    padding:.15rem 0;
+    gap:1.1rem;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+    overflow:hidden;
+  }
+  .order-progress::before,
+  .order-progress::after {
+    content:"";
+    position:absolute;
+    left:12px;
+    top:13px;
+    width:2px;
+    border-radius:999px;
+    pointer-events:none;
+  }
+  .order-progress::before { bottom:13px; background:#dedede; }
+  .order-progress::after { height:var(--progress-fill,0); background:var(--magenta); }
+  .order-progress > a {
+    position:relative;
+    z-index:1;
+    min-height:58px;
+    padding:.45rem 0;
+    gap:.75rem;
+    background:transparent!important;
+    color:var(--text-light);
+  }
+  .order-progress > a.is-active { color:var(--text-dark); }
+  .order-progress > a.is-complete { color:var(--text-mid); }
+  .order-progress b {
+    flex-basis:1.6rem;
+    width:1.6rem;
+    height:1.6rem;
+    border:2px solid #cfcfcf;
+    background:#fff;
+    color:var(--text-mid);
+  }
+  .order-progress > a.is-active b { border-color:var(--magenta); background:var(--magenta); color:#fff; }
+  .order-progress > a.is-complete b { border-color:var(--turquoise); background:#fff; color:transparent; font-size:0; }
+  .order-progress > a.is-complete b::after { content:"✓"; color:var(--turquoise-dark); font-size:.82rem; font-weight:800; }
 }
 
 @media (max-width: 900px) {
@@ -842,6 +900,8 @@ input[type="file"] {
     margin: 0 0 1rem;
     padding: .55rem .35rem;
   }
+  .order-progress::before,
+  .order-progress::after { display:none; }
   .order-progress > a { justify-content: center; }
 }
 

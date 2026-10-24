@@ -100,9 +100,13 @@ if (requestedFlavor) {
 // Keep the side progress indicator aligned with the section currently in view.
 var progressLinks = Array.from(document.querySelectorAll('[data-progress-step]'));
 var orderStepSections = Array.from(document.querySelectorAll('[data-order-step]'));
+var orderProgress = document.querySelector('.order-progress');
 function updateOrderProgress() {
     if (!progressLinks.length || !orderStepSections.length) return;
     var marker = window.scrollY + Math.min(window.innerHeight * .42, 360);
+    var firstSectionTop = orderStepSections[0].getBoundingClientRect().top + window.scrollY;
+    var lastSection = orderStepSections[orderStepSections.length - 1];
+    var lastSectionBottom = lastSection.getBoundingClientRect().bottom + window.scrollY;
     var currentStep = 1;
     orderStepSections.forEach(function(section) {
         var sectionTop = section.getBoundingClientRect().top + window.scrollY;
@@ -115,6 +119,18 @@ function updateOrderProgress() {
         if (step === currentStep) link.setAttribute('aria-current', 'step');
         else link.removeAttribute('aria-current');
     });
+    if (orderProgress) {
+        var formHasStarted = window.scrollY + Math.min(window.innerHeight * .35, 260) >= firstSectionTop;
+        var formHasEnded = window.scrollY + 120 > lastSectionBottom;
+        orderProgress.classList.toggle('is-visible', formHasStarted && !formHasEnded);
+        var activeDot = orderProgress.querySelector('.is-active b');
+        if (activeDot && window.innerWidth > 900) {
+            var progressRect = orderProgress.getBoundingClientRect();
+            var dotRect = activeDot.getBoundingClientRect();
+            var fillHeight = Math.max(0, dotRect.top + dotRect.height / 2 - progressRect.top - 13);
+            orderProgress.style.setProperty('--progress-fill', fillHeight + 'px');
+        }
+    }
 }
 var progressTicking = false;
 window.addEventListener('scroll', function() {
