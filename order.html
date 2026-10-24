@@ -158,7 +158,8 @@
 <!-- 3: GESCHMACK -->
 <div class="form-section">
 <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg fill="none" height="20" stroke="var(--pink)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg></span><span data-de="Geschmacksrichtung" data-en="Flavour">Geschmacksrichtung</span></div>
-<label class="field-lbl"><span data-de="Variante wählen" data-en="Choose variant">Variante wählen</span><span class="req">*</span> <small><span data-de="(bis zu 2 Geschmacksrichtungen)" data-en="(up to 2 flavours)">(bis zu 2 Geschmacksrichtungen)</span></small></label>
+<p class="field-hint" style="margin-bottom:.5rem"><span data-de="Details zu unseren Varianten:" data-en="Details about our variants:">Details zu unseren Varianten:</span> <a href="flavours"><span data-de="Geschmacksrichtungen" data-en="Flavours">Geschmacksrichtungen</span></a></p>
+<label class="field-lbl"><span data-de="Variante wählen" data-en="Choose variant">Variante wählen</span><span class="req">*</span> <small><span data-de="(Mehrere Geschmacksrichtungen sind bei mehrstöckigen Torten möglich.)" data-en="(Multiple flavours are possible for tiered cakes.)">(Mehrere Geschmacksrichtungen sind bei mehrstöckigen Torten möglich.)</span></small></label>
 <div class="flavor-tiles" id="geschmackTiles">
 <button class="flavor-tile" data-group="geschmack" data-tooltip-de="Kakao Biskuitboden mit Schoko-Creme, Mascarpone und gerösteten Haselnüssen." data-tooltip-en="Cocoa sponge with chocolate cream, mascarpone and toasted hazelnuts." data-val="V1 – Ferea" type="button"><img alt="V1 – Ferea" decoding="async" loading="lazy" src="images/ferea.webp" width="1040" height="755"/><span><strong>V1 – Ferea</strong></span></button>
 <button class="flavor-tile" data-group="geschmack" data-tooltip-de="Vanille Biskuitboden mit Vanille-Creme, Mascarpone und Stückchen weißer Schokolade." data-tooltip-en="Vanilla sponge with vanilla cream, mascarpone and white chocolate pieces." data-val="V2 – White Magic" type="button"><img alt="V2 – White Magic" decoding="async" loading="lazy" src="images/white-magic.webp" width="1004" height="725"/><span><strong>V2 – White Magic</strong></span></button>
@@ -178,7 +179,6 @@
 </div>
 <input id="geschmack-1" name="geschmack_1" type="hidden" value=""/>
 <input id="geschmack-2" name="geschmack_2" type="hidden" value=""/>
-<p class="field-hint" style="margin-top:.5rem"><span data-de="Details zu unseren Varianten:" data-en="Details about our variants:">Details zu unseren Varianten:</span> <a href="flavours"><span data-de="Geschmacksrichtungen" data-en="Flavours">Geschmacksrichtungen</span></a></p>
 </div>
 <!-- 4: DESIGN -->
 <div class="form-section">
@@ -424,26 +424,23 @@ if (customSizeInput) {
     });
 }
 
-// ── FLAVOR TILES (max 2) ──────────────────────────────────────────────────────
-var flavorSel = [];
+// ── FLAVOR TILES (single selection) ──────────────────────────────────────────
+var selectedFlavor = '';
 document.querySelectorAll('.flavor-tile').forEach(function(btn) {
     btn.addEventListener('click', function() {
         var val = this.dataset.val;
-        var idx = flavorSel.indexOf(val);
-        if (idx > -1) {
-            flavorSel.splice(idx, 1);
+        if (selectedFlavor === val) {
+            selectedFlavor = '';
             this.classList.remove('sel');
         } else {
-            if (flavorSel.length >= 2) {
-                var old = flavorSel.shift();
-                var oldBtn = document.querySelector('.flavor-tile[data-val="' + old + '"]');
-                if (oldBtn) oldBtn.classList.remove('sel');
-            }
-            flavorSel.push(val);
+            document.querySelectorAll('.flavor-tile.sel').forEach(function(tile) {
+                tile.classList.remove('sel');
+            });
+            selectedFlavor = val;
             this.classList.add('sel');
         }
-        document.getElementById('geschmack-1').value = flavorSel[0] || '';
-        document.getElementById('geschmack-2').value = flavorSel[1] || '';
+        document.getElementById('geschmack-1').value = selectedFlavor;
+        document.getElementById('geschmack-2').value = '';
     });
 });
 
