@@ -83,6 +83,51 @@ document.querySelectorAll('.flavor-tile').forEach(function(btn) {
     });
 });
 
+// Preselect a flavour when arriving from flavours.html.
+var requestedFlavor = new URLSearchParams(window.location.search).get('flavour');
+if (requestedFlavor) {
+    var requestedFlavorTile = Array.from(document.querySelectorAll('.flavor-tile')).find(function(tile) {
+        return tile.dataset.val === requestedFlavor;
+    });
+    if (requestedFlavorTile) {
+        selectedFlavor = requestedFlavor;
+        requestedFlavorTile.classList.add('sel');
+        requestedFlavorTile.setAttribute('aria-pressed', 'true');
+        document.getElementById('geschmack-1').value = requestedFlavor;
+    }
+}
+
+// Keep the side progress indicator aligned with the section currently in view.
+var progressLinks = Array.from(document.querySelectorAll('[data-progress-step]'));
+var orderStepSections = Array.from(document.querySelectorAll('[data-order-step]'));
+function updateOrderProgress() {
+    if (!progressLinks.length || !orderStepSections.length) return;
+    var marker = window.scrollY + Math.min(window.innerHeight * .42, 360);
+    var currentStep = 1;
+    orderStepSections.forEach(function(section) {
+        var sectionTop = section.getBoundingClientRect().top + window.scrollY;
+        if (sectionTop <= marker) currentStep = Number(section.dataset.orderStep) || currentStep;
+    });
+    progressLinks.forEach(function(link) {
+        var step = Number(link.dataset.progressStep);
+        link.classList.toggle('is-active', step === currentStep);
+        link.classList.toggle('is-complete', step < currentStep);
+        if (step === currentStep) link.setAttribute('aria-current', 'step');
+        else link.removeAttribute('aria-current');
+    });
+}
+var progressTicking = false;
+window.addEventListener('scroll', function() {
+    if (progressTicking) return;
+    progressTicking = true;
+    window.requestAnimationFrame(function() {
+        updateOrderProgress();
+        progressTicking = false;
+    });
+}, {passive: true});
+window.addEventListener('resize', updateOrderProgress);
+updateOrderProgress();
+
 // ── CALENDAR ──────────────────────────────────────────────────────────────────
 var calY = new Date().getFullYear(), calM = new Date().getMonth();
 var MO = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];

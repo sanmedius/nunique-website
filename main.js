@@ -55,6 +55,7 @@
         document.querySelectorAll('[data-de-html]').forEach(function(el) {
             el.innerHTML = lang === 'de' ? el.getAttribute('data-de-html') : el.getAttribute('data-en-html');
         });
+        document.dispatchEvent(new CustomEvent('nunique:languagechange', { detail: { lang: lang } }));
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -322,7 +323,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const lbPrev = document.getElementById('lightboxPrev');
   const lbNext = document.getElementById('lightboxNext');
   if (overlay && lbImg) {
-    const triggers = Array.from(document.querySelectorAll('a.lightbox, [data-lightbox], .gallery-grid img, .portfolio-card img'));
+    const triggers = Array.from(document.querySelectorAll('a.lightbox, [data-lightbox], .gallery-grid img, .portfolio-card img'))
+      .filter(function (el) {
+        return !(el.tagName === 'IMG' && el.closest('a.lightbox'));
+      });
     let current = 0;
     let previouslyFocused = null;
 
@@ -387,6 +391,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // FAQ accordion: keep one item open for clarity
   document.querySelectorAll('[data-faq-accordion]').forEach(function (accordion) {
+    function reserveExpandedHeight() {
+      if (!accordion.clientWidth) return;
+      const details = Array.from(accordion.querySelectorAll('details'));
+      const gap = parseFloat(getComputedStyle(accordion).rowGap) || 0;
+      const closedHeight = details.reduce(function (height, detail) {
+        const summary = detail.querySelector('summary');
+        return height + (summary ? summary.offsetHeight : 0) + 2;
+      }, gap * Math.max(0, details.length - 1));
+      let tallestAnswer = 0;
+      details.forEach(function (detail) {
+        const answer = detail.querySelector(':scope > p');
+        if (!answer) return;
+        const probe = answer.cloneNode(true);
+        probe.style.position = 'absolute';
+        probe.style.visibility = 'hidden';
+        probe.style.pointerEvents = 'none';
+        probe.style.display = 'block';
+        probe.style.width = Math.max(0, accordion.clientWidth - 44) + 'px';
+        accordion.appendChild(probe);
+        tallestAnswer = Math.max(tallestAnswer, probe.getBoundingClientRect().height);
+        probe.remove();
+      });
+      accordion.style.minHeight = Math.ceil(closedHeight + tallestAnswer) + 'px';
+    }
     accordion.querySelectorAll('details').forEach(function (detail) {
       detail.addEventListener('toggle', function () {
         if (!detail.open) return;
@@ -395,7 +423,63 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       });
     });
+    window.requestAnimationFrame(reserveExpandedHeight);
+    window.addEventListener('load', reserveExpandedHeight, { once: true });
+    window.addEventListener('resize', reserveExpandedHeight);
+    document.addEventListener('nunique:languagechange', function () {
+      window.requestAnimationFrame(reserveExpandedHeight);
+    });
   });
+
+  // Select a flavour on this page; only the CTA opens the order form.
+  let selectedOrderFlavour = '';
+  const flavourOrderCta = document.querySelector('[data-flavour-order-cta]');
+  document.querySelectorAll('[data-order-flavour]').forEach(function (card) {
+    const flavour = card.getAttribute('data-order-flavour');
+    const selectFlavour = function () {
+      selectedOrderFlavour = selectedOrderFlavour === flavour ? '' : flavour;
+      document.querySelectorAll('[data-order-flavour]').forEach(function (other) {
+        const selected = other.getAttribute('data-order-flavour') === selectedOrderFlavour;
+        other.classList.toggle('is-selected', selected);
+        other.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      });
+      if (flavourOrderCta) {
+        flavourOrderCta.href = selectedOrderFlavour
+          ? 'order?flavour=' + encodeURIComponent(selectedOrderFlavour) + '#geschmackTiles'
+          : 'order';
+      }
+    };
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-pressed', 'false');
+    card.addEventListener('click', selectFlavour);
+    card.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        selectFlavour();
+      }
+    });
+  });
+
+  // Information only: the site has no optional analytics or marketing storage.
+  const storageNoticeKey = 'nunique_storage_notice';
+  if (!localStorage.getItem(storageNoticeKey)) {
+    const notice = document.createElement('aside');
+    notice.className = 'storage-notice';
+    notice.setAttribute('data-de-aria', 'Cookie- und Speicherinformation');
+    notice.setAttribute('data-en-aria', 'Storage information');
+    notice.setAttribute('aria-label', document.documentElement.lang === 'en' ? 'Storage information' : 'Cookie- und Speicherinformation');
+    notice.innerHTML = '<p><strong data-de="Cookie- und Speicherinformation" data-en="Cookie and storage information">Cookie- und Speicherinformation</strong><br><span data-de="Wir verwenden nur technisch notwendige Speicherung: Ihre Sprachauswahl im Browser und auf der Bestellseite ein temporäres Sicherheits-Cookie. Es gibt keine Analyse- oder Marketing-Cookies." data-en="We only use technically necessary storage: your language choice in the browser and a temporary security cookie on the order page. There are no analytics or marketing cookies.">Wir verwenden nur technisch notwendige Speicherung: Ihre Sprachauswahl im Browser und auf der Bestellseite ein temporäres Sicherheits-Cookie. Es gibt keine Analyse- oder Marketing-Cookies.</span> <a href="datenschutz" data-de="Mehr erfahren" data-en="Learn more">Mehr erfahren</a></p><button type="button" data-de="Verstanden" data-en="Got it">Verstanden</button>';
+    document.body.appendChild(notice);
+    const lang = window.NUNIQUE_CURRENT_LANG || document.documentElement.lang || 'de';
+    notice.querySelectorAll('[data-de]').forEach(function (el) {
+      el.textContent = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-de');
+    });
+    notice.querySelector('button').addEventListener('click', function () {
+      localStorage.setItem(storageNoticeKey, 'acknowledged');
+      notice.remove();
+    });
+  }
 });
 
 // Form honeypot validation

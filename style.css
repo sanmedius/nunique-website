@@ -572,6 +572,13 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
 }
 .flavour-card-body h3 { font-size: 1.2rem; margin-bottom: .4rem; }
 .flavour-card-body p { font-size: .88rem; color: var(--mid); line-height: 1.6; }
+.flavour-order-hint { margin:0 auto 1.5rem; max-width:720px; text-align:center; color:var(--mid); }
+[data-order-flavour] { cursor:pointer; }
+[data-order-flavour]:focus-visible { outline:3px solid var(--teal); outline-offset:4px; }
+[data-order-flavour].is-selected {
+    border-color:var(--pink);
+    box-shadow:0 0 0 3px var(--pink-soft), var(--shadow-card-hover);
+}
 
 /* ── NOTICE BOX ── */
 .notice {
@@ -634,6 +641,42 @@ footer ul li a:hover { color: var(--pink); }
 .footer-bottom a { color: var(--mid); }
 .footer-bottom a:hover { color: var(--pink); }
 
+/* Informational notice for necessary browser storage; no consent choices are needed. */
+.storage-notice {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 2100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(233,30,140,.18);
+    border-radius: 18px;
+    background: rgba(255,255,255,.97);
+    box-shadow: 0 18px 60px rgba(36,24,31,.18);
+    backdrop-filter: blur(14px);
+}
+.storage-notice p { margin:0; color:var(--mid); font-size:.88rem; line-height:1.5; }
+.storage-notice strong { color:var(--dark); }
+.storage-notice a { color:var(--teal-dark); font-weight:700; text-decoration:underline; }
+.storage-notice button {
+    flex:0 0 auto;
+    border:0;
+    border-radius:999px;
+    padding:.7rem 1.15rem;
+    background:var(--teal);
+    color:#fff;
+    font:700 .82rem 'Urbanist',sans-serif;
+    cursor:pointer;
+    transition:background-color .2s ease;
+}
+.storage-notice button:hover { background:var(--teal-dark); }
+
 /* ── ANIMATIONS ── */
 .fade-up {
     opacity: 0; transform: translateY(24px);
@@ -687,6 +730,8 @@ footer ul li a:hover { color: var(--pink); }
     .cards-grid { grid-template-columns: 1fr; }
     .flavour-grid { grid-template-columns: 1fr; }
     .footer-bottom { flex-direction: column; text-align: center; }
+    .storage-notice { align-items:stretch; flex-direction:column; }
+    .storage-notice button { align-self:flex-end; }
 }
 
 /* ── SOCIAL MEDIA ICONS ── */

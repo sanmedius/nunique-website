@@ -90,15 +90,15 @@
 </div>
 <div class="form-container">
 <nav aria-label="Formularfortschritt" class="order-progress">
-<span><b>1</b> <span data-de="Kontakt" data-en="Contact">Kontakt</span></span>
-<span><b>2</b> <span data-de="Torte" data-en="Cake">Torte</span></span>
-<span><b>3</b> <span data-de="Design" data-en="Design">Design</span></span>
-<span><b>4</b> <span data-de="Senden" data-en="Send">Senden</span></span>
+<a data-progress-step="1" href="#order-step-contact"><b>1</b> <span data-de="Kontakt" data-en="Contact">Kontakt</span></a>
+<a data-progress-step="2" href="#order-step-cake"><b>2</b> <span data-de="Torte" data-en="Cake">Torte</span></a>
+<a data-progress-step="3" href="#order-step-design"><b>3</b> <span data-de="Design" data-en="Design">Design</span></a>
+<a data-progress-step="4" href="#order-step-send"><b>4</b> <span data-de="Senden" data-en="Send">Senden</span></a>
 </nav>
 <form action="backend/send-order.php" data-robot-check="" enctype="multipart/form-data" id="cakeForm" method="POST">
 <div aria-hidden="true" class="robot-field"><label>Website <input autocomplete="off" name="website" tabindex="-1" type="text"/></label></div>
 <!-- 1: KONTAKT -->
-<div class="form-section">
+<div class="form-section" data-order-step="1" id="order-step-contact">
 <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg fill="none" height="20" stroke="var(--pink)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span data-de="Ihre Daten" data-en="Your Details">Ihre Daten</span></div>
 <div class="two-col">
 <div class="field-group"><label><span data-de="Vorname" data-en="First Name">Vorname</span><span class="req">*</span></label><input autocomplete="given-name" name="vorname" required="" type="text"/></div>
@@ -111,7 +111,7 @@
 </div>
 </div>
 <!-- 2: ANLASS & ABHOLUNG -->
-<div class="form-section">
+<div class="form-section" data-order-step="2" id="order-step-cake">
 <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg fill="none" height="20" stroke="var(--pink)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span><span data-de="Anlass &amp; Termin" data-en="Occasion &amp; Date">Anlass &amp; Termin</span></div>
 <div class="field-group">
 <label><span data-de="Anlass" data-en="Occasion">Anlass</span><span class="req">*</span></label>
@@ -160,7 +160,7 @@
 </div>
 </div>
 <!-- 3: GESCHMACK -->
-<div class="form-section">
+<div class="form-section" data-order-step="2">
 <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg fill="none" height="20" stroke="var(--pink)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg></span><span data-de="Geschmacksrichtung" data-en="Flavour">Geschmacksrichtung</span></div>
 <p class="field-hint" style="margin-bottom:.5rem"><span data-de="Details zu unseren Varianten:" data-en="Details about our variants:">Details zu unseren Varianten:</span> <a href="flavours"><span data-de="Geschmacksrichtungen" data-en="Flavours">Geschmacksrichtungen</span></a></p>
 <label class="field-lbl"><span data-de="Variante wählen" data-en="Choose variant">Variante wählen</span><span class="req">*</span> <small><span data-de="(Weitere Geschmacksrichtungen werden während des Bestellprozesses festgelegt.)" data-en="(Additional flavours will be agreed during the ordering process.)">(Weitere Geschmacksrichtungen werden während des Bestellprozesses festgelegt.)</span></small></label>
@@ -184,7 +184,7 @@
 <input id="geschmack-1" name="geschmack_1" type="hidden" value=""/>
 </div>
 <!-- 4: DESIGN -->
-<div class="form-section">
+<div class="form-section" data-order-step="3" id="order-step-design">
 <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg fill="none" height="20" stroke="var(--pink)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></span><span data-de="Design &amp; Größe" data-en="Design &amp; Size">Design &amp; Größe</span></div>
 <div class="two-col" style="align-items:start">
 <div class="field-group">
@@ -231,7 +231,7 @@
 </div>
 </div>
 <!-- 5: ALLERGIEN -->
-<div class="form-section">
+<div class="form-section" data-order-step="3">
 <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg fill="none" height="20" stroke="var(--pink)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" x2="12" y1="9" y2="13"></line><line x1="12" x2="12.01" y1="17" y2="17"></line></svg></span><span data-de="Allergien &amp; Unverträglichkeiten" data-en="Allergies &amp; Intolerances">Allergien &amp; Unverträglichkeiten</span></div>
 <div class="opt-tiles multi" id="allergieTiles">
 <button class="opt-tile" data-group="allergie" data-val="Keine" type="button"><span data-de="Keine" data-en="None">Keine</span></button>
@@ -249,7 +249,7 @@
 </div>
 </div>
 <!-- 6: ANMERKUNGEN -->
-<div class="form-section">
+<div class="form-section" data-order-step="3">
 <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg fill="none" height="20" stroke="var(--pink)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line></svg></span><span data-de="Sonstiges" data-en="Other">Sonstiges</span></div>
 <div class="field-group">
 <label><span data-de="Zusätzliche Anmerkungen" data-en="Additional notes">Zusätzliche Anmerkungen</span></label>
@@ -266,7 +266,7 @@
 <p aria-live="polite" class="captcha-error" id="securityError"></p>
 <p aria-live="polite" class="form-error-summary" id="formValidationError"></p>
 </div>
-<div class="submit-section">
+<div class="submit-section" data-order-step="4" id="order-step-send">
 <label class="agb-checkbox">
 <input id="agbCheck" name="agb_accepted" required="" type="checkbox"/>
 <span><span data-de-html='Ich bestätige den Auftrag i.V.m. den aktuell gültigen &lt;a href="agb"&gt;&lt;span data-de="AGB" data-en="T&amp;amp;Cs"&gt;AGB&lt;/span&gt;&lt;/a&gt; und habe die &lt;a href="datenschutz"&gt;Datenschutzhinweise&lt;/a&gt; gelesen.' data-en-html='I confirm the order in connection with the currently valid &lt;a href="agb"&gt;T&amp;amp;Cs&lt;/a&gt; and have read the &lt;a href="datenschutz"&gt;privacy information&lt;/a&gt;.'>Ich bestätige den Auftrag i.V.m. den aktuell gültigen <a href="agb">AGB</a> und habe die <a href="datenschutz">Datenschutzhinweise</a> gelesen.</span><span class="req">*</span></span>
