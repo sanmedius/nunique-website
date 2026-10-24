@@ -661,6 +661,7 @@ footer ul li a:hover { color: var(--pink); }
     .form-row { grid-template-columns: 1fr; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); }
     .cards-grid { grid-template-columns: 1fr; }
+    .flavour-grid { grid-template-columns: 1fr; }
     .footer-bottom { flex-direction: column; text-align: center; }
 }
 
