@@ -576,8 +576,8 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
 [data-order-flavour] { cursor:pointer; }
 [data-order-flavour]:focus-visible { outline:3px solid var(--teal); outline-offset:4px; }
 [data-order-flavour].is-selected {
-    border-color:var(--pink);
-    box-shadow:0 0 0 3px var(--pink-soft), var(--shadow-card-hover);
+    border-color:var(--pink)!important;
+    box-shadow:0 0 0 3px var(--pink-soft), var(--shadow-card-hover)!important;
 }
 
 /* ── NOTICE BOX ── */

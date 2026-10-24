@@ -415,12 +415,15 @@ document.addEventListener('DOMContentLoaded', function () {
       });
       accordion.style.minHeight = Math.ceil(closedHeight + tallestAnswer) + 'px';
     }
-    accordion.querySelectorAll('details').forEach(function (detail) {
-      detail.addEventListener('toggle', function () {
-        if (!detail.open) return;
-        accordion.querySelectorAll('details[open]').forEach(function (other) {
-          if (other !== detail) other.removeAttribute('open');
-        });
+    const accordionDetails = Array.from(accordion.querySelectorAll('details'));
+    accordionDetails.forEach(function (detail) {
+      const summary = detail.querySelector('summary');
+      if (!summary) return;
+      summary.addEventListener('click', function (event) {
+        event.preventDefault();
+        const wasOpen = detail.open;
+        accordionDetails.forEach(function (other) { other.open = false; });
+        if (!wasOpen) detail.open = true;
       });
     });
     window.requestAnimationFrame(reserveExpandedHeight);
