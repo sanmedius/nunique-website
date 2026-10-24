@@ -1,0 +1,32 @@
+name: Validate website
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out website
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: Check shared header and footer
+        shell: pwsh
+        run: ./scripts/sync-shared-blocks.ps1 -Check
+
+      - name: Validate HTML conventions and required assets
+        shell: pwsh
+        run: ./scripts/validate-site.ps1
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check main.js
+          node --check order.js
+
+      - name: Check PHP syntax
+        run: find backend -name '*.php' -print0 | xargs -0 -n1 php -l

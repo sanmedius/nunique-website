@@ -1,4 +1,5 @@
-/* Order form page — light background */
+/* Page layer: order-form-only layout and controls. Loaded between the shared
+   foundation and component enhancement sheets on order.html. */
     body { background: #F5F5F5; }
     
         :root {
@@ -65,18 +66,6 @@
             display: flex; gap: 6px; justify-content: center;
             margin-top: .75rem;
         }
-        .lang-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-light);
-            padding: .3rem .75rem;
-            font-size: .8rem; font-family: 'Urbanist', sans-serif; font-weight: 600;
-            cursor: pointer; border-radius: 4px; transition: all .2s;
-        }
-        .lang-btn.active {
-            background: var(--magenta); color: #fff; border-color: var(--magenta);
-        }
-
         /* Container — wider */
         .form-container { max-width: 1080px; margin: 2rem auto; padding: 0 1.5rem 3rem; }
 
@@ -88,6 +77,39 @@
             padding: 2rem;
             margin-top: 1.5rem;
             animation: fadeUp .35s ease-out both;
+        }
+
+        .order-progress {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: .5rem;
+            margin-bottom: 1rem;
+            padding: .7rem;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: rgba(255,255,255,.92);
+            box-shadow: 0 8px 26px rgba(0,0,0,.05);
+        }
+        .order-progress > span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .35rem;
+            min-width: 0;
+            color: var(--text-mid);
+            font-size: .78rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        .order-progress b {
+            display: inline-grid;
+            flex: 0 0 1.55rem;
+            width: 1.55rem;
+            height: 1.55rem;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--pink-soft);
+            color: var(--magenta-dark);
         }
         .form-section:nth-child(1){animation-delay:.04s}
         .form-section:nth-child(2){animation-delay:.08s}
@@ -319,11 +341,15 @@
 
         /* ── CONFIRMATION MODAL ── */
         .modal-overlay {
-            display: none; position: fixed; inset: 0;
+            position: fixed; inset: 0;
+            width: 100%; max-width: none; height: 100%; max-height: none;
+            margin: 0; border: 0;
             background: rgba(0,0,0,.45); z-index: 1000;
             align-items: center; justify-content: center; padding: 1.5rem;
         }
-        .modal-overlay.open { display: flex; }
+        .modal-overlay[open] { display: flex; }
+        .modal-overlay:not([open]) { display: none; }
+        .modal-overlay::backdrop { background: transparent; }
         .modal {
             background: #fff; border-radius: 16px;
             padding: 2rem 2rem 1.5rem;
@@ -789,6 +815,9 @@ input[type="file"] {
 }
 
 @media (max-width: 600px) {
+  .order-progress { gap: .2rem; padding: .55rem .35rem; }
+  .order-progress > span { gap: .2rem; font-size: .68rem; }
+  .order-progress b { width: 1.35rem; height: 1.35rem; flex-basis: 1.35rem; }
   body .form-container {
     width: 100% !important;
     max-width: 100% !important;

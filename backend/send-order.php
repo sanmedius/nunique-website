@@ -264,8 +264,7 @@ $anlass = ($anlassRaw === 'Sonstiges' && $anlassOther !== '') ? 'Sonstiges: ' . 
 $datum = nq_clean_text($_POST['datum'] ?? '', 40);
 $uhrzeit = nq_clean_text($_POST['uhrzeit'] ?? '', 40);
 $geschmack1 = nq_clean_text($_POST['geschmack_1'] ?? '', 80);
-$geschmack2 = nq_clean_text($_POST['geschmack_2'] ?? '', 80);
-$geschmack = implode(', ', array_filter([$geschmack1, $geschmack2]));
+$geschmack = $geschmack1;
 $formShape = nq_clean_text($_POST['form'] ?? '', 80);
 $groesse = nq_clean_text($_POST['groesse'] ?? '', 120);
 $groesseCustom = nq_clean_text($_POST['groesse_custom'] ?? '', 120);

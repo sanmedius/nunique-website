@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════════
    NUNIQUE — Cakes & Coffee
-   Shared Stylesheet
+   Foundation layer: tokens, typography, layout and shared components
    ══════════════════════════════════════════ */
 
 :root {
@@ -22,6 +22,12 @@
     --header-logo-h: 100px;
     --header-nav-h:  48px;
     --header-total:  calc(var(--header-logo-h) + var(--header-nav-h));
+    --radius-card: 20px;
+    --radius-media: 24px;
+    --card-padding: 2rem;
+    --shadow-card: 0 4px 20px rgba(0,0,0,.06);
+    --shadow-card-hover: 0 8px 32px rgba(0,0,0,.11);
+    --shadow-media: 0 12px 48px rgba(0,0,0,.12);
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,6 +45,7 @@ body {
 
 img { max-width: 100%; height: auto; display: block; }
 a { text-decoration: none; color: inherit; }
+.inline-icon { display: inline-flex; align-items: center; margin-right: 6px; opacity: .65; vertical-align: middle; }
 
 .skip-link {
     position: fixed;
@@ -236,7 +243,6 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
 }
 .btn-primary:hover {
     background: var(--pink-dark);
-    transform: translateY(-2px);
     box-shadow: 0 6px 22px rgba(233,30,140,.3);
 }
 .btn-outline {
@@ -245,16 +251,21 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
 }
 .btn-outline:hover {
     background: var(--pink); color: #fff;
-    transform: translateY(-2px);
 }
+.btn-secondary,
 .btn-teal {
     background: var(--teal); color: #fff;
     box-shadow: 0 4px 16px rgba(0,188,212,.2);
 }
 .btn-teal:hover {
     background: var(--teal-dark);
-    transform: translateY(-2px);
 }
+.btn-whatsapp {
+    background: #1f8f55;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(31,143,85,.2);
+}
+.btn-whatsapp:hover { background: #176f42; color: #fff; }
 
 /* ── SECTIONS ── */
 .section { padding: 3rem 2rem; }
@@ -323,6 +334,9 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
 }
 .card-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
 .card-body { padding: 1.5rem; }
+.cards-grid .card { display: flex; flex-direction: column; }
+.cards-grid .card-body { display: flex; flex: 1; flex-direction: column; }
+.cards-grid .card-price { margin-top: auto; padding-top: 1rem; }
 .card-body h3 { margin-bottom: .5rem; }
 .card-body p { color: var(--mid); font-size: .92rem; line-height: 1.65; }
 .card-price {
@@ -655,6 +669,16 @@ footer ul li a:hover { color: var(--pink); }
     .flavour-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 600px) {
+    .header-top { padding-inline: .5rem; }
+    .header-top-inner { gap: .35rem; }
+    .header-logo { min-width: 0; }
+    .header-logo img {
+        width: min(68vw, 265px) !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
+    .page-hero h1,
+    .order-hero h1 { overflow-wrap: anywhere; hyphens: auto; }
     .section { padding: 3.5rem 1.25rem; }
     .hero-content { padding: 3rem 1.25rem; }
     .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
@@ -680,60 +704,6 @@ footer ul li a:hover { color: var(--pink); }
 .social-icons a:hover {
     background: var(--teal); color: #fff;
     transform: translateY(-2px);
-}
-
-/* ── COOKIE BANNER ── */
-#cookie-banner {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: #fff; z-index: 9999;
-    border-top: 3px solid var(--teal);
-    box-shadow: 0 -4px 24px rgba(0,0,0,.12);
-    padding: 1.5rem 2rem;
-}
-.cookie-inner {
-    max-width: 1200px; margin: 0 auto;
-    display: flex; align-items: center;
-    gap: 1.5rem; flex-wrap: wrap;
-}
-.cookie-text {
-    flex: 1; min-width: 260px;
-    font-size: .85rem; line-height: 1.6; color: var(--mid);
-}
-.cookie-text strong { color: var(--dark); }
-.cookie-text a { color: var(--teal-dark); text-decoration: underline; }
-.cookie-buttons {
-    display: flex; gap: .75rem; flex-shrink: 0; flex-wrap: wrap;
-}
-.cookie-btn-accept {
-    background: var(--teal); color: #fff; border: none;
-    padding: .65rem 1.5rem; border-radius: 50px;
-    font-family: 'Urbanist', sans-serif;
-    font-size: .88rem; font-weight: 700; cursor: pointer;
-    transition: background .2s;
-}
-.cookie-btn-accept:hover { background: var(--teal-dark); }
-.cookie-btn-decline {
-    background: transparent; color: var(--mid);
-    border: 1px solid var(--border);
-    padding: .65rem 1.5rem; border-radius: 50px;
-    font-family: 'Urbanist', sans-serif;
-    font-size: .88rem; font-weight: 500; cursor: pointer;
-    transition: all .2s;
-}
-.cookie-btn-decline:hover { border-color: var(--mid); color: var(--dark); }
-.cookie-btn-reject {
-    background: transparent; color: var(--mid);
-    border: 1px solid var(--border);
-    padding: .65rem 1.5rem; border-radius: 50px;
-    font-family: 'Urbanist', sans-serif;
-    font-size: .88rem; font-weight: 500; cursor: pointer;
-    transition: all .2s;
-}
-.cookie-btn-reject:hover { border-color: var(--mid); color: var(--dark); }
-@media (max-width: 600px) {
-    .cookie-inner { flex-direction: column; align-items: flex-start; }
-    .cookie-buttons { width: 100%; }
-    .cookie-btn-accept, .cookie-btn-decline { flex: 1; text-align: center; }
 }
 
 /* ── ABOUT PAGE ── */
@@ -781,11 +751,13 @@ footer ul li a:hover { color: var(--pink); }
 }
 .about-team-card img {
     width: 100%;
+    max-width: 180px;
     aspect-ratio: 1;
     object-fit: cover;
     border-radius: 50%;
     border: 3px solid var(--pink-soft);
 }
+.about-team-card-content { align-self: stretch; }
 .about-team-card h3 { margin: 0; }
 .about-team-card-content {
     min-width: 0;
@@ -848,6 +820,9 @@ footer ul li a:hover { color: var(--pink); }
 .gallery-grid img:hover { transform: scale(1.03); box-shadow: 0 6px 24px rgba(0,0,0,.15); }
 .lightbox-overlay {
     position: fixed; inset: 0;
+    width: 100vw; max-width: none;
+    height: 100vh; max-height: none;
+    margin: 0; border: 0;
     background: rgba(0,0,0,.92);
     z-index: 2000;
     display: flex; align-items: center; justify-content: center;
@@ -857,6 +832,8 @@ footer ul li a:hover { color: var(--pink); }
     pointer-events: none;
     padding: 1.5rem;
 }
+.lightbox-overlay:not([open]) { display: none; }
+.lightbox-overlay::backdrop { background: transparent; }
 .lightbox-overlay.open {
     opacity: 1; pointer-events: auto;
 }
@@ -889,59 +866,6 @@ footer ul li a:hover { color: var(--pink); }
     position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%);
     color: rgba(255,255,255,.4); font-size: .75rem;
     font-family: "Urbanist", sans-serif; pointer-events: none;
-}
-
-/* ── CAKESHOP GALLERY (rotating carousel) ── */
-.cake-gallery {
-    position: relative; overflow: hidden;
-    border-radius: 16px;
-    background: var(--bg);
-}
-.cake-gallery-track {
-    display: flex;
-    transition: transform .5s cubic-bezier(.4,0,.2,1);
-}
-.cake-gallery-track img {
-    min-width: calc(33.333% - .67rem);
-    width: calc(33.333% - .67rem);
-    aspect-ratio: 4/3; object-fit: cover;
-    border-radius: 12px; flex-shrink: 0;
-    margin-right: 1rem;
-    cursor: zoom-in;
-    transition: transform .25s, box-shadow .25s;
-    transform: scale(1.3);
-    transform-origin: center center;
-}
-.cake-gallery-track img:hover {
-    box-shadow: 0 8px 32px rgba(0,0,0,.2);
-}
-.cake-gallery {
-    overflow: hidden;
-    padding: 1.5rem 0;  /* room for the 30% scale */
-}
-.cake-gallery-controls {
-    display: flex; align-items: center; justify-content: center;
-    gap: 1rem; margin-top: 1.25rem;
-}
-.cake-gallery-btn {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: var(--teal); color: #fff; border: none;
-    cursor: pointer; font-size: 1.3rem;
-    display: flex; align-items: center; justify-content: center;
-    transition: background .2s, transform .2s;
-}
-.cake-gallery-btn:hover { background: var(--teal-dark); transform: scale(1.1); }
-.cake-gallery-dots {
-    display: flex; gap: .45rem;
-}
-.cake-gallery-dots .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--border); cursor: pointer;
-    transition: background .2s, transform .2s;
-}
-.cake-gallery-dots .dot.active { background: var(--teal); transform: scale(1.3); }
-@media (max-width: 600px) {
-    .cake-gallery-track img { min-width: calc(100% - 0px); width: 100%; margin-right: 0; }
 }
 
 /* ── AGB CHECKBOX ── */
@@ -1014,22 +938,12 @@ footer ul li a:hover { color: var(--pink); }
     display: flex; align-items: center; gap: 6px;
     padding-left: 2rem;
 }
-.lang-btn {
-    background: none; border: 1.5px solid var(--border);
-    color: var(--mid); font-family: 'Urbanist', sans-serif;
-    font-size: .72rem; font-weight: 700; letter-spacing: .08em;
-    padding: .2rem .55rem; border-radius: 4px;
-    cursor: pointer; transition: all .2s; line-height: 1.4;
-}
-.lang-btn:hover { border-color: var(--pink); color: var(--pink); }
-.lang-btn.active { background: var(--pink); border-color: var(--pink); color: #fff; }
 @media (max-width: 900px) {
     .header-lang {
         position: static; transform: none;
         padding-left: 0; order: 0; /* far left */
         gap: 4px;
     }
-    .lang-btn { font-size: .68rem; padding: .18rem .45rem; }
     .header-logo { order: 1; flex: 1; display: flex; justify-content: center; }
     .nav-toggle { order: 2; flex-shrink: 0; }
     .header-top-inner { justify-content: space-between; padding: 0; }

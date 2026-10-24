@@ -15,10 +15,6 @@
             var txt = lang === 'de' ? el.getAttribute('data-de') : el.getAttribute('data-en');
             if (txt !== null) el.textContent = txt;
         });
-        // Update buttons
-        document.querySelectorAll('.lang-btn').forEach(function(btn) {
-            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-        });
         // Update html lang attribute and hidden form language fields
         document.documentElement.lang = lang;
         document.querySelectorAll('input[name="lang"], #langField').forEach(function(field) {
@@ -116,65 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.prepend(skipLink);
     }
 
-    // ── CAKE GALLERY CAROUSEL (cakeshop.html) ──
-    var cakeTrack = document.getElementById('cakeGalleryTrack');
-    if (cakeTrack) {
-        var cakeDots   = document.getElementById('cakeGalleryDots');
-        var cakePrev   = document.getElementById('cakeGalleryPrev');
-        var cakeNext   = document.getElementById('cakeGalleryNext');
-        var cakeImgs   = cakeTrack.querySelectorAll('img');
-        var cakeCur    = 0;
-        var cakeTimer;
-
-        function cakePerView() { return window.innerWidth < 600 ? 1 : 3; }
-
-        function cakeTotalSlides() { return Math.ceil(cakeImgs.length / cakePerView()); }
-
-        function cakeBuildDots() {
-            if (!cakeDots) return;
-            cakeDots.innerHTML = '';
-            for (var i = 0; i < cakeTotalSlides(); i++) {
-                var d = document.createElement('button');
-                d.className = 'dot' + (i === 0 ? ' active' : '');
-                d.setAttribute('aria-label', 'Bild ' + (i + 1));
-                d.dataset.i = i;
-                d.addEventListener('click', function() { cakeGoTo(+this.dataset.i); cakeResetAuto(); });
-                cakeDots.appendChild(d);
-            }
-        }
-
-        function cakeGoTo(idx) {
-            var max = cakeTotalSlides() - 1;
-            cakeCur = Math.max(0, Math.min(idx, max));
-            // Each image width = track clientWidth / perView
-            var perV = cakePerView();
-            var imgW = (cakeTrack.offsetWidth / perV);
-            cakeTrack.style.transform = 'translateX(-' + (cakeCur * perV * imgW) + 'px)';
-            if (cakeDots) {
-                cakeDots.querySelectorAll('.dot').forEach(function(d, i) {
-                    d.classList.toggle('active', i === cakeCur);
-                });
-            }
-        }
-
-        function cakeAutoAdv() { cakeGoTo(cakeCur >= cakeTotalSlides() - 1 ? 0 : cakeCur + 1); }
-        function cakeResetAuto() { clearInterval(cakeTimer); cakeTimer = setInterval(cakeAutoAdv, 4000); }
-
-        if (cakePrev) cakePrev.addEventListener('click', function() { cakeGoTo(cakeCur - 1); cakeResetAuto(); });
-        if (cakeNext) cakeNext.addEventListener('click', function() { cakeGoTo(cakeCur + 1); cakeResetAuto(); });
-
-        // Lightbox on gallery image click
-        cakeImgs.forEach(function(img) {
-            img.addEventListener('click', function() { openLightbox(this.src, this.alt); });
-        });
-
-        cakeBuildDots();
-        cakeResetAuto();
-
-        window.addEventListener('resize', function() { cakeBuildDots(); cakeGoTo(0); });
-    }
-
-
     // ── SCROLL TO TOP BUTTON ──
     const scrollBtn = document.getElementById('scrollTopBtn');
     if (scrollBtn) {
@@ -186,38 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
-
-    // ── LIGHTBOX for gallery images ──
-    const overlay = document.getElementById('lightboxOverlay');
-    const lbImg   = document.getElementById('lightboxImg');
-    const lbClose = document.getElementById('lightboxClose');
-
-    function openLightbox(src, altText) {
-        if (!overlay || !lbImg) return;
-        lbImg.src = src;
-        lbImg.alt = altText || '';
-        const cap = document.getElementById('lightboxCaption');
-        if (cap) cap.textContent = altText || '';
-        overlay.classList.add('open');
-        document.body.style.overflow = 'hidden';
-    }
-    function closeLightbox() {
-        if (!overlay) return;
-        overlay.classList.remove('open');
-        document.body.style.overflow = '';
-        setTimeout(() => { if (lbImg) lbImg.src = ''; }, 300);
-    }
-
-    // Gallery images (index.html)
-    document.querySelectorAll('.gallery-grid img, [data-lightbox]').forEach(img => {
-        img.addEventListener('click', () => openLightbox(img.src, img.alt));
-    });
-    if (overlay) {
-        overlay.addEventListener('click', e => { if (e.target === overlay) closeLightbox(); });
-    }
-    if (lbClose) lbClose.addEventListener('click', closeLightbox);
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-
 
     // ── HEADER AND NAVIGATION ──
     const headerNav = document.getElementById('headerNav');
@@ -343,30 +248,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-    // ── COOKIE BANNER ──
-    const cookieBanner = document.getElementById('cookie-banner');
-    if (cookieBanner) {
-        const consent = localStorage.getItem('nunique_cookie_consent');
-        if (!consent) {
-            cookieBanner.style.display = 'block';
-        }
-        document.getElementById('cookie-accept').addEventListener('click', () => {
-            localStorage.setItem('nunique_cookie_consent', 'accepted');
-            cookieBanner.style.display = 'none';
-        });
-        document.getElementById('cookie-decline').addEventListener('click', () => {
-            localStorage.setItem('nunique_cookie_consent', 'declined');
-            cookieBanner.style.display = 'none';
-        });
-        const rejectBtn = document.getElementById('cookie-reject');
-        if (rejectBtn) {
-            rejectBtn.addEventListener('click', () => {
-                localStorage.setItem('nunique_cookie_consent', 'rejected');
-                cookieBanner.style.display = 'none';
-            });
-        }
-    }
-
     // ── REVIEWS CAROUSEL ──
     const track = document.getElementById('reviewsTrack');
     const prevBtn = document.getElementById('reviewPrev');
@@ -416,6 +297,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ── ATELIER V3: generic carousels, gallery lightbox carousel, modern FAQ ──
 document.addEventListener('DOMContentLoaded', function () {
+  // These SVGs are decorative: the parent links or adjacent text provide names.
+  document.querySelectorAll('.header-social svg, .drawer-social svg, .social-icons svg').forEach(function(svg){
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+  });
+
   // Generic horizontal carousels for portfolio + reviews
   document.querySelectorAll('[data-carousel]').forEach(function (carousel) {
     const track = carousel.querySelector('.carousel-track');
@@ -460,14 +347,14 @@ document.addEventListener('DOMContentLoaded', function () {
     function open(index) {
       previouslyFocused = document.activeElement;
       render(index);
+      if (typeof overlay.showModal === 'function' && !overlay.open) overlay.showModal();
       overlay.classList.add('open');
-      overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
       if (lbClose) lbClose.focus();
     }
     function close() {
       overlay.classList.remove('open');
-      overlay.setAttribute('aria-hidden', 'true');
+      if (typeof overlay.close === 'function' && overlay.open) overlay.close();
       document.body.style.overflow = '';
       if (previouslyFocused && typeof previouslyFocused.focus === 'function') previouslyFocused.focus();
     }
@@ -482,6 +369,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (lbNext) lbNext.addEventListener('click', function (e) { e.stopPropagation(); render(current + 1); });
     if (lbClose) lbClose.addEventListener('click', function (e) { e.stopPropagation(); close(); });
     overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+    overlay.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
     document.addEventListener('keydown', function (e) {
       if (!overlay.classList.contains('open')) return;
       if (e.key === 'Escape') close();
@@ -510,23 +398,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-// V4 cake-gallery scroll patch
-document.addEventListener('DOMContentLoaded', function(){
-  // These SVGs are decorative: the parent links/text already provide their names.
-  document.querySelectorAll('.header-social svg, .drawer-social svg, .social-icons svg, #cookie-banner svg').forEach(function(svg){
-    svg.setAttribute('aria-hidden', 'true');
-    svg.setAttribute('focusable', 'false');
-  });
-
-  var track=document.getElementById('cakeGalleryTrack'); if(!track) return;
-  var prev=document.getElementById('cakeGalleryPrev'), next=document.getElementById('cakeGalleryNext');
-  function step(){return Math.min(track.clientWidth*.82,760)}
-  if(prev) prev.addEventListener('click', function(e){e.preventDefault(); e.stopImmediatePropagation(); track.style.transform='none'; track.scrollBy({left:-step(),behavior:'smooth'});}, true);
-  if(next) next.addEventListener('click', function(e){e.preventDefault(); e.stopImmediatePropagation(); track.style.transform='none'; track.scrollBy({left:step(),behavior:'smooth'});}, true);
-  track.querySelectorAll('img').forEach(function(img){img.setAttribute('data-lightbox','');});
-});
-
-// V4 robot-check validation
+// Form honeypot validation
 document.addEventListener('submit', function(e){
   var form=e.target; if(!form.matches('form[data-robot-check]')) return;
   var hp=form.querySelector('input[name="website"]'); if(hp && hp.value.trim()!==''){e.preventDefault(); return false;}

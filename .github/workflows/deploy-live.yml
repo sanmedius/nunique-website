@@ -37,6 +37,10 @@ jobs:
         shell: pwsh
         run: ./scripts/sync-image-dimensions.ps1
 
+      - name: Version CSS and JavaScript assets
+        shell: pwsh
+        run: ./scripts/apply-asset-version.ps1
+
       - name: Install SFTP client
         run: |
           sudo apt-get update

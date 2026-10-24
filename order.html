@@ -5,9 +5,7 @@
 <meta charset="utf-8"/>
 <link href="images/Logo_quadrat_solo.svg" rel="icon" type="image/svg+xml"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
+<link href="fonts/fonts.css" rel="stylesheet">
 <title data-de="Torte anfragen München | Hochzeitstorte &amp; Event Cake bestellen" data-en="Request a Cake in Munich | Wedding &amp; Event Cake Enquiry">Torte anfragen München | Hochzeitstorte &amp; Event Cake bestellen</title>
 <meta content="Fragen Sie Ihre individuelle Torte in München an: Hochzeitstorte, Geburtstagstorte, Firmentorte oder Event Cake mit Design, Geschmack und Terminwunsch." data-de-content="Fragen Sie Ihre individuelle Torte in München an: Hochzeitstorte, Geburtstagstorte, Firmentorte oder Event Cake mit Design, Geschmack und Terminwunsch." data-en-content="Request your custom cake in Munich: wedding cake, birthday cake, corporate cake or event cake with design, flavour and preferred date." name="description"/><meta content="summary_large_image" name="twitter:card"/><meta content="https://munichcakes.de/images/torte5.jpg" property="og:image"/><meta content="https://munichcakes.de/images/torte5.jpg" name="twitter:image"/><meta content="https://munichcakes.de/order" property="og:url"/><meta content="website" property="og:type"/><meta content="Fragen Sie Ihre individuelle Torte in München an: Hochzeitstorte, Geburtstagstorte, Firmentorte oder Event Cake mit Design, Geschmack und Terminwunsch." data-de-content="Fragen Sie Ihre individuelle Torte in München an: Hochzeitstorte, Geburtstagstorte, Firmentorte oder Event Cake mit Design, Geschmack und Terminwunsch." data-en-content="Request your custom cake in Munich: wedding cake, birthday cake, corporate cake or event cake with design, flavour and preferred date." property="og:description"/><meta content="Torte anfragen München | Hochzeitstorte &amp; Event Cake bestellen" data-de-content="Torte anfragen München | Hochzeitstorte &amp; Event Cake bestellen" data-en-content="Request a Cake in Munich | Wedding &amp; Event Cake Enquiry" property="og:title"/>
 <link href="https://munichcakes.de/order" rel="canonical"/>
@@ -91,6 +89,12 @@
 <p><span data-de="Füllen Sie das Formular aus — wir melden uns schnellstmöglich mit einem Angebot." data-en="Fill in the form — we will get back to you with a quote as soon as possible.">Füllen Sie das Formular aus — wir melden uns schnellstmöglich mit einem Angebot.</span></p>
 </div>
 <div class="form-container">
+<nav aria-label="Formularfortschritt" class="order-progress">
+<span><b>1</b> <span data-de="Kontakt" data-en="Contact">Kontakt</span></span>
+<span><b>2</b> <span data-de="Torte" data-en="Cake">Torte</span></span>
+<span><b>3</b> <span data-de="Design" data-en="Design">Design</span></span>
+<span><b>4</b> <span data-de="Senden" data-en="Send">Senden</span></span>
+</nav>
 <form action="backend/send-order.php" data-robot-check="" enctype="multipart/form-data" id="cakeForm" method="POST">
 <div aria-hidden="true" class="robot-field"><label>Website <input autocomplete="off" name="website" tabindex="-1" type="text"/></label></div>
 <!-- 1: KONTAKT -->
@@ -159,7 +163,7 @@
 <div class="form-section">
 <div class="section-title"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;flex-shrink:0"><svg fill="none" height="20" stroke="var(--pink)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="20"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg></span><span data-de="Geschmacksrichtung" data-en="Flavour">Geschmacksrichtung</span></div>
 <p class="field-hint" style="margin-bottom:.5rem"><span data-de="Details zu unseren Varianten:" data-en="Details about our variants:">Details zu unseren Varianten:</span> <a href="flavours"><span data-de="Geschmacksrichtungen" data-en="Flavours">Geschmacksrichtungen</span></a></p>
-<label class="field-lbl"><span data-de="Variante wählen" data-en="Choose variant">Variante wählen</span><span class="req">*</span> <small><span data-de="(Mehrere Geschmacksrichtungen sind bei mehrstöckigen Torten möglich.)" data-en="(Multiple flavours are possible for tiered cakes.)">(Mehrere Geschmacksrichtungen sind bei mehrstöckigen Torten möglich.)</span></small></label>
+<label class="field-lbl"><span data-de="Variante wählen" data-en="Choose variant">Variante wählen</span><span class="req">*</span> <small><span data-de="(Weitere Geschmacksrichtungen werden während des Bestellprozesses festgelegt.)" data-en="(Additional flavours will be agreed during the ordering process.)">(Weitere Geschmacksrichtungen werden während des Bestellprozesses festgelegt.)</span></small></label>
 <div class="flavor-tiles" id="geschmackTiles">
 <button class="flavor-tile" data-group="geschmack" data-tooltip-de="Kakao Biskuitboden mit Schoko-Creme, Mascarpone und gerösteten Haselnüssen." data-tooltip-en="Cocoa sponge with chocolate cream, mascarpone and toasted hazelnuts." data-val="V1 – Ferea" type="button"><img alt="V1 – Ferea" decoding="async" loading="lazy" src="images/ferea.webp" width="1040" height="755"/><span><strong>V1 – Ferea</strong></span></button>
 <button class="flavor-tile" data-group="geschmack" data-tooltip-de="Vanille Biskuitboden mit Vanille-Creme, Mascarpone und Stückchen weißer Schokolade." data-tooltip-en="Vanilla sponge with vanilla cream, mascarpone and white chocolate pieces." data-val="V2 – White Magic" type="button"><img alt="V2 – White Magic" decoding="async" loading="lazy" src="images/white-magic.webp" width="1004" height="725"/><span><strong>V2 – White Magic</strong></span></button>
@@ -178,7 +182,6 @@
 <button class="flavor-tile" data-group="geschmack" data-tooltip-de="Kakao Biskuitboden mit Lebkuchen-Creme und Stückchen Lebkuchen." data-tooltip-en="Cocoa sponge with gingerbread cream and gingerbread pieces." data-val="V16 – Lebkuchentraum" type="button"><img alt="V16 – Lebkuchentraum" decoding="async" loading="lazy" src="images/lebkuchentraum.webp" width="1040" height="753"/><span><strong>V16 – Lebkuchentraum</strong></span></button>
 </div>
 <input id="geschmack-1" name="geschmack_1" type="hidden" value=""/>
-<input id="geschmack-2" name="geschmack_2" type="hidden" value=""/>
 </div>
 <!-- 4: DESIGN -->
 <div class="form-section">
@@ -200,13 +203,13 @@
 <div class="field-group">
 <label><span data-de="Personenanzahl" data-en="Number of guests">Personenanzahl</span><span class="req">*</span></label>
 <div class="size-tiles" id="sizeTiles">
-<button class="size-tile" data-val="8–10 Personen" onclick="selectSize(this)" type="button"><span class="st-num">8–10</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
-<button class="size-tile" data-val="12–14 Personen" onclick="selectSize(this)" type="button"><span class="st-num">12–14</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
-<button class="size-tile sel" data-val="16–18 Personen" onclick="selectSize(this)" type="button"><span class="st-num">16–18</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
-<button class="size-tile" data-val="20–22 Personen" onclick="selectSize(this)" type="button"><span class="st-num">20–22</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
-<button class="size-tile" data-val="24–26 Personen" onclick="selectSize(this)" type="button"><span class="st-num">24–26</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
-<button class="size-tile" data-val="28–30 Personen" onclick="selectSize(this)" type="button"><span class="st-num">28–30</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
-<button class="size-tile size-custom" data-val="custom" onclick="selectSize(this)" type="button"><span class="st-num">✎</span><span class="st-lbl"><span data-de="Individuell" data-en="Custom">Individuell</span></span></button>
+<button class="size-tile" data-val="8–10 Personen" type="button"><span class="st-num">8–10</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
+<button class="size-tile" data-val="12–14 Personen" type="button"><span class="st-num">12–14</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
+<button class="size-tile sel" data-val="16–18 Personen" type="button"><span class="st-num">16–18</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
+<button class="size-tile" data-val="20–22 Personen" type="button"><span class="st-num">20–22</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
+<button class="size-tile" data-val="24–26 Personen" type="button"><span class="st-num">24–26</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
+<button class="size-tile" data-val="28–30 Personen" type="button"><span class="st-num">28–30</span><span class="st-lbl"><span data-de="Personen" data-en="guests">Personen</span></span></button>
+<button class="size-tile size-custom" data-val="custom" type="button"><span class="st-num">✎</span><span class="st-lbl"><span data-de="Individuell" data-en="Custom">Individuell</span></span></button>
 </div>
 <div id="groesse-custom-wrap" style="display:none;margin-top:.75rem">
 <label><span data-de="Individuelle Angabe" data-en="Custom description">Individuelle Angabe</span><span class="req">*</span></label>
@@ -284,7 +287,7 @@
 </form>
 </div>
 <!-- CONFIRMATION MODAL -->
-<div class="modal-overlay" id="confirmModal">
+<dialog aria-labelledby="modal-title" class="modal-overlay" id="confirmModal">
 <div class="modal">
 <div class="modal-icon">
 <svg fill="none" height="36" stroke="var(--magenta)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="36"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"></path><path d="M2 21h20"></path><path d="M7 8v2"></path><path d="M12 8v2"></path><path d="M17 8v2"></path><path d="M7 4h.01"></path><path d="M12 4h.01"></path><path d="M17 4h.01"></path></svg>
@@ -300,7 +303,7 @@
 </button>
 </div>
 </div>
-</div>
+</dialog>
 <!-- FOOTER -->
 <!-- SHARED FOOTER START -->
 <footer>
@@ -344,397 +347,7 @@
 </div>
 </footer>
 <!-- SHARED FOOTER END -->
-<!-- COOKIE BANNER -->
-<div id="cookie-banner" style="display:none">
-<div class="cookie-inner">
-<div class="cookie-text">
-<strong><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;opacity:.65;"><svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="16"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path><path d="M8.5 8.5v.01"></path><path d="M16 15.5v.01"></path><path d="M12 12v.01"></path><path d="M11 17v.01"></path><path d="M7 14v.01"></path></svg></span> <span data-de="Diese Website verwendet Cookies." data-en="This website uses cookies.">Diese Website verwendet Cookies.</span></strong><br/>
-<span data-de="Wir setzen Cookies ein, um die Funktionalität unserer Website zu gewährleisten. Mit Klick auf" data-en="We use cookies to ensure the functionality of our website. By clicking">Wir setzen Cookies ein, um die Funktionalität unserer Website zu gewährleisten. Mit Klick auf</span> „<span data-de="Alle akzeptieren" data-en="Accept all">Alle akzeptieren</span>" <span data-de="stimmen Sie der Verwendung aller Cookies gemäß unserer" data-en="you agree to the use of all cookies in accordance with our">stimmen Sie der Verwendung aller Cookies gemäß unserer</span> <a href="datenschutz"><span data-de="Datenschutzerklärung" data-en="Privacy Policy">Datenschutzerklärung</span></a> <span data-de="zu." data-en=".">zu.</span>
-</div>
-<div class="cookie-buttons">
-<button class="cookie-btn-accept" id="cookie-accept"><span data-de="Alle akzeptieren" data-en="Accept all">Alle akzeptieren</span></button>
-<button class="cookie-btn-decline" id="cookie-decline"><span data-de="Nur notwendige" data-en="Essential only">Nur notwendige</span></button>
-<button class="cookie-btn-reject" id="cookie-reject"><span data-de="Alle ablehnen" data-en="Reject all">Alle ablehnen</span></button>
-</div>
-</div>
-</div>
 <script src="main.js?v=20261020-1"></script>
-<script>
-
-var formStartedAt = document.getElementById('formStartedAt');
-if (formStartedAt && !formStartedAt.value) { formStartedAt.value = Math.floor(Date.now() / 1000); }
-
-// ── SINGLE-SELECT TILES (anlass, form) ───────────────────────────────────────
-document.querySelectorAll('.opt-tiles:not(.multi) .opt-tile, .shape-tile').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        var group = this.dataset.group;
-        document.querySelectorAll('[data-group="' + group + '"]').forEach(function(b) { b.classList.remove('sel'); });
-        this.classList.add('sel');
-        var hid = document.getElementById(group + '-hidden') || document.getElementById(group.replace('form','form') + '-hidden');
-        if (group === 'form') hid = document.getElementById('form-hidden');
-        if (hid) hid.value = this.dataset.val;
-        if (group === 'anlass') {
-            var w = document.getElementById('anlass-other-field');
-            if (w) w.style.display = this.dataset.val === 'Sonstiges' ? 'block' : 'none';
-        }
-    });
-});
-
-// ── MULTI-SELECT TILES (allergie) ─────────────────────────────────────────────
-document.querySelectorAll('.opt-tiles.multi .opt-tile').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        this.classList.toggle('sel');
-        var group = this.dataset.group;
-        var selected = Array.from(document.querySelectorAll('.opt-tile.sel[data-group="' + group + '"]')).map(function(b) { return b.dataset.val; });
-        var hid = document.getElementById(group + 'ien-hidden');
-        if (hid) hid.value = selected.join(', ');
-        if (group === 'allergie') {
-            var w = document.getElementById('allergy-other-wrap');
-            if (w) w.style.display = selected.indexOf('Sonstiges') !== -1 ? 'block' : 'none';
-        }
-    });
-});
-
-// ── SIZE TILES ────────────────────────────────────────────────────────────────
-function selectSize(btn) {
-    document.querySelectorAll('.size-tile').forEach(function(b) { b.classList.remove('sel'); });
-    btn.classList.add('sel');
-    var val = btn.dataset.val;
-    var hid = document.getElementById('groesse-hidden');
-    var wrap = document.getElementById('groesse-custom-wrap');
-    var ci = document.getElementById('groesse-custom-input');
-    if (val === 'custom') {
-        if (hid) hid.value = ci ? ci.value.trim() : '';
-        if (wrap) wrap.style.display = 'block';
-        if (ci) ci.required = true;
-    } else {
-        if (hid) hid.value = val;
-        if (wrap) wrap.style.display = 'none';
-        if (ci) ci.required = false;
-    }
-}
-var customSizeInput = document.getElementById('groesse-custom-input');
-if (customSizeInput) {
-    customSizeInput.addEventListener('input', function() {
-        var selectedSize = document.querySelector('.size-tile.sel');
-        var hiddenSize = document.getElementById('groesse-hidden');
-        if (selectedSize && selectedSize.dataset.val === 'custom' && hiddenSize) {
-            hiddenSize.value = this.value.trim();
-        }
-    });
-}
-
-// ── FLAVOR TILES (single selection) ──────────────────────────────────────────
-var selectedFlavor = '';
-document.querySelectorAll('.flavor-tile').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        var val = this.dataset.val;
-        if (selectedFlavor === val) {
-            selectedFlavor = '';
-            this.classList.remove('sel');
-        } else {
-            document.querySelectorAll('.flavor-tile.sel').forEach(function(tile) {
-                tile.classList.remove('sel');
-            });
-            selectedFlavor = val;
-            this.classList.add('sel');
-        }
-        document.getElementById('geschmack-1').value = selectedFlavor;
-        document.getElementById('geschmack-2').value = '';
-    });
-});
-
-// ── CALENDAR ──────────────────────────────────────────────────────────────────
-var calY = new Date().getFullYear(), calM = new Date().getMonth();
-var MO = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
-function renderCal() {
-    var lbl = document.getElementById('calMonthLbl');
-    if (lbl) lbl.textContent = MO[calM] + ' ' + calY;
-    var grid = document.getElementById('calGrid');
-    if (!grid) return;
-    grid.querySelectorAll('.cal-day').forEach(function(d){ d.remove(); });
-    var today = new Date(); today.setHours(0,0,0,0);
-    var minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-    var first = new Date(calY, calM, 1).getDay();
-    var offset = first === 0 ? 6 : first - 1;
-    var total = new Date(calY, calM+1, 0).getDate();
-    for (var i=0; i<offset; i++) { var e=document.createElement('div'); e.className='cal-day empty'; grid.appendChild(e); }
-    for (var d=1; d<=total; d++) {
-        var el = document.createElement('div'); el.className='cal-day'; el.textContent=d;
-        var dt = new Date(calY, calM, d);
-        if (dt < minDate || dt.getDay() === 0) { el.classList.add('disabled'); }
-        else {
-            (function(day){ el.addEventListener('click', function(){
-                grid.querySelectorAll('.cal-day.sel').forEach(function(x){ x.classList.remove('sel'); });
-                this.classList.add('sel');
-                var p = function(n){ return String(n).padStart(2,'0'); };
-                document.getElementById('datum-input').value = calY+'-'+p(calM+1)+'-'+p(day);
-            }.bind(el)); })(d);
-        }
-        grid.appendChild(el);
-    }
-}
-var cpb = document.getElementById('calPrevBtn'), cnb = document.getElementById('calNextBtn');
-if (cpb) cpb.addEventListener('click', function(){ if(calM===0){calM=11;calY--;}else{calM--;} renderCal(); });
-if (cnb) cnb.addEventListener('click', function(){ if(calM===11){calM=0;calY++;}else{calM++;} renderCal(); });
-renderCal();
-
-// ── TIME CHIPS ────────────────────────────────────────────────────────────────
-var tc = document.getElementById('timeChips');
-if (tc) { ['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30'].forEach(function(t){
-    var b=document.createElement('button'); b.type='button'; b.className='time-chip'; b.textContent=t;
-    b.addEventListener('click',function(){ tc.querySelectorAll('.time-chip.sel').forEach(function(x){x.classList.remove('sel');}); this.classList.add('sel'); document.getElementById('uhrzeit-input').value=t; }.bind(b));
-    tc.appendChild(b);
-}); }
-
-// ── LANG TOGGLE ───────────────────────────────────────────────────────────────
-document.querySelectorAll('.lang-btn').forEach(function(btn){ btn.addEventListener('click', function(){
-    var lang = this.getAttribute('data-lang');
-    document.getElementById('langField').value = lang;
-    document.querySelectorAll('.lang-btn').forEach(function(b){ b.classList.remove('active'); });
-    this.classList.add('active');
-    document.querySelectorAll('[data-de]').forEach(function(el){ el.textContent = lang==='de'?el.getAttribute('data-de'):el.getAttribute('data-en'); });
-}); });
-
-
-
-// ── LOCAL FORM SECURITY ──────────────────────────────────────────────────────
-function currentOrderLang(){ var active=document.querySelector('.lang-btn.active'); return active ? active.getAttribute('data-lang') : (document.getElementById('langField') ? document.getElementById('langField').value : 'de'); }
-function securityMessage(de, en){ return currentOrderLang()==='en' ? en : de; }
-function showSecurityError(message){
-    var error = document.getElementById('securityError');
-    if(error) error.textContent = message;
-}
-function setSecurityToken(q){
-    var token = document.getElementById('csrfToken');
-    if(!token) return;
-    token.value = q && q.token ? q.token : '';
-    if(token.value) showSecurityError('');
-}
-function validateSecurityInline(){
-    var error = document.getElementById('securityError');
-    var csrf = document.getElementById('csrfToken');
-    var ok = csrf && csrf.value !== '';
-    if(!ok){
-        if(error){ error.textContent = securityMessage('Das Formular ist noch nicht bereit. Bitte laden Sie die Seite neu.', 'The form is not ready yet. Please reload the page.'); }
-        return false;
-    }
-    if(error) error.textContent = '';
-    return true;
-}
-function validateTurnstileInline(){
-    var response = document.querySelector('[name="cf-turnstile-response"]');
-    if (!response || !response.value) {
-        showSecurityError(securityMessage('Bitte schlie\u00dfen Sie die Sicherheitspr\u00fcfung ab.', 'Please complete the security check.'));
-        return false;
-    }
-    return true;
-}
-fetch('backend/order-token.php', {credentials:'same-origin'})
-    .then(function(response){ if(!response.ok) throw new Error('token'); return response.json(); })
-    .then(setSecurityToken)
-    .catch(function(){
-        var error=document.getElementById('securityError');
-        if(!error) return;
-        error.textContent = location.protocol === 'file:'
-            ? 'Das Formular benötigt die PHP-Vorschau. Starten Sie die Seite über http://localhost:8080/order.'
-            : 'Das Formular konnte nicht vollständig geladen werden. Bitte laden Sie die Seite neu.';
-    });
-
-// ── CONFIRMATION MODAL ────────────────────────────────────────────────────────
-var submitBtn = document.getElementById('submitBtn');
-var whatsappSubmitBtn = document.getElementById('whatsappSubmitBtn');
-var whatsappUploadNote = document.getElementById('whatsappUploadNote');
-var confirmModal = document.getElementById('confirmModal');
-var modalYes = document.getElementById('modal-yes');
-var modalNo = document.getElementById('modal-no');
-var pendingSubmissionMode = 'email';
-var emailButtonText = submitBtn.querySelector('span');
-if (emailButtonText) {
-    emailButtonText.setAttribute('data-de', 'Per E-Mail senden');
-    emailButtonText.setAttribute('data-en', 'Send via email');
-    emailButtonText.textContent = orderMessage('Per E-Mail senden', 'Send via email');
-}
-
-function showFormError(message, targetId){
-    var box = document.getElementById('formValidationError');
-    if (box) { box.textContent = message; }
-    if (targetId) {
-        var target = document.getElementById(targetId);
-        if (target) {
-            target.scrollIntoView({behavior:'smooth', block:'center'});
-            target.classList.add('input-error');
-            if (typeof target.focus === 'function') { target.focus(); }
-        }
-    }
-}
-function clearFormError(){
-    var box = document.getElementById('formValidationError');
-    if (box) { box.textContent = ''; }
-}
-function orderMessage(de, en){ return currentOrderLang()==='en' ? en : de; }
-function setConfirmationMode(mode){
-    pendingSubmissionMode = mode;
-    var title = document.querySelector('#modal-title span');
-    var text = document.querySelector('#modal-text span');
-    var yes = document.querySelector('#modal-yes-text span');
-    if (mode === 'whatsapp') {
-        if (title) title.textContent = orderMessage('Anfrage in WhatsApp öffnen?', 'Open enquiry in WhatsApp?');
-        if (text) text.textContent = orderMessage('Bitte prüfen Sie Ihre Angaben. WhatsApp wird mit der ausgefüllten Nachricht geöffnet; dort müssen Sie noch auf Senden tippen.', 'Please review your details. WhatsApp will open with the completed message; you still need to press Send there.');
-        if (yes) yes.textContent = orderMessage('Ja, WhatsApp öffnen', 'Yes, open WhatsApp');
-        return;
-    }
-    if (title) title.textContent = orderMessage('Alle Angaben gemacht?', 'All details filled in?');
-    if (text) text.textContent = orderMessage('Bitte prüfen Sie Ihre Angaben noch einmal, bevor Sie die Anfrage absenden.', 'Please review your details once more before submitting the enquiry.');
-    if (yes) yes.textContent = orderMessage('Ja, absenden', 'Yes, submit');
-}
-function formValue(name){
-    var field = document.querySelector('[name="' + name + '"]');
-    return field ? field.value.trim() : '';
-}
-function buildWhatsAppMessage(){
-    var isEnglish = currentOrderLang() === 'en';
-    var files = Array.prototype.slice.call(document.querySelectorAll('[name="inspiration[]"]'))
-        .reduce(function(names, input){
-            return names.concat(Array.prototype.map.call(input.files || [], function(file){ return file.name; }));
-        }, []);
-    var rows = isEnglish ? [
-        ['Name', formValue('vorname') + ' ' + formValue('nachname')],
-        ['Address', formValue('adresse')],
-        ['Email', formValue('customer_email')],
-        ['Phone', formValue('phone')],
-        ['Occasion', formValue('anlass')],
-        ['Other occasion', formValue('anlass_sonstig')],
-        ['Pickup date', formValue('datum')],
-        ['Pickup time', formValue('uhrzeit')],
-        ['Flavour 1', formValue('geschmack_1')],
-        ['Flavour 2', formValue('geschmack_2')],
-        ['Cake shape', formValue('form')],
-        ['Size', formValue('groesse')],
-        ['Custom size', formValue('groesse_custom')],
-        ['Colours', formValue('farbe')],
-        ['Cake inscription', formValue('schriftzug')],
-        ['Decoration wishes', formValue('verzierung')],
-        ['Allergies / intolerances', formValue('allergien_hidden')],
-        ['Other allergy information', formValue('allergie_sonstig')],
-        ['Additional notes', formValue('anmerkungen')],
-        ['Selected image files', files.join(', ')]
-    ] : [
-        ['Name', formValue('vorname') + ' ' + formValue('nachname')],
-        ['Adresse', formValue('adresse')],
-        ['E-Mail', formValue('customer_email')],
-        ['Telefon', formValue('phone')],
-        ['Anlass', formValue('anlass')],
-        ['Sonstiger Anlass', formValue('anlass_sonstig')],
-        ['Abholdatum', formValue('datum')],
-        ['Abholzeit', formValue('uhrzeit')],
-        ['Geschmacksrichtung 1', formValue('geschmack_1')],
-        ['Geschmacksrichtung 2', formValue('geschmack_2')],
-        ['Tortenform', formValue('form')],
-        ['Größe', formValue('groesse')],
-        ['Individuelle Größe', formValue('groesse_custom')],
-        ['Farben', formValue('farbe')],
-        ['Schriftzug', formValue('schriftzug')],
-        ['Dekorationswünsche', formValue('verzierung')],
-        ['Allergien / Unverträglichkeiten', formValue('allergien_hidden')],
-        ['Weitere Allergieangaben', formValue('allergie_sonstig')],
-        ['Zusätzliche Anmerkungen', formValue('anmerkungen')],
-        ['Ausgewählte Bilddateien', files.join(', ')]
-    ];
-    var heading = isEnglish ? 'CAKE ENQUIRY' : 'TORTENANFRAGE';
-    var imageReminder = isEnglish
-        ? 'I will attach the selected images manually in WhatsApp.'
-        : 'Die ausgewählten Bilder sende ich anschließend manuell in WhatsApp.';
-    var details = rows.filter(function(row){ return row[1]; })
-        .map(function(row){ return '*' + row[0] + ':* ' + row[1]; });
-    if (files.length) details.push('', imageReminder);
-    return heading + '\n\n' + details.join('\n');
-}
-function openWhatsAppOrder(){
-    var url = 'https://wa.me/491704742351?text=' + encodeURIComponent(buildWhatsAppMessage());
-    window.open(url, '_blank', 'noopener');
-}
-function validateOrderBeforeModal(){
-    clearFormError();
-    var form = document.getElementById('cakeForm');
-    if (form && !form.checkValidity()) { form.reportValidity(); return false; }
-
-    var dateInput = document.getElementById('datum-input');
-    if (!dateInput || !dateInput.value) {
-        showFormError(orderMessage('Bitte wählen Sie ein Abholdatum.', 'Please choose a pickup date.'), 'calGrid');
-        return false;
-    }
-
-    var timeInput = document.getElementById('uhrzeit-input');
-    if (!timeInput || !timeInput.value) {
-        showFormError(orderMessage('Bitte wählen Sie eine Abholzeit.', 'Please choose a pickup time.'), 'timeChips');
-        return false;
-    }
-
-    var flavour1 = document.getElementById('geschmack-1');
-    if (!flavour1 || !flavour1.value) {
-        showFormError(orderMessage('Bitte wählen Sie mindestens eine Geschmacksrichtung.', 'Please choose at least one flavour.'), 'geschmackTiles');
-        return false;
-    }
-
-    var sizeInput = document.getElementById('groesse-hidden');
-    var customSize = document.getElementById('groesse-custom-input');
-    if (!sizeInput || (!sizeInput.value && (!customSize || !customSize.value.trim()))) {
-        showFormError(orderMessage('Bitte wählen Sie eine Größe oder geben Sie eine individuelle Größe ein.', 'Please choose a size or enter a custom size.'), 'groesse-custom-input');
-        return false;
-    }
-
-    if (!validateSecurityInline()) { return false; }
-    if (!validateTurnstileInline()) { return false; }
-
-    var agb = document.getElementById('agbCheck');
-    if (agb && !agb.checked) {
-        var wrap = agb.closest('.agb-checkbox');
-        if (wrap) { wrap.style.outline = '2px solid var(--magenta)'; }
-        showFormError(orderMessage('Bitte bestätigen Sie die AGB und Datenschutzhinweise.', 'Please confirm the terms and privacy information.'), 'agbCheck');
-        return false;
-    }
-    return true;
-}
-if (submitBtn && confirmModal) {
-    submitBtn.addEventListener('click', function() {
-        if (!validateOrderBeforeModal()) { return; }
-        setConfirmationMode('email');
-        confirmModal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-    });
-}
-if (whatsappSubmitBtn && confirmModal) {
-    whatsappSubmitBtn.addEventListener('click', function() {
-        if (!validateOrderBeforeModal()) { return; }
-        setConfirmationMode('whatsapp');
-        confirmModal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-    });
-}
-if (modalYes) {
-    modalYes.addEventListener('click', function() {
-        confirmModal.classList.remove('open');
-        document.body.style.overflow = '';
-        if (!validateOrderBeforeModal()) { return; }
-        if (pendingSubmissionMode === 'whatsapp') {
-            openWhatsAppOrder();
-            return;
-        }
-        document.getElementById('cakeForm').submit();
-    });
-}
-if (modalNo) {
-    modalNo.addEventListener('click', function() {
-        confirmModal.classList.remove('open');
-        document.body.style.overflow = '';
-    });
-}
-if (confirmModal) {
-    confirmModal.addEventListener('click', function(e) {
-        if (e.target === confirmModal) { confirmModal.classList.remove('open'); document.body.style.overflow = ''; }
-    });
-}
-</script>
+<script src="order.js?v=20261024-1"></script>
 </body>
 </html>
