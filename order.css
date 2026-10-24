@@ -845,11 +845,12 @@ input[type="file"] {
   .order-progress {
     grid-column:2;
     grid-row:1;
-    align-self:start;
-    top:calc(var(--header-total) + 1.5rem);
-    margin-top:1.5rem;
+    align-self:stretch;
+    position:relative;
+    top:auto;
+    margin:0;
     padding:.15rem 0;
-    gap:1.1rem;
+    min-height:100%;
     border:0;
     border-radius:0;
     background:transparent;
@@ -861,15 +862,18 @@ input[type="file"] {
     content:"";
     position:absolute;
     left:12px;
-    top:13px;
+    top:var(--timeline-start, 0);
     width:2px;
     border-radius:999px;
     pointer-events:none;
   }
-  .order-progress::before { bottom:13px; background:#dedede; }
+  .order-progress::before { height:var(--timeline-height, 0); background:#dedede; }
   .order-progress::after { height:var(--progress-fill,0); background:var(--magenta); }
   .order-progress > a {
-    position:relative;
+    position:absolute;
+    left:0;
+    right:0;
+    transform:translateY(-50%);
     z-index:1;
     min-height:58px;
     padding:.45rem 0;
@@ -894,12 +898,14 @@ input[type="file"] {
 
 @media (max-width: 900px) {
   .order-progress {
+    position:sticky;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     top: calc(var(--header-logo-h) + .5rem);
     margin: 0 0 1rem;
     padding: .55rem .35rem;
   }
+  .order-progress > a { position:static; transform:none; }
   .order-progress::before,
   .order-progress::after { display:none; }
   .order-progress > a { justify-content: center; }

@@ -123,12 +123,28 @@ function updateOrderProgress() {
         var formHasStarted = window.scrollY + Math.min(window.innerHeight * .35, 260) >= firstSectionTop;
         var formHasEnded = window.scrollY + 120 > lastSectionBottom;
         orderProgress.classList.toggle('is-visible', formHasStarted && !formHasEnded);
-        var activeDot = orderProgress.querySelector('.is-active b');
-        if (activeDot && window.innerWidth > 900) {
-            var progressRect = orderProgress.getBoundingClientRect();
-            var dotRect = activeDot.getBoundingClientRect();
-            var fillHeight = Math.max(0, dotRect.top + dotRect.height / 2 - progressRect.top - 13);
-            orderProgress.style.setProperty('--progress-fill', fillHeight + 'px');
+        if (window.innerWidth > 900) {
+            var form = document.getElementById('cakeForm');
+            if (form) {
+                var formRect = form.getBoundingClientRect();
+                var stepPositions = [];
+                progressLinks.forEach(function(link) {
+                    var targetSelector = link.getAttribute('href');
+                    var target = targetSelector ? document.querySelector(targetSelector) : null;
+                    if (!target) return;
+                    var position = target.getBoundingClientRect().top - formRect.top;
+                    link.style.top = position + 'px';
+                    stepPositions.push(position);
+                });
+                if (stepPositions.length) {
+                    var timelineStart = stepPositions[0];
+                    var timelineEnd = stepPositions[stepPositions.length - 1];
+                    var activePosition = stepPositions[Math.max(0, currentStep - 1)] || timelineStart;
+                    orderProgress.style.setProperty('--timeline-start', timelineStart + 'px');
+                    orderProgress.style.setProperty('--timeline-height', Math.max(0, timelineEnd - timelineStart) + 'px');
+                    orderProgress.style.setProperty('--progress-fill', Math.max(0, activePosition - timelineStart) + 'px');
+                }
+            }
         }
     }
 }
