@@ -744,40 +744,11 @@ html[lang="en"] .flavor-tile::after {
     transform: translateY(0);
   }
 }
-.flavor-tile:focus-visible::after {
+.flavor-tile:focus-visible::after,
+.flavor-tile.sel::after {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
-}
-.flavor-mobile-details {
-  display: none;
-}
-.flavor-mobile-details[hidden] {
-  display: none !important;
-}
-@media (hover: none), (pointer: coarse), (max-width: 900px) {
-  .flavor-mobile-details {
-    display: block;
-    margin-top: .75rem;
-    padding: .8rem .9rem;
-    border: 1px solid rgba(0,151,167,.24);
-    border-radius: 14px;
-    background: rgba(224,247,250,.55);
-    color: var(--text-dark);
-    line-height: 1.5;
-  }
-  .flavor-mobile-details strong,
-  .flavor-mobile-details span {
-    display: block;
-  }
-  .flavor-mobile-details strong {
-    margin-bottom: .25rem;
-    color: var(--magenta-dark);
-    font-size: .9rem;
-  }
-  .flavor-mobile-details span {
-    font-size: .82rem;
-  }
 }
 
 /* Keep the order form inside narrow iPhone/Safari viewports. */

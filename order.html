@@ -12,7 +12,7 @@
 <meta content="Fragen Sie Ihre individuelle Torte in München an: Hochzeitstorte, Geburtstagstorte, Firmentorte oder Event Cake mit Design, Geschmack und Terminwunsch." data-de-content="Fragen Sie Ihre individuelle Torte in München an: Hochzeitstorte, Geburtstagstorte, Firmentorte oder Event Cake mit Design, Geschmack und Terminwunsch." data-en-content="Request your custom cake in Munich: wedding cake, birthday cake, corporate cake or event cake with design, flavour and preferred date." name="description"/><meta content="summary_large_image" name="twitter:card"/><meta content="https://munichcakes.de/images/torte5.jpg" property="og:image"/><meta content="https://munichcakes.de/images/torte5.jpg" name="twitter:image"/><meta content="https://munichcakes.de/order" property="og:url"/><meta content="website" property="og:type"/><meta content="Fragen Sie Ihre individuelle Torte in München an: Hochzeitstorte, Geburtstagstorte, Firmentorte oder Event Cake mit Design, Geschmack und Terminwunsch." data-de-content="Fragen Sie Ihre individuelle Torte in München an: Hochzeitstorte, Geburtstagstorte, Firmentorte oder Event Cake mit Design, Geschmack und Terminwunsch." data-en-content="Request your custom cake in Munich: wedding cake, birthday cake, corporate cake or event cake with design, flavour and preferred date." property="og:description"/><meta content="Torte anfragen München | Hochzeitstorte &amp; Event Cake bestellen" data-de-content="Torte anfragen München | Hochzeitstorte &amp; Event Cake bestellen" data-en-content="Request a Cake in Munich | Wedding &amp; Event Cake Enquiry" property="og:title"/>
 <link href="https://munichcakes.de/order" rel="canonical"/>
 <link href="style.css?v=20261020-1" rel="stylesheet"/>
-<link href="order.css?v=20261024-1" rel="stylesheet"/>
+<link href="order.css?v=20261024-2" rel="stylesheet"/>
 <link href="atelier-iconic.css" rel="stylesheet"/>
 <script async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
 <script>
@@ -176,10 +176,6 @@
 <button class="flavor-tile" data-group="geschmack" data-tooltip-de="Kakao Biskuitboden mit Mascarpone-Creme, Stückchen weißer Schokolade und Himbeeren." data-tooltip-en="Cocoa sponge with mascarpone cream, pieces of white chocolate and raspberries." data-val="V14 – Mark" type="button"><img alt="V14 – Mark" decoding="async" loading="lazy" src="images/mark.webp" width="1040" height="659"/><span><strong>V14 – Mark</strong></span></button>
 <button class="flavor-tile" data-group="geschmack" data-tooltip-de="Vanille Biskuitboden mit weihnachtlicher Creme und Stückchen Gewürzspekulatius." data-tooltip-en="Vanilla sponge with Christmas spiced cream and speculoos biscuit pieces." data-val="V15 – Wintermärchen" type="button"><img alt="V15 – Wintermärchen" decoding="async" loading="lazy" src="images/wintermaerchen.webp" width="1040" height="676"/><span><strong>V15 – Wintermärchen</strong></span></button>
 <button class="flavor-tile" data-group="geschmack" data-tooltip-de="Kakao Biskuitboden mit Lebkuchen-Creme und Stückchen Lebkuchen." data-tooltip-en="Cocoa sponge with gingerbread cream and gingerbread pieces." data-val="V16 – Lebkuchentraum" type="button"><img alt="V16 – Lebkuchentraum" decoding="async" loading="lazy" src="images/lebkuchentraum.webp" width="1040" height="753"/><span><strong>V16 – Lebkuchentraum</strong></span></button>
-</div>
-<div aria-live="polite" class="flavor-mobile-details" hidden id="flavorMobileDetails">
-<strong id="flavorMobileName"></strong>
-<span id="flavorMobileDescription"></span>
 </div>
 <input id="geschmack-1" name="geschmack_1" type="hidden" value=""/>
 <input id="geschmack-2" name="geschmack_2" type="hidden" value=""/>
@@ -430,22 +426,6 @@ if (customSizeInput) {
 
 // ── FLAVOR TILES (single selection) ──────────────────────────────────────────
 var selectedFlavor = '';
-function updateFlavorMobileDetails(tile) {
-    var panel = document.getElementById('flavorMobileDetails');
-    var name = document.getElementById('flavorMobileName');
-    var description = document.getElementById('flavorMobileDescription');
-    if (!panel || !name || !description) return;
-    if (!tile) {
-        panel.hidden = true;
-        name.textContent = '';
-        description.textContent = '';
-        return;
-    }
-    var lang = currentOrderLang();
-    name.textContent = tile.dataset.val || '';
-    description.textContent = lang === 'en' ? tile.dataset.tooltipEn : tile.dataset.tooltipDe;
-    panel.hidden = false;
-}
 document.querySelectorAll('.flavor-tile').forEach(function(btn) {
     btn.addEventListener('click', function() {
         var val = this.dataset.val;
@@ -461,7 +441,6 @@ document.querySelectorAll('.flavor-tile').forEach(function(btn) {
         }
         document.getElementById('geschmack-1').value = selectedFlavor;
         document.getElementById('geschmack-2').value = '';
-        updateFlavorMobileDetails(selectedFlavor ? this : null);
     });
 });
 
@@ -515,7 +494,6 @@ document.querySelectorAll('.lang-btn').forEach(function(btn){ btn.addEventListen
     document.querySelectorAll('.lang-btn').forEach(function(b){ b.classList.remove('active'); });
     this.classList.add('active');
     document.querySelectorAll('[data-de]').forEach(function(el){ el.textContent = lang==='de'?el.getAttribute('data-de'):el.getAttribute('data-en'); });
-    updateFlavorMobileDetails(document.querySelector('.flavor-tile.sel'));
 }); });
 
 
